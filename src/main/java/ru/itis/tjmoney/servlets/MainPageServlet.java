@@ -22,6 +22,6 @@ public class MainPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("articles", articleService.getAllArticles());
-        req.getRequestDispatcher("/templates/mainPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/mainPage.jsp").forward(req, resp);
     }
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebListener;
 import ru.itis.tjmoney.dao.ArticleDAO;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.services.ArticleService;
+import ru.itis.tjmoney.services.LoginService;
 import ru.itis.tjmoney.services.RegistrationService;
 
 @WebListener
@@ -18,7 +19,9 @@ public class AppContextListener implements ServletContextListener {
 
         UserDAO userDAO = new UserDAO();
         RegistrationService registrationService = new RegistrationService(userDAO);
+        LoginService loginService = new LoginService(userDAO);
         sce.getServletContext().setAttribute("registrationService", registrationService);
+        sce.getServletContext().setAttribute("loginService", loginService);
     }
 
     @Override
