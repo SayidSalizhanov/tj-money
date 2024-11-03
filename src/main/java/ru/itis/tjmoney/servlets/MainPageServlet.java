@@ -17,7 +17,6 @@ public class MainPageServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         articleService = (ArticleService) getServletContext().getAttribute("articleService");
-        super.init(config);
     }
 
     @Override
