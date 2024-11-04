@@ -12,6 +12,7 @@ public class UserDAO {
     private static final String FIND_ALL_SQL = "SELECT * FROM Users";
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM Users WHERE email = ?";
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
+    private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Users (username, email, password, telegram_id, sending_to_telegram, sending_to_email) values (?,?,?,?,?,?)";
 
     public List<User> findAll() {
@@ -40,19 +41,38 @@ public class UserDAO {
         return users;
     }
 
+    public User findById(int id) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL);) {
+            statement.setInt(1, id);
+            return getUser(statement);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
+
     public User findByEmail(String email) {
-        return getUser(email, FIND_BY_EMAIL_SQL);
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
+            statement.setString(1, email);
+            return getUser(statement);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
 
     public User findByUsername(String username) {
-        return getUser(username, FIND_BY_USERNAME_SQL);
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME_SQL);) {
+            statement.setString(1, username);
+            return getUser(statement);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
 
-    private User getUser(String parameter, String sql) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);) {
-            statement.setString(1, parameter);
-            ResultSet resultSet = statement.executeQuery();
+    private User getUser(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
                 return new User(
                         resultSet.getInt("id"),
@@ -65,8 +85,6 @@ public class UserDAO {
                 );
             }
             return null;
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
         }
     }
 
