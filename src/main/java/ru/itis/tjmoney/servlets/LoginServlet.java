@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
 
-            resp.sendRedirect("templates/mainPage.jsp");
+            resp.sendRedirect(req.getContextPath() + "/mainPage");
         } catch (RegistrationException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
