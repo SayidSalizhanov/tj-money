@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
+import ru.itis.tjmoney.services.ApplicationService;
+import ru.itis.tjmoney.services.GroupService;
 import ru.itis.tjmoney.services.TransactionService;
 import ru.itis.tjmoney.services.UserService;
 
@@ -16,11 +18,15 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
+    private GroupService groupService;
+    private ApplicationService applicationService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         userService = (UserService) getServletContext().getAttribute("userService");
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        groupService = (GroupService) getServletContext().getAttribute("groupService");
+        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
     }
 
     @Override
@@ -50,42 +56,6 @@ public class UserServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "goals":
-                if (subAction == null) {
-                    getUserGoals(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserGoalsNew(userId, req, resp);
-                } else {
-                    getUserGoalDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "reminders":
-                if (subAction == null) {
-                    getUserReminders(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRemindersNew(userId, req, resp);
-                } else {
-                    getUserReminderDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "records":
-                if (subAction == null) {
-                    getUserRecords(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRecordsNew(userId, req, resp);
-                } else {
-                    getUserRecordDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "transactions":
-                if (subAction == null) {
-                    getUserTransactions(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserTransactionsNew(userId, req, resp);
-                } else {
-                    getUserTransactionDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
             case "settings":
                 getUserSettings(userId, req, resp);
                 break;
@@ -125,47 +95,11 @@ public class UserServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "goals":
-                if (subAction == null) {
-                    return;
-                } else if ("new".equals(subAction)) {
-                    getUserGoalsNew(userId, req, resp);
-                } else {
-                    getUserGoalDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "reminders":
-                if (subAction == null) {
-                    getUserReminders(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRemindersNew(userId, req, resp);
-                } else {
-                    getUserReminderDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "records":
-                if (subAction == null) {
-                    getUserRecords(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRecordsNew(userId, req, resp);
-                } else {
-                    getUserRecordDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "transactions":
-                if (subAction == null) {
-                    getUserTransactions(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserTransactionsNew(userId, req, resp);
-                } else {
-                    getUserTransactionDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
             case "settings":
                 break;
             case "groups":
                 if (subAction == null) {
-                    getUserGroups(userId, req, resp);
+                    postUserNewGroup(userId, req.getParameter("groupName"), req.getParameter("description"), req, resp);
                 } else if ("applications".equals(subAction)) {
                     getUserGroupApplications(userId, req, resp);
                 } else {
@@ -199,42 +133,6 @@ public class UserServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "goals":
-                if (subAction == null) {
-                    getUserGoals(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserGoalsNew(userId, req, resp);
-                } else {
-                    getUserGoalDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "reminders":
-                if (subAction == null) {
-                    getUserReminders(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRemindersNew(userId, req, resp);
-                } else {
-                    getUserReminderDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "records":
-                if (subAction == null) {
-                    getUserRecords(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRecordsNew(userId, req, resp);
-                } else {
-                    getUserRecordDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "transactions":
-                if (subAction == null) {
-                    getUserTransactions(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserTransactionsNew(userId, req, resp);
-                } else {
-                    getUserTransactionDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
             case "settings":
                 putUserSettings(userId,
                         req.getParameter("username"),
@@ -282,42 +180,6 @@ public class UserServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "goals":
-                if (subAction == null) {
-                    getUserGoals(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserGoalsNew(userId, req, resp);
-                } else {
-                    getUserGoalDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "reminders":
-                if (subAction == null) {
-                    getUserReminders(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRemindersNew(userId, req, resp);
-                } else {
-                    getUserReminderDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "records":
-                if (subAction == null) {
-                    getUserRecords(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserRecordsNew(userId, req, resp);
-                } else {
-                    getUserRecordDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
-            case "transactions":
-                if (subAction == null) {
-                    getUserTransactions(userId, req, resp);
-                } else if ("new".equals(subAction)) {
-                    getUserTransactionsNew(userId, req, resp);
-                } else {
-                    getUserTransactionDetail(userId, Integer.parseInt(subAction), req, resp);
-                }
-                break;
             case "settings":
                 deleteUserSettings(userId, req, resp);
                 break;
@@ -325,7 +187,7 @@ public class UserServlet extends HttpServlet {
                 if (subAction == null) {
                     getUserGroups(userId, req, resp);
                 } else if ("applications".equals(subAction)) {
-                    getUserGroupApplications(userId, req, resp);
+                    deleteUserGroupApplication(userId, req, resp);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -339,74 +201,6 @@ public class UserServlet extends HttpServlet {
         req.setAttribute("user", userService.getUserById(userId));
         req.setAttribute("transactions", transactionService.getUserTransactions(userId));
         req.getRequestDispatcher("templates/userProfile.jsp").forward(req, resp);
-    }
-
-    //=====
-
-    private void getUserGoals(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Goals for User ID: " + userId);
-    }
-
-    private void getUserGoalsNew(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("New Goal for User ID: " + userId);
-    }
-
-    private void getUserGoalDetail(int userId, int goalId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Goal ID: " + goalId + " for User ID: " + userId);
-    }
-
-    //=====
-
-    private void getUserReminders(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Reminders for User ID: " + userId);
-    }
-
-    private void getUserRemindersNew(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("New Reminder for User ID: " + userId);
-    }
-
-    private void getUserReminderDetail(int userId, int reminderId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Reminder ID: " + reminderId + " for User ID: " + userId);
-    }
-
-    //=====
-
-    private void getUserRecords(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Records for User ID: " + userId);
-    }
-
-    private void getUserRecordsNew(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("New Record for User ID: " + userId);
-    }
-
-    private void getUserRecordDetail(int userId, int recordId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Reminder ID: " + recordId + " for User ID: " + userId);
-    }
-
-    //=====
-
-    private void getUserTransactions(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Records for User ID: " + userId);
-    }
-
-    private void getUserTransactionsNew(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("New Record for User ID: " + userId);
-    }
-
-    private void getUserTransactionDetail(int userId, int transactionId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Reminder ID: " + transactionId + " for User ID: " + userId);
     }
 
     //=====
@@ -426,20 +220,32 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void deleteUserSettings(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void deleteUserSettings(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         userService.delete(userId);
         resp.sendRedirect(req.getContextPath() + "/mainPage");
     }
 
     //=====
 
-    private void getUserGroups(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("New Record for User ID: " + userId);
+    private void getUserGroups(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute("userGroupsDTOs", groupService.getUserGroupsDTOs(userId));
+        req.getRequestDispatcher("templates/users/userSettings.jsp").forward(req, resp);
     }
 
-    private void getUserGroupApplications(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Reminder ID: " + userId + " for User ID: " + userId);
+    private void postUserNewGroup(int userId, String name, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        groupService.save(userId, name, description);
+        resp.sendRedirect(req.getContextPath() + "/users/" + userId + "/groups");
+    }
+
+    //=====
+
+    private void getUserGroupApplications(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute("applicationsDTOs", applicationService.getUserApplicationDTOs(userId));
+        req.getRequestDispatcher("templates/users/userApplications.jsp").forward(req, resp);
+    }
+
+    private void deleteUserGroupApplication(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        applicationService.deleteUserApplication(userId);
+        resp.sendRedirect(req.getContextPath() + "/users/" + userId + "/groups/applications");
     }
 }
