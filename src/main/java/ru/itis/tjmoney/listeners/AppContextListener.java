@@ -3,9 +3,7 @@ package ru.itis.tjmoney.listeners;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import ru.itis.tjmoney.dao.ArticleDAO;
-import ru.itis.tjmoney.dao.TransactionDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.*;
 import ru.itis.tjmoney.services.*;
 
 @WebListener
@@ -27,6 +25,14 @@ public class AppContextListener implements ServletContextListener {
         TransactionDAO transactionDAO = new TransactionDAO();
         TransactionService transactionService = new TransactionService(transactionDAO);
         sce.getServletContext().setAttribute("transactionService", transactionService);
+
+        GroupDAO groupDAO = new GroupDAO();
+        GroupService groupService = new GroupService(groupDAO);
+        sce.getServletContext().setAttribute("groupService", groupService);
+
+        ApplicationDAO applicationDAO = new ApplicationDAO();
+        ApplicationService applicationService = new ApplicationService(applicationDAO, groupDAO);
+        sce.getServletContext().setAttribute("applicationService", applicationService);
     }
 
     @Override

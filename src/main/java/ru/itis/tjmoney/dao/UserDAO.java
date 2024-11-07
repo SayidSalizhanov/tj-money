@@ -4,7 +4,6 @@ import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.util.ConnectionManager;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class UserDAO {
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM Users WHERE email = ?";
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
-    private static final String SAVE_SQL = "INSERT INTO Users (username, email, password, telegram_id, sending_to_telegram, sending_to_email) values (?,?,?,?,?,?)";
+    private static final String SAVE_SQL = "INSERT INTO Users (username, email, password, telegram_id, sending_to_telegram, sending_to_email) VALUES (?,?,?,?,?,?)";
     private static final String UPDATE_SQL = "UPDATE Users SET username = ?, password = ?, telegram_id = ?, sending_to_telegram = ?, sending_to_email = ? WHERE user_id = ?";
     private static final String DELETE_SQL = "DELETE FROM Users WHERE user_id = ?";
 
