@@ -34,6 +34,10 @@ public class AppContextListener implements ServletContextListener {
         ApplicationDAO applicationDAO = new ApplicationDAO();
         ApplicationService applicationService = new ApplicationService(applicationDAO, groupDAO);
         sce.getServletContext().setAttribute("applicationService", applicationService);
+
+        GoalDAO goalDAO = new GoalDAO();
+        GoalService goalService = new GoalService(goalDAO);
+        sce.getServletContext().setAttribute("goalService", goalService);
     }
 
     @Override
