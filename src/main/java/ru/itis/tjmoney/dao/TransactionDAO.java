@@ -114,15 +114,25 @@ public class TransactionDAO {
             statement.setInt(1, transaction.getUserId());
             statement.setInt(2, transaction.getGroupId());
             statement.setInt(3, transaction.getAmount());
-            statement.setString(4, transaction.getType());
-            statement.setTimestamp(5, Timestamp.valueOf(transaction.getDateTime()));
-            statement.setString(6, transaction.getDescription());
+            statement.setString(4, transaction.getCategory());
+            statement.setString(5, transaction.getType());
+            statement.setTimestamp(6, Timestamp.valueOf(transaction.getDateTime()));
+            statement.setString(7, transaction.getDescription());
 
             statement.executeUpdate();
 
             int id = statement.getGeneratedKeys().getInt(1);
 
-            return new Transaction(id, transaction.getUserId(), transaction.getGroupId(), transaction.getAmount(), transaction.getCategory(), transaction.getType(), transaction.getDateTime(), transaction.getDescription());
+            return new Transaction(
+                    id,
+                    transaction.getUserId(),
+                    transaction.getGroupId(),
+                    transaction.getAmount(),
+                    transaction.getCategory(),
+                    transaction.getType(),
+                    transaction.getDateTime(),
+                    transaction.getDescription()
+            );
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
