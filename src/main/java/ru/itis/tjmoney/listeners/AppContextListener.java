@@ -42,6 +42,10 @@ public class AppContextListener implements ServletContextListener {
         ReminderDAO reminderDAO = new ReminderDAO();
         ReminderService reminderService = new ReminderService(reminderDAO);
         sce.getServletContext().setAttribute("reminderService", reminderService);
+
+        RecordDAO recordDAO = new RecordDAO();
+        RecordService recordService = new RecordService(recordDAO);
+        sce.getServletContext().setAttribute("recordService", recordService);
     }
 
     @Override
