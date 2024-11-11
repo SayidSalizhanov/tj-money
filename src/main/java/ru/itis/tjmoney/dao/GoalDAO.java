@@ -2,7 +2,6 @@ package ru.itis.tjmoney.dao;
 
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.Goal;
-import ru.itis.tjmoney.models.Transaction;
 import ru.itis.tjmoney.util.ConnectionManager;
 
 import java.sql.*;
