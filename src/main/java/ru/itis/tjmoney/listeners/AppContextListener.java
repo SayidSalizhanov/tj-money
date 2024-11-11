@@ -38,6 +38,10 @@ public class AppContextListener implements ServletContextListener {
         GoalDAO goalDAO = new GoalDAO();
         GoalService goalService = new GoalService(goalDAO);
         sce.getServletContext().setAttribute("goalService", goalService);
+
+        ReminderDAO reminderDAO = new ReminderDAO();
+        ReminderService reminderService = new ReminderService(reminderDAO);
+        sce.getServletContext().setAttribute("reminderService", reminderService);
     }
 
     @Override
