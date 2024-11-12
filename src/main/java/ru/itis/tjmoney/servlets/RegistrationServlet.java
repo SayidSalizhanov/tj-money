@@ -20,6 +20,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         registrationService = (RegistrationService) getServletContext().getAttribute("registrationService");
+        super.init(config);
     }
 
     @Override

@@ -27,6 +27,7 @@ public class UserServlet extends HttpServlet {
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
         groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
+        super.init(config);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class UserServlet extends HttpServlet {
                 break;
             case "groups":
                 if (subAction == null) {
-                    postUserNewGroup(userId, req.getParameter("groupName"), req.getParameter("description"), req, resp);
+                    getUserGroups(userId, req, resp);
                 } else if ("applications".equals(subAction)) {
                     getUserGroupApplications(userId, req, resp);
                 } else {
