@@ -41,4 +41,12 @@ public class GroupService {
         Group group = groupDAO.save(new Group(0, name, LocalDateTime.now(), description));
         groupMemberDAO.save(new GroupMember(0, userId, group.getId(), LocalDateTime.now(), "ADMIN"));
     }
+
+    public Group getGroupById(int groupId) {
+        return groupDAO.findById(groupId);
+    }
+
+    public List<Group> getAllGroups() {
+        return groupDAO.findAll();
+    }
 }

@@ -10,8 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupDAO {
+    private static final String FIND_ALL_SQL = "SELECT * FROM Groups";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Groups WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Groups (name, created_at, description) VALUES (?, ?, ?)";
+
+    public List<Group> findAll() {
+        List<Group> groups = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL);
+
+            while (resultSet.next()) {
+                groups.add(
+                        new Group(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getTimestamp("created_at").toLocalDateTime(),
+                                resultSet.getString("description")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+
+        return groups;
+    }
 
     public Group findById(int groupId) {
         try (Connection connection = ConnectionManager.getConnection();

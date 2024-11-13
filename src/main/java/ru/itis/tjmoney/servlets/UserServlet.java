@@ -241,7 +241,7 @@ public class UserServlet extends HttpServlet {
     //=====
 
     private void getUserGroupApplications(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setAttribute("applicationsDTOs", applicationService.getUserApplicationDTOs(userId));
+        req.setAttribute("applicationsDTOs", applicationService.getUserApplicationGroupDTOs(userId));
         req.getRequestDispatcher("templates/users/userApplications.jsp").forward(req, resp);
     }
 

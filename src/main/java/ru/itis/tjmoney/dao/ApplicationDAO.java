@@ -13,6 +13,7 @@ import java.util.List;
 
 public class ApplicationDAO {
     private static String FIND_APPLICATIONS_BY_USERID_SQL = "SELECT * FROM Applications WHERE user_id = ?";
+    private static String FIND_APPLICATIONS_BY_GROUPID_SQL = "SELECT * FROM Applications WHERE group_id = ?";
     private static String DELETE_APPLICATION_BY_USERID_SQL = "DELETE * FROM Applications WHERE user_id = ?";
 
     public List<Application> findUserApplications(int userId) {
@@ -21,6 +22,32 @@ public class ApplicationDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_USERID_SQL)) {
             statement.setInt(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                applications.add(
+                        new Application(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("user_id"),
+                                resultSet.getInt("group_id"),
+                                resultSet.getTimestamp("send_at").toLocalDateTime(),
+                                resultSet.getString("status")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+
+        return applications;
+    }
+
+    public List<Application> findGroupApplications(int groupId) {
+        List<Application> applications = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_GROUPID_SQL)) {
+            statement.setInt(1, groupId);
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
