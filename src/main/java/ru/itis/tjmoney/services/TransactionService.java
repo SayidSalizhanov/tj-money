@@ -1,6 +1,8 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.TransactionDAO;
+import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.models.Transaction;
 
 import java.time.LocalDateTime;
@@ -8,9 +10,11 @@ import java.util.List;
 
 public class TransactionService {
     private final TransactionDAO transactionDAO;
+    private final UserDAO userDAO;
 
-    public TransactionService(TransactionDAO transactionDAO) {
+    public TransactionService(TransactionDAO transactionDAO, UserDAO userDAO) {
         this.transactionDAO = transactionDAO;
+        this.userDAO = userDAO;
     }
 
     public List<Transaction> getUserTransactions(int userId) {
@@ -25,8 +29,21 @@ public class TransactionService {
         return groupId == 0 ? transactionDAO.findUserTransactions(userId) : transactionDAO.findUserAndGroupTransactions(userId, groupId);
     }
 
-    public Transaction getTransaction(int transactionId) {
-        return transactionDAO.findTransactionById(transactionId);
+    public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
+        return getUserAndGroupTransactions(userId, groupId).stream()
+                .map(t -> new TransactionDTO(t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription()))
+                .toList();
+    }
+
+    public TransactionDTO getTransactionDTO(int transactionId) {
+        Transaction transaction = transactionDAO.findTransactionById(transactionId);
+        return new TransactionDTO(
+                transaction.getAmount(),
+                transaction.getCategory(),
+                transaction.getType(),
+                userDAO.findById(transaction.getUserId()).getUsername(),
+                transaction.getDescription()
+        );
     }
 
     public void save(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description) {
