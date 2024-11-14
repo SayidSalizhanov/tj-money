@@ -18,6 +18,12 @@ public class UserService {
         return user;
     }
 
+    public User getByUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        if (user == null) throw new UserNotFoundException("Пользователь с таким именем не найден");
+        return user;
+    }
+
     public void update(int userId, String username, String password, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail) {
         if (userDAO.findByUsername(username) != null) throw new UpdateException("Пользователь с таким именем уже существует");
         if (!newPassword.equals(repeatPassword)) throw new UpdateException("Введенные пароли не совпадают");

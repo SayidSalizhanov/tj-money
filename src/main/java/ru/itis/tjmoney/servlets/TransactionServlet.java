@@ -19,6 +19,7 @@ public class TransactionServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        super.init(config);
     }
 
     @Override

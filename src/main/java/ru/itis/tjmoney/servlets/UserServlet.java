@@ -27,6 +27,7 @@ public class UserServlet extends HttpServlet {
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
         groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
+        super.init(config);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class UserServlet extends HttpServlet {
                 break;
             case "groups":
                 if (subAction == null) {
-                    postUserNewGroup(userId, req.getParameter("groupName"), req.getParameter("description"), req, resp);
+                    getUserGroups(userId, req, resp);
                 } else if ("applications".equals(subAction)) {
                     getUserGroupApplications(userId, req, resp);
                 } else {
@@ -232,15 +233,10 @@ public class UserServlet extends HttpServlet {
         req.getRequestDispatcher("templates/users/userSettings.jsp").forward(req, resp);
     }
 
-    private void postUserNewGroup(int userId, String name, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        groupService.save(userId, name, description);
-        resp.sendRedirect(req.getContextPath() + "/users/" + userId + "/groups");
-    }
-
     //=====
 
     private void getUserGroupApplications(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setAttribute("applicationsDTOs", applicationService.getUserApplicationDTOs(userId));
+        req.setAttribute("applicationsDTOs", applicationService.getUserApplicationGroupDTOs(userId));
         req.getRequestDispatcher("templates/users/userApplications.jsp").forward(req, resp);
     }
 
