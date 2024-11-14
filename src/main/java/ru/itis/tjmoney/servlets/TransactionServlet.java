@@ -162,12 +162,12 @@ public class TransactionServlet extends HttpServlet {
     }
 
     private void getTransactionsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("transactions", transactionService.getUserAndGroupTransactions(userId, groupId));
+        req.setAttribute("transactions", transactionService.getUserAndGroupTransactionDTOs(userId, groupId));
         req.getRequestDispatcher("templates/transactions/transactions.jsp").forward(req, resp);
     }
 
     private void getTransactionPage(int transactionId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("transaction", transactionService.getTransaction(transactionId));
+        req.setAttribute("transaction", transactionService.getTransactionDTO(transactionId));
         req.getRequestDispatcher("templates/transactions/transaction.jsp").forward(req, resp);
     }
 
