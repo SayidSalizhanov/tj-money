@@ -28,8 +28,8 @@ public class AppContextListener implements ServletContextListener {
 
         GroupDAO groupDAO = new GroupDAO();
         GroupMemberDAO groupMemberDAO = new GroupMemberDAO();
-        GroupService groupService = new GroupService(groupDAO, groupMemberDAO);
-        GroupMemberService groupMemberService = new GroupMemberService(groupMemberDAO);
+        GroupService groupService = new GroupService(userDAO, groupDAO, groupMemberDAO);
+        GroupMemberService groupMemberService = new GroupMemberService(groupMemberDAO, userDAO);
         sce.getServletContext().setAttribute("groupService", groupService);
         sce.getServletContext().setAttribute("groupMemberService", groupMemberService);
 

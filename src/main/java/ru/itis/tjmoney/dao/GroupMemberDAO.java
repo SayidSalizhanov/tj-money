@@ -5,6 +5,7 @@ import ru.itis.tjmoney.models.GroupMember;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.util.ConnectionManager;
 
+import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,40 @@ public class GroupMemberDAO {
     private static final String FIND_GROUP_MEMBERS_BY_USER_ID_SQL = "SELECT * FROM Group_Members WHERE user_id = ?";
     private static final String FIND_GROUP_MEMBERS_BY_GROUP_ID_SQL = "SELECT * FROM Group_Members WHERE group_id = ?";
     private static final String FIND_GROUP_MEMBER_BY_USER_ID_AND_BY_GROUP_ID = "SELECT * FROM Group_Members WHERE user_id = ? AND group_id = ?";
+    private static final String FIND_BY_ID_SQL = "SELECT FROM Group_Members WHERE id = ?";
+    private static final String DELETE_BY_ID_SQL = "DELETE FROM Group_Members WHERE id = ?";
+
+    public void delete(int id) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
+
+    public GroupMember findById(int id) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new GroupMember(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("group_id"),
+                        resultSet.getTimestamp("joined_at").toLocalDateTime(),
+                        resultSet.getString("role")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
 
     public GroupMember findByUserIdAndGroupId(int userId, int groupId) {
         try (Connection connection = ConnectionManager.getConnection();

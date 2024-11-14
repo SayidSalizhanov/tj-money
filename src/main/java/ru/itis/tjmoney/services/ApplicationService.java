@@ -7,6 +7,7 @@ import ru.itis.tjmoney.dto.ApplicationGroupDTO;
 import ru.itis.tjmoney.dto.ApplicationUserDTO;
 import ru.itis.tjmoney.models.Application;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,5 +59,29 @@ public class ApplicationService {
 
     public void deleteUserApplication(int userId) {
         applicationDAO.deleteApplicationByUserId(userId);
+    }
+
+    public void createApplication(int userId, int groupId) {
+        applicationDAO.save(
+                new Application(
+                        0,
+                        userId,
+                        groupId,
+                        LocalDateTime.now(),
+                        "В ожидании"
+                )
+        );
+    }
+
+    public void updateStatus(int applicationId, String applicationStatus) {
+        applicationDAO.update(
+                new Application(
+                        applicationId,
+                        0,
+                        0,
+                        null,
+                        applicationStatus
+                )
+        );
     }
 }
