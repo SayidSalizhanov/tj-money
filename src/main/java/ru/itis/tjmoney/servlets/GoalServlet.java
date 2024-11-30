@@ -162,11 +162,14 @@ public class GoalServlet extends HttpServlet {
 
     private void getGoalsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("goals", goalService.getUserAndGroupGoals(userId, groupId));
+        req.setAttribute("userId", userId);
+        req.setAttribute("groupId", groupId);
         req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
     }
 
     private void getGoalPage(int goalId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("goal", goalService.getGoal(goalId));
+        req.setAttribute("goalId", goalId);
         req.getRequestDispatcher("templates/goals/goal.jsp").forward(req, resp);
     }
 

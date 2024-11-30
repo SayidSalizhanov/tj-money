@@ -57,6 +57,13 @@ public class RecordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -119,7 +126,7 @@ public class RecordServlet extends HttpServlet {
                     groupId,
                     recordId,
                     req.getParameter("title"),
-                    req.getParameter("description"),
+                    req.getParameter("content"),
                     req,
                     resp
             );
@@ -160,12 +167,15 @@ public class RecordServlet extends HttpServlet {
     }
 
     private void getRecordsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("userId", userId);
+        req.setAttribute("groupId", groupId);
         req.setAttribute("records", recordService.getUserAndGroupRecords(userId, groupId));
         req.getRequestDispatcher("templates/records/records.jsp").forward(req, resp);
     }
 
     private void getRecordPage(int recordId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("record", recordService.getRecord(recordId));
+        req.setAttribute("recordId", recordId);
         req.getRequestDispatcher("templates/records/record.jsp").forward(req, resp);
     }
 

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ru.itis.tjmoney.exceptions.LoginException;
 import ru.itis.tjmoney.exceptions.RegistrationException;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.services.LoginService;
@@ -40,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user);
 
             resp.sendRedirect(req.getContextPath() + "/mainPage");
-        } catch (RegistrationException e) {
+        } catch (LoginException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
         }

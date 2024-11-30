@@ -12,7 +12,7 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private String telegram_id;
+    private String telegramId;
     private boolean sendingToTelegram;
     private boolean sendingToEmail;
 }

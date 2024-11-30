@@ -115,7 +115,7 @@ public class UserDAO {
              PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedUser.getUsername());
             statement.setString(2, updatedUser.getPassword());
-            statement.setString(3, updatedUser.getTelegram_id());
+            statement.setString(3, updatedUser.getTelegramId());
             statement.setBoolean(4, updatedUser.isSendingToTelegram());
             statement.setBoolean(5, updatedUser.isSendingToEmail());
             statement.setInt(6 ,updatedUser.getId());

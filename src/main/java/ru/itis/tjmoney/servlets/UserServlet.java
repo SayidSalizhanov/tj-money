@@ -74,6 +74,13 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             return;
@@ -140,9 +147,9 @@ public class UserServlet extends HttpServlet {
                         req.getParameter("password"),
                         req.getParameter("newPassword"),
                         req.getParameter("repeatPassword"),
-                        req.getParameter("telegram_id"),
-                        Boolean.parseBoolean(req.getParameter("sending_to_telegram")),
-                        Boolean.parseBoolean(req.getParameter("sending_to_email")),
+                        req.getParameter("telegramId"),
+                        Boolean.parseBoolean(req.getParameter("sendingToTelegram")),
+                        Boolean.parseBoolean(req.getParameter("sendingToEmail")),
                         req, resp);
                 break;
             case "groups":
@@ -188,7 +195,7 @@ public class UserServlet extends HttpServlet {
                 if (subAction == null) {
                     getUserGroups(userId, req, resp);
                 } else if ("applications".equals(subAction)) {
-                    deleteUserGroupApplication(userId, req, resp);
+                    deleteUserGroupApplication(Integer.parseInt(req.getParameter("applicationId")), userId, req, resp);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -201,6 +208,8 @@ public class UserServlet extends HttpServlet {
     private void getUserRequest(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setAttribute("user", userService.getUserById(userId));
         req.setAttribute("transactions", transactionService.getUserTransactions(userId));
+        req.setAttribute("userId", userId);
+        req.setAttribute("groupId", 0);
         req.getRequestDispatcher("templates/userProfile.jsp").forward(req, resp);
     }
 
@@ -208,6 +217,7 @@ public class UserServlet extends HttpServlet {
 
     private void getUserSettings(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setAttribute("user", userService.getUserById(userId));
+        req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/users/userSettings.jsp").forward(req, resp);
     }
 
@@ -230,6 +240,7 @@ public class UserServlet extends HttpServlet {
 
     private void getUserGroups(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setAttribute("userGroupsDTOs", groupService.getUserGroupsDTOs(userId));
+        req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/users/userSettings.jsp").forward(req, resp);
     }
 
@@ -237,11 +248,12 @@ public class UserServlet extends HttpServlet {
 
     private void getUserGroupApplications(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setAttribute("applicationsDTOs", applicationService.getUserApplicationGroupDTOs(userId));
+        req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/users/userApplications.jsp").forward(req, resp);
     }
 
-    private void deleteUserGroupApplication(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        applicationService.deleteUserApplication(userId);
+    private void deleteUserGroupApplication(int applicationId, int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        applicationService.deleteUserApplication(applicationId);
         resp.sendRedirect(req.getContextPath() + "/users/" + userId + "/groups/applications");
     }
 }

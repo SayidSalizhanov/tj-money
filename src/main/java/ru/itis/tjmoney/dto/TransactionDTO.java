@@ -11,4 +11,5 @@ public class TransactionDTO {
     private String type;
     private String username;
     private String description;
+    private String dateTime;
 }

@@ -11,6 +11,7 @@ import ru.itis.tjmoney.services.TransactionService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet("/transactions/*")
 public class TransactionServlet extends HttpServlet {
@@ -58,6 +59,13 @@ public class TransactionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -81,7 +89,7 @@ public class TransactionServlet extends HttpServlet {
                     Integer.parseInt(req.getParameter("amount")),
                     req.getParameter("category"),
                     req.getParameter("type"),
-                    LocalDateTime.now(),
+                    LocalDateTime.parse(req.getParameter("datetime"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")),
                     req.getParameter("description"),
                     req,
                     resp
@@ -171,6 +179,7 @@ public class TransactionServlet extends HttpServlet {
 
     private void getTransactionPage(int transactionId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("transaction", transactionService.getTransactionDTO(transactionId));
+        req.setAttribute("transactionId", transactionId);
         req.getRequestDispatcher("templates/transactions/transaction.jsp").forward(req, resp);
     }
 

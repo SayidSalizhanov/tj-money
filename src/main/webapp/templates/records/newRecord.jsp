@@ -11,6 +11,17 @@
     <title>New Record</title>
 </head>
 <body>
+<form action="/records/new" method="post">
+    <label for="title">Название:</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+    <label for="content">Содержание:</label>
+    <textarea id="content" name="content" required></textarea>
+    <br>
 
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
+    <button type="submit">Сохранить запись</button>
+</form>
 </body>
 </html>

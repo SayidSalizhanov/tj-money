@@ -31,7 +31,7 @@ public class TransactionService {
 
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
-                .map(t -> new TransactionDTO(t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription()))
+                .map(t -> new TransactionDTO(t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription(), t.getDateTime().toString()))
                 .toList();
     }
 
@@ -42,7 +42,8 @@ public class TransactionService {
                 transaction.getCategory(),
                 transaction.getType(),
                 userDAO.findById(transaction.getUserId()).getUsername(),
-                transaction.getDescription()
+                transaction.getDescription(),
+                transaction.getDateTime().toString()
         );
     }
 

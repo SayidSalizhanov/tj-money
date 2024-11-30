@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 12.11.2024
-  Time: 14:55
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,7 +6,34 @@
 </head>
 <body>
 
-<!-- сделать так, чтобы кнопка подать заявку могла быть нажата только один раз, после чего становилась серой и не кликабельной -->
+<h3>Сортировка</h3>
+<form action="sortServlet" method="post">
+    <label for="sortBy">Сортировать по:</label>
+    <select id="sortBy" name="sortBy">
+        <option value="name">Название</option>
+    </select>
+    <button type="submit">По алфавиту вверх</button>
+</form>
+
+<h3>Поиск</h3>
+
+<form action="/groups" method="post">
+    <input type="text" name="search" placeholder="Поиск...">
+    <button type="submit">Поиск</button>
+</form>
+
+<h3>Группы</h3>
+<c:forEach var="group" items="${groups}">
+    <div class="group">
+        <a href="/groups/${group.getId()}/viewing" class="group-class">
+            <span>Название: ${group.getName()}</span>
+        </a>
+        <form action="/groups" method="post" style="display:inline;">
+            <input type="hidden" name="groupId" value="${group.getId()}">
+            <button type="submit">Подать заявку</button>
+        </form>
+    </div>
+</c:forEach>
 
 </body>
 </html>
