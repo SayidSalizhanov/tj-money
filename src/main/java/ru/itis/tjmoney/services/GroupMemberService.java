@@ -28,7 +28,7 @@ public class GroupMemberService {
 
     public List<GroupMemberDTO> getMembersDTO(int groupId) {
         return getMembersByGroupId(groupId).stream()
-                .map(m -> new GroupMemberDTO(userDAO.findById(m.getUserId()).getUsername(), m.getJoinedAt(), m.getRole()))
+                .map(m -> new GroupMemberDTO(userDAO.findById(m.getUserId()).getUsername(), m.getJoinedAt().toString(), m.getRole()))
                 .toList();
     }
 

@@ -49,8 +49,9 @@ public class ApplicationService {
         for (Application application : applications) {
             applicationsDTOs.add(
                     new ApplicationUserDTO(
+                            String.valueOf(application.getId()),
                             userDAO.findById(application.getUserId()).getUsername(),
-                            application.getSendAt()
+                            application.getSendAt().toString()
                     )
             );
         }
