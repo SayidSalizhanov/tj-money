@@ -30,6 +30,7 @@ public class GroupService {
             Group group = groupDAO.findById(groupMember.getGroupId());
             userGroupDTOS.add(
                     new UserGroupDTO(
+                            group.getId(),
                             group.getName(),
                             group.getDescription(),
                             groupMember.getRole()

@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class GroupMemberDTO {
     private String username;
-    private LocalDateTime joinedAt;
+    private String joinedAt;
     private String role;
 }

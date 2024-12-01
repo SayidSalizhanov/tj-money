@@ -59,7 +59,7 @@ public class GroupServlet extends HttpServlet {
         String subAction = (pathParts.length > 3) ? pathParts[3] : null;
 
         if (action == null) {
-            getGroupRequest(groupId, req, resp);
+            getGroupRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -125,7 +125,7 @@ public class GroupServlet extends HttpServlet {
         String subAction = (pathParts.length > 3) ? pathParts[3] : null;
 
         if (action == null) {
-            getGroupRequest(groupId, req, resp);
+            getGroupRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -189,7 +189,7 @@ public class GroupServlet extends HttpServlet {
         String subAction = (pathParts.length > 3) ? pathParts[3] : null;
 
         if (action == null) {
-            getGroupRequest(groupId, req, resp);
+            getGroupRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -251,7 +251,7 @@ public class GroupServlet extends HttpServlet {
         String subAction = (pathParts.length > 3) ? pathParts[3] : null;
 
         if (action == null) {
-            getGroupRequest(groupId, req, resp);
+            getGroupRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -294,9 +294,11 @@ public class GroupServlet extends HttpServlet {
         req.getRequestDispatcher("templates/groups/newGroup.jsp").forward(req, resp);
     }
 
-    private void getGroupRequest(int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void getGroupRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("group", groupService.getGroupById(groupId));
         req.setAttribute("transactions", transactionService.getGroupTransactions(groupId));
+        req.setAttribute("groupId", groupId);
+        req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/groups/group.jsp").forward(req, resp);
     }
 
@@ -309,16 +311,19 @@ public class GroupServlet extends HttpServlet {
 
     private void getGroupSettings(int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("group", groupService.getGroupById(groupId));
+        req.setAttribute("groupId", groupId);
         req.getRequestDispatcher("templates/groups/settings.jsp").forward(req, resp);
     }
 
     private void getGroupMembers(int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("members", groupMemberService.getMembersDTO(groupId));
+        req.setAttribute("groupId", groupId);
         req.getRequestDispatcher("templates/groups/members.jsp").forward(req, resp);
     }
 
     private void getGroupMembersAdmin(int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("members", groupMemberService.getMembersDTO(groupId));
+        req.setAttribute("groupId", groupId);
         req.getRequestDispatcher("templates/groups/membersAdmin.jsp").forward(req, resp);
     }
 

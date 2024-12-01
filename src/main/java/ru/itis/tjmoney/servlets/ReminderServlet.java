@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet("/reminders/*")
 public class ReminderServlet extends HttpServlet {
@@ -60,6 +61,13 @@ public class ReminderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -126,10 +134,7 @@ public class ReminderServlet extends HttpServlet {
                     reminderId,
                     req.getParameter("title"),
                     req.getParameter("message"),
-                    LocalDateTime.of(
-                            LocalDate.parse(req.getParameter("date")),
-                            LocalTime.parse(req.getParameter("time"))
-                    ),
+                    LocalDateTime.parse(req.getParameter("datetime"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")),
                     req,
                     resp
             );
@@ -171,11 +176,14 @@ public class ReminderServlet extends HttpServlet {
 
     private void getRemindersRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("reminders", reminderService.getUserAndGroupReminders(userId, groupId));
+        req.setAttribute("userId", userId);
+        req.setAttribute("groupId", groupId);
         req.getRequestDispatcher("templates/reminders/reminders.jsp").forward(req, resp);
     }
 
     private void getReminderPage(int reminderId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("reminder", reminderService.getReminder(reminderId));
+        req.setAttribute("reminderId", reminderId);
         req.getRequestDispatcher("templates/reminders/reminder.jsp").forward(req, resp);
     }
 

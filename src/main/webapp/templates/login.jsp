@@ -6,18 +6,22 @@
     <title>Login</title>
 </head>
 <body>
-<h1>Login</h1>
-<form action="login" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+<h1>Добро пожаловать!</h1>
+<h2>Вход</h2>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
+<form action="/login" method="post">
+    <label for="email">Почта:</label>
+    <input type="text" id="email" name="email" required><br><br>
 
-    <button type="submit">Login</button>
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <button type="submit">Войти</button>
 </form>
+
 <c:if test="${not empty errorMessage}">
     <span style="color:red;">${errorMessage}</span><br>
 </c:if>
+
+<p>Ещё не зарегистрированы? <a href="/register">Регистрация</a></p>
 </body>
 </html>

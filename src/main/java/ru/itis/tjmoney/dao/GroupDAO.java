@@ -2,7 +2,6 @@ package ru.itis.tjmoney.dao;
 
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.Group;
-import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.util.ConnectionManager;
 
 import java.sql.*;
@@ -81,14 +80,14 @@ public class GroupDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, group.getName());
-            statement.setTimestamp(2, Timestamp.valueOf(group.getCreated_at()));
+            statement.setTimestamp(2, Timestamp.valueOf(group.getCreatedAt()));
             statement.setString(3, group.getDescription());
 
             statement.executeUpdate();
 
             int id = statement.getGeneratedKeys().getInt(1);
 
-            return new Group(id, group.getName(), group.getCreated_at(), group.getDescription());
+            return new Group(id, group.getName(), group.getCreatedAt(), group.getDescription());
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }

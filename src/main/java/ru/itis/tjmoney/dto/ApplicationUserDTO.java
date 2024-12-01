@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class ApplicationUserDTO {
-    private String userName;
-    private LocalDateTime sendAt;
+    private String applicationId;
+    private String username;
+    private String sendAt;
 }

@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public class Group {
     private int id;
     private String name;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private String description;
 }

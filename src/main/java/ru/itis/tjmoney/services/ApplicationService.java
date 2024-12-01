@@ -29,9 +29,10 @@ public class ApplicationService {
         for (Application application : applications) {
             applicationsDTOs.add(
                     new ApplicationGroupDTO(
-                        groupDAO.findById(application.getGroupId()).getName(),
-                        application.getSendAt(),
-                        application.getStatus()
+                            application.getId(),
+                            groupDAO.findById(application.getGroupId()).getName(),
+                            application.getSendAt(),
+                            application.getStatus()
                     )
             );
         }
@@ -48,8 +49,9 @@ public class ApplicationService {
         for (Application application : applications) {
             applicationsDTOs.add(
                     new ApplicationUserDTO(
+                            String.valueOf(application.getId()),
                             userDAO.findById(application.getUserId()).getUsername(),
-                            application.getSendAt()
+                            application.getSendAt().toString()
                     )
             );
         }
@@ -57,8 +59,8 @@ public class ApplicationService {
         return applicationsDTOs;
     }
 
-    public void deleteUserApplication(int userId) {
-        applicationDAO.deleteApplicationByUserId(userId);
+    public void deleteUserApplication(int id) {
+        applicationDAO.deleteApplicationByUserId(id);
     }
 
     public void createApplication(int userId, int groupId) {
