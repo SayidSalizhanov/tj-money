@@ -85,7 +85,9 @@ public class GroupDAO {
 
             statement.executeUpdate();
 
-            int id = statement.getGeneratedKeys().getInt(1);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            int id = resultSet.getInt(1);
 
             return new Group(id, group.getName(), group.getCreatedAt(), group.getDescription());
         } catch (SQLException e) {

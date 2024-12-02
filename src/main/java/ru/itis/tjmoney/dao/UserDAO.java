@@ -102,7 +102,9 @@ public class UserDAO {
 
             statement.executeUpdate();
 
-            int id = statement.getGeneratedKeys().getInt(1);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            int id = resultSet.getInt(1);
 
             return new User(id, user.getUsername(), user.getEmail(), user.getPassword(), null, false, false);
         } catch (SQLException e) {

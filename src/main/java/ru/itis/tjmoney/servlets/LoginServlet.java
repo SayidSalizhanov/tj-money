@@ -20,8 +20,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        loginService = (LoginService) getServletContext().getAttribute("loginService");
         super.init(config);
+        loginService = (LoginService) getServletContext().getAttribute("loginService");
     }
 
     @Override

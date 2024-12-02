@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.controllers.user;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -14,8 +14,8 @@ import ru.itis.tjmoney.services.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/users/*")
-public class UserServlet extends HttpServlet {
+@WebServlet("/users/profile")
+public class UserProfileServlet extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
     private GroupService groupService;
@@ -32,52 +32,13 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pathInfo = req.getPathInfo();
-        if (pathInfo == null || pathInfo.equals("/")) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+        int userId =
 
-        System.out.println("first");
-
-        String[] pathParts = pathInfo.split("/");
-        String idStr = pathParts[1];
-        int userId;
-        try {
-            userId = Integer.parseInt(idStr);
-        } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        System.out.println("second");
-
-        String action = (pathParts.length > 2) ? pathParts[2] : null;
-        String subAction = (pathParts.length > 3) ? pathParts[3] : null;
-
-        if (action == null) {
-            System.out.println("before user");
-            getUserRequest(userId, req, resp);
-            System.out.println("after user");
-            return;
-        }
-
-        System.out.println("third");
-
-        switch (action) {
-            case "settings":
-                getUserSettings(userId, req, resp);
-                break;
-            case "groups":
-                if (subAction == null) {
-                    getUserGroups(userId, req, resp);
-                } else if ("applications".equals(subAction)) {
-                    getUserGroupApplications(userId, req, resp);
-                } else {
-                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-                }
-                break;
-        }
+        req.setAttribute("user", userService.getUserById(userId));
+        req.setAttribute("transactions", transactionService.getUserTransactions(userId));
+        req.setAttribute("userId", userId);
+        req.setAttribute("groupId", 0);
+        req.getRequestDispatcher("templates/users/userProfile.jsp").forward(req, resp);
     }
 
     @Override

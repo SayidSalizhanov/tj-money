@@ -17,8 +17,8 @@ public class RecordServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        recordService = (RecordService) getServletContext().getAttribute("recordService");
         super.init(config);
+        recordService = (RecordService) getServletContext().getAttribute("recordService");
     }
 
     @Override

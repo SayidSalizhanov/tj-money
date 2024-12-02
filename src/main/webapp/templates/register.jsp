@@ -25,5 +25,9 @@
 <c:if test="${not empty errorMessage}">
     <span style="color:red;">${errorMessage}</span><br>
 </c:if>
+
+<br>
+
+<a href="/login">Войти</a>
 </body>
 </html>

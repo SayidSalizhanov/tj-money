@@ -21,8 +21,8 @@ public class ReminderServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
         super.init(config);
+        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
     }
 
     @Override

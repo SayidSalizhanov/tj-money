@@ -17,8 +17,8 @@ public class GoalServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        goalService = (GoalService) getServletContext().getAttribute("goalService");
         super.init(config);
+        goalService = (GoalService) getServletContext().getAttribute("goalService");
     }
 
     @Override

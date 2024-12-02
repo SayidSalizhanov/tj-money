@@ -23,12 +23,12 @@ public class GroupServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
         groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
         groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
-        super.init(config);
     }
 
     @Override
