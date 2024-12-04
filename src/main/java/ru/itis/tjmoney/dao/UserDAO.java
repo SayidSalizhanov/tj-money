@@ -14,8 +14,8 @@ public class UserDAO {
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Users (username, email, password, telegram_id, sending_to_telegram, sending_to_email) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE_SQL = "UPDATE Users SET username = ?, password = ?, telegram_id = ?, sending_to_telegram = ?, sending_to_email = ? WHERE user_id = ?";
-    private static final String DELETE_SQL = "DELETE FROM Users WHERE user_id = ?";
+    private static final String UPDATE_SQL = "UPDATE Users SET username = ?, password = ?, telegram_id = ?, sending_to_telegram = ?, sending_to_email = ? WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM Users WHERE id = ?";
 
     public List<User> findAll() {
         List<User> users = new ArrayList<>();

@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -7,22 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.ReminderService;
+import ru.itis.tjmoney.services.RecordService;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
-@WebServlet("/reminders/*")
-public class ReminderServlet extends HttpServlet {
-    private ReminderService reminderService;
+@WebServlet("/lkajfbpja")
+public class RecordServletPrototype extends HttpServlet {
+    private RecordService recordService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
+        recordService = (RecordService) getServletContext().getAttribute("recordService");
     }
 
     @Override
@@ -37,7 +33,7 @@ public class ReminderServlet extends HttpServlet {
         else groupId = 0;
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            getRemindersRequest(userId, groupId, req, resp);
+            getRecordsRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -45,17 +41,17 @@ public class ReminderServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            getReminderNew(userId, groupId, req, resp);
+            getRecordNew(userId, groupId, req, resp);
         } else {
-            int reminderId;
+            int recordId;
             try {
-                reminderId = Integer.parseInt(action);
+                recordId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            getReminderPage(reminderId, req, resp);
+            getRecordPage(recordId, req, resp);
         }
     }
 
@@ -85,15 +81,11 @@ public class ReminderServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            postReminderNew(
+            postRecordNew(
                     userId,
                     groupId,
                     req.getParameter("title"),
-                    req.getParameter("message"),
-                    LocalDateTime.of(
-                            LocalDate.parse(req.getParameter("date")),
-                            LocalTime.parse(req.getParameter("time"))
-                    ),
+                    req.getParameter("content"),
                     req,
                     resp
             );
@@ -121,20 +113,20 @@ public class ReminderServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int reminderId;
+            int recordId;
             try {
-                reminderId = Integer.parseInt(action);
+                recordId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            putReminderPage(userId,
+            putRecordPage(
+                    userId,
                     groupId,
-                    reminderId,
+                    recordId,
                     req.getParameter("title"),
-                    req.getParameter("message"),
-                    LocalDateTime.parse(req.getParameter("datetime"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")),
+                    req.getParameter("content"),
                     req,
                     resp
             );
@@ -162,57 +154,57 @@ public class ReminderServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int reminderId;
+            int recordId;
             try {
-                reminderId = Integer.parseInt(action);
+                recordId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            deleteReminderPage(userId, groupId, reminderId, req, resp);
+            deleteRecordPage(userId, groupId, recordId, req, resp);
         }
     }
 
-    private void getRemindersRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("reminders", reminderService.getUserAndGroupReminders(userId, groupId));
+    private void getRecordsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/reminders/reminders.jsp").forward(req, resp);
+        req.setAttribute("records", recordService.getUserAndGroupRecords(userId, groupId));
+        req.getRequestDispatcher("templates/records/records.jsp").forward(req, resp);
     }
 
-    private void getReminderPage(int reminderId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("reminder", reminderService.getReminder(reminderId));
-        req.setAttribute("reminderId", reminderId);
-        req.getRequestDispatcher("templates/reminders/reminder.jsp").forward(req, resp);
+    private void getRecordPage(int recordId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("record", recordService.getRecord(recordId));
+        req.setAttribute("recordId", recordId);
+        req.getRequestDispatcher("templates/records/record.jsp").forward(req, resp);
     }
 
-    private void getReminderNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void getRecordNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/reminders/newReminder.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/records/newRecord.jsp").forward(req, resp);
     }
 
-    private void postReminderNew(int userId, int groupId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        reminderService.save(userId, groupId, title, message, sendAt);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
+    private void postRecordNew(int userId, int groupId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        recordService.save(userId, groupId, title, content);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void deleteReminderPage(int userId, int groupId, int reminderId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        reminderService.delete(reminderId);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
+    private void deleteRecordPage(int userId, int groupId, int recordId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        recordService.delete(recordId);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void putReminderPage(int userId, int groupId, int reminderId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void putRecordPage(int userId, int groupId, int recordId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            reminderService.update(title, message, sendAt, reminderId);
-            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
-            else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
+            recordService.update(title, content, recordId);
+            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
+            else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/reminders/reminders.jsp").forward(req, resp);
+            req.getRequestDispatcher("templates/records/records.jsp").forward(req, resp);
         }
     }
 }

@@ -1,16 +1,27 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 16.11.2024
-  Time: 9:09
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="ru"> <!-- Установите корректную кодировку -->
 <head>
-    <title>_header</title>
+    <meta charset="UTF-8">
+    <title><c:out value="${pageTitle}" default="My Web App"/></title>
+    <link rel="stylesheet" type="text/css" href="/css/_header.css">
 </head>
 <body>
-
+<header>
+    <div class="logo">
+        <img src="/static/logo.png" alt="Logo">
+    </div>
+    <nav>
+        <ul class="centered-menu">
+            <li><a href="/mainPage">Главная</a></li>
+            <li><a href="/calculations">Вычисления</a></li>
+            <li><a href="/aboutUs">О нас</a></li>
+        </ul>
+        <ul>
+            <li><a href="/user">Профиль</a></li> <!-- Профиль будет справа -->
+        </ul>
+    </nav>
+</header>
 </body>
 </html>

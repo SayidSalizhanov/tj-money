@@ -1,3 +1,4 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -6,11 +7,13 @@
 </head>
 <body>
 
-<h3>Редактирование транзакции</h3>
-
-<form action="/transactions/${transactionId}" method="post">
+<form action="/transaction" method="post">
     <div class="form">
         <input type="hidden" name="_method" value="PUT">
+
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="transactionId" value="${transactionId}">
 
         <label for="amount">Стоимость:</label><br>
         <input type="text" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
@@ -28,8 +31,12 @@
     </div>
 </form>
 
-<form action="/transactions/${transactionId}" method="POST">
+<form action="/transaction" method="POST">
     <input type="hidden" name="_method" value="DELETE">
+
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
+    <input type="hidden" name="transactionId" value="${transactionId}">
 
     <button type="submit">Удалить транзакцию</button>
 </form>

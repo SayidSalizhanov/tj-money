@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 08.11.2024
-  Time: 12:36
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -13,29 +7,33 @@
 </head>
 <body>
 
-<h3>Цели</h3>
-
-<div class="sort">
-    <label>Сортировать:</label>
-    <input type="text" placeholder="Поиск...">
-    <select>
-        <option>Название</option>
-        <option>По алфавиту вверх</option>
-        <!-- Добавьте другие заглушки по мере необходимости -->
-    </select>
-    <button>Применить</button> <!-- Заглушка для применения сортировки -->
-</div>
+<%--<div class="sort">--%>
+<%--    <label>Сортировать:</label>--%>
+<%--    <input type="text" placeholder="Поиск...">--%>
+<%--    <select>--%>
+<%--        <option>Название</option>--%>
+<%--        <option>По алфавиту вверх</option>--%>
+<%--        <!-- Добавьте другие заглушки по мере необходимости -->--%>
+<%--    </select>--%>
+<%--    <button>Применить</button> <!-- Заглушка для применения сортировки -->--%>
+<%--</div>--%>
 
 <div>
     <c:forEach var="goal" items="${goals}">
-        <div class="goal">
-            <a href="/goals/${goal.getId()}">
-                <div>
-                    <p>Название: ${goal.getTitle()}</p>
-                    <p>Статус: ${goal.getProgress()}</p>
-                </div>
-            </a>
-        </div>
+        <form action="/goal" method="get">
+            <div class="form">
+                <input type="hidden" name="goalId" value="${goal.getId()}">
+                <input type="hidden" name="userId" value="${userId}">
+                <input type="hidden" name="groupId" value="${groupId}">
+
+                <button type="submit">
+                    <div>
+                        <p>Название: ${goal.getTitle()}</p>
+                        <p>Статус: ${goal.getProgress()}</p>
+                    </div>
+                </button>
+            </div>
+        </form>
     </c:forEach>
 </div>
 
@@ -43,7 +41,7 @@
     <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
-    <button type="submit">Создать запись</button>
+    <button type="submit">Создать цель</button>
 </form>
 
 </body>

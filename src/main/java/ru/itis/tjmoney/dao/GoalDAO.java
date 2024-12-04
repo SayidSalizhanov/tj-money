@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoalDAO {
-    private static final String FIND_USER_GOALS_SQL = "SELECT * FROM Goals WHERE user_id = ? AND group_id = null";
-    private static final String FIND_GROUP_GOALS_SQL = "SELECT * FROM Goals WHERE user_id = null AND group_id = ?";
+    private static final String FIND_USER_GOALS_SQL = "SELECT * FROM Goals WHERE user_id = ? AND group_id IS NULL";
+    private static final String FIND_GROUP_GOALS_SQL = "SELECT * FROM Goals WHERE group_id = ?";
     private static final String FIND_USER_AND_GROUP_GOALS_SQL = "SELECT * FROM Goals WHERE user_id = ? AND group_id = ?";
     private static final String FIND_GOAL_BY_ID_SQL = "SELECT * FROM Goals WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Goals (user_id, group_id, title, description, progress) VALUES (?,?,?,?,?)";
@@ -106,7 +106,11 @@ public class GoalDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, goal.getUserId());
-            statement.setInt(2, goal.getGroupId());
+            if (goal.getGroupId() == 0) {
+                statement.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(2, goal.getGroupId());
+            }
             statement.setString(3, goal.getTitle());
             statement.setString(4, goal.getDescription());
             statement.setInt(5, goal.getProgress());

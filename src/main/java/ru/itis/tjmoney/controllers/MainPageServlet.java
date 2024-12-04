@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.controllers;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;

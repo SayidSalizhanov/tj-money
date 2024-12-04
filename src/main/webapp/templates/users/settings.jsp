@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 04.11.2024
-  Time: 21:12
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,8 +6,9 @@
 </head>
 <body>
 
-<form action="/users/${userId}/settings" method="post">
+<form action="/user/settings" method="post">
     <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="userId" value="${userId}">
 
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" value="${user.getUsername()}"><br><br>
@@ -43,10 +38,11 @@
 
 <button type="button" onclick="window.history.back();">Назад</button>
 
-<form action="/users/${userId}/settings" method="POST">
+<form action="/user/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="userId" value="${userId}">
 
-    <button type="submit">Удалить цель</button>
+    <button type="submit">Удалить пользователя</button>
 </form>
 
 </body>

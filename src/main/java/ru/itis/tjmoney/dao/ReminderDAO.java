@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderDAO {
-    private static final String FIND_USER_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id = null";
-    private static final String FIND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = null AND group_id = ?";
+    private static final String FIND_USER_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id IS NULL";
+    private static final String FIND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE group_id = ?";
     private static final String FIND_USER_AND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id = ?";
     private static final String FIND_REMINDER_BY_ID_SQL = "SELECT * FROM Reminders WHERE id = ?";
-    private static final String SAVE_SQL = "INSERT INTO Reminders (user_id, group_id, title, message, sendAt, status) VALUES (?,?,?,?,?,?)";
+    private static final String SAVE_SQL = "INSERT INTO Reminders (user_id, group_id, title, message, send_at, status) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM Reminders WHERE id = ?";
-    private static final String UPDATE_SQL = "UPDATE Reminders SET title = ?, message = ?, sendAt = ? WHERE id = ?";
+    private static final String UPDATE_SQL = "UPDATE Reminders SET title = ?, message = ?, send_at = ? WHERE id = ?";
 
     public List<Reminder> findUserReminders(int userId) {
         return getReminders(userId, FIND_USER_REMINDERS_SQL);
@@ -41,7 +41,7 @@ public class ReminderDAO {
                                 resultSet.getInt("group_id"),
                                 resultSet.getString("title"),
                                 resultSet.getString("message"),
-                                resultSet.getTimestamp("sendAt").toLocalDateTime(),
+                                resultSet.getTimestamp("send_at").toLocalDateTime(),
                                 resultSet.getString("status")
                         )
                 );
@@ -70,7 +70,7 @@ public class ReminderDAO {
                                 resultSet.getInt("group_id"),
                                 resultSet.getString("title"),
                                 resultSet.getString("message"),
-                                resultSet.getTimestamp("sendAt").toLocalDateTime(),
+                                resultSet.getTimestamp("send_at").toLocalDateTime(),
                                 resultSet.getString("status")
                         )
                 );
@@ -96,7 +96,7 @@ public class ReminderDAO {
                         resultSet.getInt("group_id"),
                         resultSet.getString("title"),
                         resultSet.getString("message"),
-                        resultSet.getTimestamp("sendAt").toLocalDateTime(),
+                        resultSet.getTimestamp("send_at").toLocalDateTime(),
                         resultSet.getString("status")
                 );
             }
@@ -110,7 +110,11 @@ public class ReminderDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, reminder.getUserId());
-            statement.setInt(2, reminder.getGroupId());
+            if (reminder.getGroupId() == 0) {
+                statement.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(2, reminder.getGroupId());
+            }
             statement.setString(3, reminder.getTitle());
             statement.setString(4, reminder.getMessage());
             statement.setTimestamp(5, Timestamp.valueOf(reminder.getSendAt()));

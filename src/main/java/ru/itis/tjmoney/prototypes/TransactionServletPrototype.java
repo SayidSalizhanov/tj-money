@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/transactions/*")
-public class TransactionServlet extends HttpServlet {
+@WebServlet("/dlknbkdn")
+public class TransactionServletPrototype extends HttpServlet {
     private TransactionService transactionService;
 
     @Override

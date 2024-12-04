@@ -1,3 +1,4 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -14,15 +15,24 @@
 </div>
 
 <div>
-    <form action="/groups/${groupId}/settings" method="GET">
+    <form action="/group/settings" method="GET">
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+
         <button type="submit">Настройки</button>
     </form>
 
-    <form action="/groups/${groupId}/members" method="GET">
+    <form action="/group/members" method="GET">
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+
         <button type="submit">Участники</button>
     </form>
 
-    <form action="/transactions?userId=${userId}&groupId=${groupId}" method="GET">
+    <form action="/transactions" method="GET">
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+
         <button type="submit">Транзакции</button>
     </form>
 </div>
@@ -33,7 +43,7 @@
     <c:forEach var="transaction" items="${transactions}">
         <div>
             <p>Финансы: ${transaction.getAmount()}</p>
-            <p>Дата: ${transaction.getDateTime()}</p>
+            <p>Дата: ${transaction.getDateTime.toString()}</p>
             <p>Категория: ${transaction.getCategory()}</p>
             <p>Тип: ${transaction.getType()}</p>
         </div>

@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 11.11.2024
-  Time: 18:57
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,17 +6,19 @@
 </head>
 <body>
 
-<h3>Редактирование транзакции</h3>
-
-<form action="/reminders/${reminderId}" method="POST">
+<form action="/reminder" method="POST">
     <div class="form">
         <input type="hidden" name="_method" value="PUT">
+
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="reminderId" value="${reminderId}">
 
         <label for="title">Название:</label><br>
         <input type="text" id="title" name="title" value="${reminder.getTitle()}" required><br><br>
 
         <label for="datetime">Дата и время:</label><br>
-        <input type="datetime-local" id="datetime" name="datetime" required><br><br>
+        <input type="datetime-local" id="datetime" name="datetime" required value="${reminder.getSendAt()}"><br><br>
 
         <p>Статус: ${reminder.getStatus()}</p>
 
@@ -33,10 +29,14 @@
     </div>
 </form>
 
-<form action="/reminders/${reminderId}" method="POST">
+<form action="/reminder" method="POST">
     <input type="hidden" name="_method" value="DELETE">
 
-    <button type="submit">Удалить транзакцию</button>
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
+    <input type="hidden" name="reminderId" value="${reminderId}">
+
+    <button type="submit">Удалить напоминание</button>
 </form>
 
 <button onclick="window.history.back();">← Назад</button>

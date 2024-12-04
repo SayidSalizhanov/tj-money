@@ -57,7 +57,7 @@ public class GroupService {
     public String getAdminUsername(int groupId) {
         List<GroupMember> groupMembers = groupMemberDAO.findByGroupId(groupId);
         for (GroupMember groupMember : groupMembers) {
-            if (groupMember.getRole().equalsIgnoreCase("админ")) {
+            if (groupMember.getRole().equalsIgnoreCase("admin")) {
                 return userDAO.findById(groupMember.getUserId()).getUsername();
             }
         }

@@ -1,3 +1,4 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -6,22 +7,26 @@
 </head>
 <body>
 
-<form action="/groups/${groupId}/settings" method="post">
+<form action="/group/settings" method="post">
     <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
 
     <label for="name">Group name:</label>
-    <input type="text" id="name" name="name" value="${group.getName()()}"><br><br>
+    <input type="text" id="name" name="name" value="${group.getName()}"><br><br>
 
     <label for="description">Описание:</label>
-    <input type="text" id="description" name="description" value="${group.getDescription()}"><br><br>
+    <textarea type="text" id="description" name="description">${group.getDescription()}</textarea><br><br>
 
     <button type="submit">Сохранить изменения</button>
 </form>
 
 <button type="button" onclick="window.history.back();">Назад</button>
 
-<form action="/groups/${groupId}/settings" method="POST">
+<form action="/group/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Удалить группу</button>
 </form>

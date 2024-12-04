@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordDAO {
-    private static final String FIND_USER_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id = null";
-    private static final String FIND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = null AND group_id = ?";
+    private static final String FIND_USER_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id IS NULL";
+    private static final String FIND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE group_id = ?";
     private static final String FIND_USER_AND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id = ?";
     private static final String FIND_RECORD_BY_ID_SQL = "SELECT * FROM Records WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Records (user_id, group_id, title, content, created_at, updated_at) VALUES (?,?,?,?,?,?)";
@@ -110,7 +110,11 @@ public class RecordDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, record.getUserId());
-            statement.setInt(2, record.getGroupId());
+            if (record.getGroupId() == 0) {
+                statement.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(2, record.getGroupId());
+            }
             statement.setString(3, record.getTitle());
             statement.setString(4, record.getContent());
             statement.setTimestamp(5, Timestamp.valueOf(record.getCreatedAt()));

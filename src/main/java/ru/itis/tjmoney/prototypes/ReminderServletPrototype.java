@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -7,18 +7,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.GoalService;
+import ru.itis.tjmoney.services.ReminderService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-@WebServlet("/goals/*")
-public class GoalServlet extends HttpServlet {
-    private GoalService goalService;
+@WebServlet("/oihaoicgfd")
+public class ReminderServletPrototype extends HttpServlet {
+    private ReminderService reminderService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        goalService = (GoalService) getServletContext().getAttribute("goalService");
+        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
     }
 
     @Override
@@ -33,7 +37,7 @@ public class GoalServlet extends HttpServlet {
         else groupId = 0;
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            getGoalsRequest(userId, groupId, req, resp);
+            getRemindersRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -41,22 +45,29 @@ public class GoalServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            getGoalNew(userId, groupId, req, resp);
+            getReminderNew(userId, groupId, req, resp);
         } else {
-            int goalId;
+            int reminderId;
             try {
-                goalId = Integer.parseInt(action);
+                reminderId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            getGoalPage(goalId, req, resp);
+            getReminderPage(reminderId, req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -74,12 +85,15 @@ public class GoalServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            postGoalNew(
+            postReminderNew(
                     userId,
                     groupId,
                     req.getParameter("title"),
-                    req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("progress")),
+                    req.getParameter("message"),
+                    LocalDateTime.of(
+                            LocalDate.parse(req.getParameter("date")),
+                            LocalTime.parse(req.getParameter("time"))
+                    ),
                     req,
                     resp
             );
@@ -107,20 +121,20 @@ public class GoalServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int goalId;
+            int reminderId;
             try {
-                goalId = Integer.parseInt(action);
+                reminderId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            putGoalPage(userId,
+            putReminderPage(userId,
                     groupId,
-                    goalId,
+                    reminderId,
                     req.getParameter("title"),
-                    req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("progress")),
+                    req.getParameter("message"),
+                    LocalDateTime.parse(req.getParameter("datetime"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")),
                     req,
                     resp
             );
@@ -148,57 +162,57 @@ public class GoalServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int goalId;
+            int reminderId;
             try {
-                goalId = Integer.parseInt(action);
+                reminderId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            deleteGoalPage(userId, groupId, goalId, req, resp);
+            deleteReminderPage(userId, groupId, reminderId, req, resp);
         }
     }
 
-    private void getGoalsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("goals", goalService.getUserAndGroupGoals(userId, groupId));
+    private void getRemindersRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("reminders", reminderService.getUserAndGroupReminders(userId, groupId));
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/reminders/reminders.jsp").forward(req, resp);
     }
 
-    private void getGoalPage(int goalId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("goal", goalService.getGoal(goalId));
-        req.setAttribute("goalId", goalId);
-        req.getRequestDispatcher("templates/goals/goal.jsp").forward(req, resp);
+    private void getReminderPage(int reminderId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("reminder", reminderService.getReminder(reminderId));
+        req.setAttribute("reminderId", reminderId);
+        req.getRequestDispatcher("templates/reminders/reminder.jsp").forward(req, resp);
     }
 
-    private void getGoalNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void getReminderNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/goals/newGoal.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/reminders/newReminder.jsp").forward(req, resp);
     }
 
-    private void postGoalNew(int userId, int groupId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        goalService.save(userId, groupId, title, description, progress);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
+    private void postReminderNew(int userId, int groupId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        reminderService.save(userId, groupId, title, message, sendAt);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void deleteGoalPage(int userId, int groupId, int goalId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        goalService.delete(goalId);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
+    private void deleteReminderPage(int userId, int groupId, int reminderId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        reminderService.delete(reminderId);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void putGoalPage(int userId, int groupId, int goalId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void putReminderPage(int userId, int groupId, int reminderId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            goalService.update(title, description, progress, goalId);
-            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-            else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
+            reminderService.update(title, message, sendAt, reminderId);
+            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId);
+            else resp.sendRedirect(req.getContextPath() + "/reminders?" + "userId=" + userId + "&groupId=" + groupId);
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
+            req.getRequestDispatcher("templates/reminders/reminders.jsp").forward(req, resp);
         }
     }
 }

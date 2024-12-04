@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 08.11.2024
-  Time: 12:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,11 +6,13 @@
 </head>
 <body>
 
-<h3>Редактирование Цели</h3>
-
-<form action="/goals/${goalId}" method="POST">
+<form action="/goal" method="POST">
     <div class="form">
         <input type="hidden" name="_method" value="PUT">
+
+        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="goalId" value="${goalId}">
 
         <label for="title">Название:</label><br>
         <input type="text" id="title" name="title" value="${goal.getTitle()}" required><br><br>
@@ -31,8 +27,12 @@
     </div>
 </form>
 
-<form action="/goals/${goalId}" method="POST">
+<form action="/goal" method="POST">
     <input type="hidden" name="_method" value="DELETE">
+
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="groupId" value="${groupId}">
+    <input type="hidden" name="goalId" value="${goalId}">
 
     <button type="submit">Удалить цель</button>
 </form>

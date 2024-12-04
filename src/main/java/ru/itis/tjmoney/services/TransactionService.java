@@ -31,13 +31,14 @@ public class TransactionService {
 
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
-                .map(t -> new TransactionDTO(t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription(), t.getDateTime().toString()))
+                .map(t -> new TransactionDTO(t.getId(), t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription(), t.getDateTime().toString()))
                 .toList();
     }
 
     public TransactionDTO getTransactionDTO(int transactionId) {
         Transaction transaction = transactionDAO.findTransactionById(transactionId);
         return new TransactionDTO(
+                transaction.getId(),
                 transaction.getAmount(),
                 transaction.getCategory(),
                 transaction.getType(),

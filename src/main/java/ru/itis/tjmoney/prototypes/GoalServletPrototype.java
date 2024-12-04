@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -7,18 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.RecordService;
+import ru.itis.tjmoney.services.GoalService;
 
 import java.io.IOException;
 
-@WebServlet("/records/*")
-public class RecordServlet extends HttpServlet {
-    private RecordService recordService;
+@WebServlet("/lajkbnpna")
+public class GoalServletPrototype extends HttpServlet {
+    private GoalService goalService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        recordService = (RecordService) getServletContext().getAttribute("recordService");
+        goalService = (GoalService) getServletContext().getAttribute("goalService");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RecordServlet extends HttpServlet {
         else groupId = 0;
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            getRecordsRequest(userId, groupId, req, resp);
+            getGoalsRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -41,29 +41,22 @@ public class RecordServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            getRecordNew(userId, groupId, req, resp);
+            getGoalNew(userId, groupId, req, resp);
         } else {
-            int recordId;
+            int goalId;
             try {
-                recordId = Integer.parseInt(action);
+                goalId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            getRecordPage(recordId, req, resp);
+            getGoalPage(goalId, req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String method = req.getParameter("_method");
-        if ("DELETE".equals(method)) {
-            doDelete(req, resp);
-        } else if ("PUT".equals(method)) {
-            doPut(req, resp);
-        }
-
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -81,11 +74,12 @@ public class RecordServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            postRecordNew(
+            postGoalNew(
                     userId,
                     groupId,
                     req.getParameter("title"),
-                    req.getParameter("content"),
+                    req.getParameter("description"),
+                    Integer.parseInt(req.getParameter("progress")),
                     req,
                     resp
             );
@@ -113,20 +107,20 @@ public class RecordServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int recordId;
+            int goalId;
             try {
-                recordId = Integer.parseInt(action);
+                goalId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            putRecordPage(
-                    userId,
+            putGoalPage(userId,
                     groupId,
-                    recordId,
+                    goalId,
                     req.getParameter("title"),
-                    req.getParameter("content"),
+                    req.getParameter("description"),
+                    Integer.parseInt(req.getParameter("progress")),
                     req,
                     resp
             );
@@ -154,57 +148,57 @@ public class RecordServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int recordId;
+            int goalId;
             try {
-                recordId = Integer.parseInt(action);
+                goalId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            deleteRecordPage(userId, groupId, recordId, req, resp);
+            deleteGoalPage(userId, groupId, goalId, req, resp);
         }
     }
 
-    private void getRecordsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void getGoalsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("goals", goalService.getUserAndGroupGoals(userId, groupId));
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.setAttribute("records", recordService.getUserAndGroupRecords(userId, groupId));
-        req.getRequestDispatcher("templates/records/records.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
     }
 
-    private void getRecordPage(int recordId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("record", recordService.getRecord(recordId));
-        req.setAttribute("recordId", recordId);
-        req.getRequestDispatcher("templates/records/record.jsp").forward(req, resp);
+    private void getGoalPage(int goalId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("goal", goalService.getGoal(goalId));
+        req.setAttribute("goalId", goalId);
+        req.getRequestDispatcher("templates/goals/goal.jsp").forward(req, resp);
     }
 
-    private void getRecordNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void getGoalNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/records/newRecord.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/goals/newGoal.jsp").forward(req, resp);
     }
 
-    private void postRecordNew(int userId, int groupId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        recordService.save(userId, groupId, title, content);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
+    private void postGoalNew(int userId, int groupId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        goalService.save(userId, groupId, title, description, progress);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void deleteRecordPage(int userId, int groupId, int recordId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        recordService.delete(recordId);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
+    private void deleteGoalPage(int userId, int groupId, int goalId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        goalService.delete(goalId);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void putRecordPage(int userId, int groupId, int recordId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void putGoalPage(int userId, int groupId, int goalId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            recordService.update(title, content, recordId);
-            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId);
-            else resp.sendRedirect(req.getContextPath() + "/records?" + "userId=" + userId + "&groupId=" + groupId);
+            goalService.update(title, description, progress, goalId);
+            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
+            else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/records/records.jsp").forward(req, resp);
+            req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
         }
     }
 }
