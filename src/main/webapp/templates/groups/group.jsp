@@ -16,21 +16,18 @@
 
 <div>
     <form action="/group/settings" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Настройки</button>
     </form>
 
     <form action="/group/members" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Участники</button>
     </form>
 
     <form action="/transactions" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Транзакции</button>
@@ -54,21 +51,18 @@
 
 <div>
     <form action="/goals" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Цели</button>
     </form>
 
     <form action="/reminders" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Напоминания</button>
     </form>
 
     <form action="/records" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit">Записи</button>

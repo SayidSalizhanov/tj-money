@@ -23,19 +23,16 @@
 
 <div>
     <form action="/user/settings" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
 
         <button type="submit">Настройки</button>
     </form>
 
     <form action="/user/groups" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
 
         <button type="submit">Группы</button>
     </form>
 
     <form action="/transactions" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
 
         <button type="submit">Транзакции</button>
     </form>
@@ -57,24 +54,27 @@
 <hr>
 
 <div>
-    <form action="/goals?userId=${userId}" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
+    <form action="/goals" method="GET">
 
         <button type="submit">Цели</button>
     </form>
 
-    <form action="/reminders?userId=${userId}" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
+    <form action="/reminders" method="GET">
 
         <button type="submit">Напоминания</button>
     </form>
 
-    <form action="/records?userId=${userId}" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
+    <form action="/records" method="GET">
 
         <button type="submit">Записи</button>
     </form>
 </div>
+
+<hr>
+
+<form action="/user" method="post">
+    <button type="submit">Выйти</button>
+</form>
 
 </body>
 </html>

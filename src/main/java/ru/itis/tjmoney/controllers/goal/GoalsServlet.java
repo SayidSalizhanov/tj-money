@@ -26,7 +26,7 @@ public class GoalsServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getGoalsRequest(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );

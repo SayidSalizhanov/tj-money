@@ -30,7 +30,6 @@ public class AuthenticationFilter implements Filter {
         if (session == null || session.getAttribute("login") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
-            System.out.println("filter");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

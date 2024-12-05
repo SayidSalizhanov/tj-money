@@ -14,8 +14,6 @@
             <label for="description">Описание:</label><br>
             <textarea id="description" name="description" required></textarea>
 
-            <input type="hidden" name="userId" value="${userId}">
-
             <button type="button" onclick="window.history.back();">← Назад</button>
             <input type="submit" value="Создать группу">
         </div>

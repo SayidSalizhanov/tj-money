@@ -26,7 +26,7 @@ public class TransactionsServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getTransactionsRequest(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );

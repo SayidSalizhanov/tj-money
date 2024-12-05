@@ -9,7 +9,6 @@
 
 <form action="/group/settings" method="post">
     <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <label for="name">Group name:</label>
@@ -25,7 +24,6 @@
 
 <form action="/group/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Удалить группу</button>

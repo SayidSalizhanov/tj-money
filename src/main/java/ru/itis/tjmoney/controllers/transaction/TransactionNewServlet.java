@@ -28,7 +28,7 @@ public class TransactionNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getTransactionNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );
@@ -40,7 +40,7 @@ public class TransactionNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         postTransactionNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 Integer.parseInt(req.getParameter("amount")),
                 req.getParameter("category"),
@@ -60,7 +60,7 @@ public class TransactionNewServlet extends HttpServlet {
 
     private void postTransactionNew(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         transactionService.save(userId, groupId, amount, category, type, date, description);
-        if (groupId == 0) resp.sendRedirect("/transactions?userId=%d".formatted(userId));
-        else resp.sendRedirect("/transactions?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/transactions");
+        else resp.sendRedirect("/transactions?groupId=%d".formatted(groupId));
     }
 }

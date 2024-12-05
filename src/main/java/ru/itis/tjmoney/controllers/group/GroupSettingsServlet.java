@@ -32,21 +32,21 @@ public class GroupSettingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
         if (groupMember.getRole().equalsIgnoreCase("admin")) getGroupSettings(userId, groupId, req, resp);
-        else resp.sendRedirect("/group?userId=%d&groupId=%d".formatted(userId, groupId));
+        else resp.sendRedirect("/group?groupId=%d".formatted(groupId));
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
-        if (!groupMember.getRole().equalsIgnoreCase("admin")) resp.sendRedirect("/group?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (!groupMember.getRole().equalsIgnoreCase("admin")) resp.sendRedirect("/group?groupId=%d".formatted(groupId));
 
         String method = req.getParameter("_method");
         if ("DELETE".equals(method)) {
@@ -73,7 +73,7 @@ public class GroupSettingsServlet extends HttpServlet {
     private void putGroupSettings(int userId, int groupId, String name, String description, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             groupService.update(groupId, name, description);
-            resp.sendRedirect("/group?userId=%d&groupId=%d".formatted(userId, groupId));
+            resp.sendRedirect("/group?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/groups/settings.jsp").forward(req, resp);
@@ -82,6 +82,6 @@ public class GroupSettingsServlet extends HttpServlet {
 
     private void deleteGroupSettings(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         groupService.delete(groupId);
-        resp.sendRedirect("/user/groups?userId=%d&groupId=%d".formatted(userId, groupId));
+        resp.sendRedirect("/user/groups?groupId=%d".formatted(groupId));
     }
 }

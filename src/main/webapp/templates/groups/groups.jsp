@@ -39,7 +39,6 @@
         </form>
         <form action="/groups" method="post" style="display:inline;">
             <input type="hidden" name="groupId" value="${group.getId()}">
-            <input type="hidden" name="userId" value="${userId}">
 
             <button type="submit">Подать заявку</button>
         </form>

@@ -24,8 +24,7 @@ public class GoalServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int goalId = Integer.parseInt(req.getParameter("goalId"));
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
@@ -36,8 +35,7 @@ public class GoalServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getParameter("_method");
 
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
         int goalId = Integer.parseInt(req.getParameter("goalId"));
@@ -67,15 +65,15 @@ public class GoalServlet extends HttpServlet {
 
     private void deleteGoalPage(int userId, int groupId, int goalId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         goalService.delete(goalId);
-        if (groupId == 0) resp.sendRedirect("/goals?userId=%d".formatted(userId));
-        else resp.sendRedirect("/goals?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/goals");
+        else resp.sendRedirect("/goals?groupId=%d".formatted(groupId));
     }
 
     private void putGoalPage(int userId, int groupId, int goalId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             goalService.update(title, description, progress, goalId);
-            if (groupId == 0) resp.sendRedirect("/goals?userId=%d".formatted(userId));
-            else resp.sendRedirect("/goals?userId=%d&groupId=%d".formatted(userId, groupId));
+            if (groupId == 0) resp.sendRedirect("/goals");
+            else resp.sendRedirect("/goals?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/goals/goal.jsp").forward(req, resp);

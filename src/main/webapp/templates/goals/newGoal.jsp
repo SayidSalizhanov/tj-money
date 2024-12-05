@@ -17,7 +17,6 @@
         <label for="description">Содержание:</label><br>
         <textarea id="description" name="description" required></textarea><br><br>
 
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <button type="submit" style="background-color: green; color: white;">Сохранить цель</button>

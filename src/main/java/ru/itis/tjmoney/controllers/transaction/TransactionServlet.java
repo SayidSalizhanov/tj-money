@@ -26,8 +26,7 @@ public class TransactionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int transactionId = Integer.parseInt(req.getParameter("transactionId"));
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
@@ -38,8 +37,7 @@ public class TransactionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getParameter("_method");
 
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
         int transactionId = Integer.parseInt(req.getParameter("transactionId"));
@@ -71,15 +69,15 @@ public class TransactionServlet extends HttpServlet {
 
     private void deleteTransactionPage(int userId, int groupId, int transactionId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         transactionService.delete(transactionId);
-        if (groupId == 0) resp.sendRedirect("/transactions?userId=%d".formatted(userId));
-        else resp.sendRedirect("/transactions?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/transactions");
+        else resp.sendRedirect("/transactions?groupId=%d".formatted(groupId));
     }
 
     private void putTransactionPage(int userId, int groupId, int transactionId, int amount, String category, String type, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             transactionService.update(amount, category, type, description, transactionId);
-            if (groupId == 0) resp.sendRedirect("/transactions?userId=%d".formatted(userId));
-            else resp.sendRedirect("/transactions?userId=%d&groupId=%d".formatted(userId, groupId));
+            if (groupId == 0) resp.sendRedirect("/transactions");
+            else resp.sendRedirect("/transactions?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/transactions/transaction.jsp").forward(req, resp);

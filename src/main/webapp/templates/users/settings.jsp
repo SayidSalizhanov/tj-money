@@ -8,7 +8,6 @@
 
 <form action="/user/settings" method="post">
     <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="userId" value="${userId}">
 
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" value="${user.getUsername()}"><br><br>
@@ -40,7 +39,6 @@
 
 <form action="/user/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="userId" value="${userId}">
 
     <button type="submit">Удалить пользователя</button>
 </form>

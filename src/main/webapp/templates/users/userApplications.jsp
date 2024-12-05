@@ -7,10 +7,10 @@
 </head>
 <body>
 
-<form action="" method="post">
-    <input type="text" name="search" placeholder="Поиск...">
-    <button type="submit">Поиск</button>
-</form>
+<%--<form action="" method="post">--%>
+<%--    <input type="text" name="search" placeholder="Поиск...">--%>
+<%--    <button type="submit">Поиск</button>--%>
+<%--</form>--%>
 
 <hr>
 
@@ -24,7 +24,6 @@
         <form action="/user/applications" method="post" style="display:inline;">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="applicationId" value="${application.getId()}">
-            <input type="hidden" name="userId" value="${userId}">
 
             <button type="submit">Удалить</button>
         </form>

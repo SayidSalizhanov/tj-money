@@ -38,4 +38,10 @@ public class UserProfileServlet extends HttpServlet {
         req.setAttribute("userId", userId);
         req.getRequestDispatcher("/templates/users/userProfile.jsp").forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().invalidate();
+        resp.sendRedirect("/mainPage");
+    }
 }

@@ -36,7 +36,6 @@
         <form action="/transaction" method="get">
             <div class="form">
                 <input type="hidden" name="transactionId" value="${transaction.getTransactionId()}">
-                <input type="hidden" name="userId" value="${userId}">
                 <input type="hidden" name="groupId" value="${groupId}">
 
                 <button type="submit">
@@ -53,7 +52,6 @@
 </div>
 <hr>
 <form action="/transactions/new" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Создать транзакцию</button>

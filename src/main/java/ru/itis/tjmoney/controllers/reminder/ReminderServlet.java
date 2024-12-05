@@ -26,8 +26,7 @@ public class ReminderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int reminderId = Integer.parseInt(req.getParameter("reminderId"));
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
@@ -38,8 +37,7 @@ public class ReminderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getParameter("_method");
 
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
         int reminderId = Integer.parseInt(req.getParameter("reminderId"));
@@ -69,15 +67,15 @@ public class ReminderServlet extends HttpServlet {
 
     private void deleteReminderPage(int userId, int groupId, int reminderId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         reminderService.delete(reminderId);
-        if (groupId == 0) resp.sendRedirect("/reminders?userId=%d".formatted(userId));
-        else resp.sendRedirect("/reminders?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/reminders");
+        else resp.sendRedirect("/reminders?groupId=%d".formatted(groupId));
     }
 
     private void putReminderPage(int userId, int groupId, int reminderId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             reminderService.update(title, message, sendAt, reminderId);
-            if (groupId == 0) resp.sendRedirect("/reminders?userId=%d".formatted(userId));
-            else resp.sendRedirect("/reminders?userId=%d&groupId=%d".formatted(userId, groupId));
+            if (groupId == 0) resp.sendRedirect("/reminders");
+            else resp.sendRedirect("/reminders?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/reminders/reminder.jsp").forward(req, resp);

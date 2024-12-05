@@ -24,8 +24,7 @@ public class RecordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int recordId = Integer.parseInt(req.getParameter("recordId"));
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
@@ -36,8 +35,7 @@ public class RecordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getParameter("_method");
 
-        String userIdStr = req.getParameter("userId");
-        int userId = userIdStr == null ? 0 : Integer.parseInt(userIdStr);
+        int userId = (Integer) req.getSession().getAttribute("userId");
         String groupIdStr = req.getParameter("groupId");
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
         int recordId = Integer.parseInt(req.getParameter("recordId"));
@@ -67,15 +65,15 @@ public class RecordServlet extends HttpServlet {
 
     private void deleteRecordPage(int userId, int groupId, int recordId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         recordService.delete(recordId);
-        if (groupId == 0) resp.sendRedirect("/records?userId=%d".formatted(userId));
-        else resp.sendRedirect("/records?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/records");
+        else resp.sendRedirect("/records?groupId=%d".formatted(groupId));
     }
 
     private void putRecordPage(int userId, int groupId, int recordId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             recordService.update(title, content, recordId);
-            if (groupId == 0) resp.sendRedirect("/records?userId=%d".formatted(userId));
-            else resp.sendRedirect("/records?userId=%d&groupId=%d".formatted(userId, groupId));
+            if (groupId == 0) resp.sendRedirect("/records");
+            else resp.sendRedirect("/records?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/records/records.jsp").forward(req, resp);

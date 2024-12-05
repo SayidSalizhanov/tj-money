@@ -13,7 +13,6 @@
     <textarea id="content" name="content" required></textarea>
     <br>
 
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
     <button type="submit">Сохранить запись</button>
 </form>

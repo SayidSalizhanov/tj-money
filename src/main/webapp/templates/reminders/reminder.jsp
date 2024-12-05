@@ -10,7 +10,6 @@
     <div class="form">
         <input type="hidden" name="_method" value="PUT">
 
-        <input type="hidden" name="userId" value="${userId}">
         <input type="hidden" name="groupId" value="${groupId}">
         <input type="hidden" name="reminderId" value="${reminderId}">
 
@@ -32,7 +31,6 @@
 <form action="/reminder" method="POST">
     <input type="hidden" name="_method" value="DELETE">
 
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
     <input type="hidden" name="reminderId" value="${reminderId}">
 

@@ -30,7 +30,6 @@
 <%--</div>--%>
 
 <form action="/group/applications" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Заявки</button>

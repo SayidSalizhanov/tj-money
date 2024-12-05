@@ -31,7 +31,7 @@ public class UserApplicationsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
 
         getUserGroupApplications(userId, req, resp);
     }
@@ -42,7 +42,7 @@ public class UserApplicationsServlet extends HttpServlet {
         if ("DELETE".equals(method)) {
             deleteUserGroupApplication(
                     Integer.parseInt(req.getParameter("applicationId")),
-                    Integer.parseInt(req.getParameter("userId")),
+                    (Integer) req.getSession().getAttribute("userId"),
                     req, resp
             );
         }
@@ -56,6 +56,6 @@ public class UserApplicationsServlet extends HttpServlet {
 
     private void deleteUserGroupApplication(int applicationId, int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         applicationService.deleteUserApplication(applicationId);
-        resp.sendRedirect("/user/applications?userId=%d".formatted(userId));
+        resp.sendRedirect("/user/applications");
     }
 }

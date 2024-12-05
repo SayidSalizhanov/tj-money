@@ -31,7 +31,7 @@ public class GroupMembersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
@@ -41,7 +41,7 @@ public class GroupMembersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
@@ -55,7 +55,7 @@ public class GroupMembersServlet extends HttpServlet {
                     req, resp
                 );
         }
-        else resp.sendRedirect("/group/members?userId=%d&groupId=%d".formatted(userId, groupId));
+        else resp.sendRedirect("/group/members?groupId=%d".formatted(groupId));
     }
 
     private void getGroupMembers(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -74,6 +74,6 @@ public class GroupMembersServlet extends HttpServlet {
 
     private void deleteGroupMembersAdmin(int userId, int groupId, String username, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         groupMemberService.delete(groupMemberService.getByUsernameAndGroupId(username, groupId).getId());
-        resp.sendRedirect("/group/members?userId=%d&groupId=%d".formatted(userId, groupId));
+        resp.sendRedirect("/group/members?groupId=%d".formatted(groupId));
     }
 }

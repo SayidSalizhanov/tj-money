@@ -30,7 +30,7 @@ public class ReminderNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getReminderNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );
@@ -42,7 +42,7 @@ public class ReminderNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         postReminderNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req.getParameter("title"),
                 req.getParameter("message"),
@@ -60,7 +60,7 @@ public class ReminderNewServlet extends HttpServlet {
 
     private void postReminderNew(int userId, int groupId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         reminderService.save(userId, groupId, title, message, sendAt);
-        if (groupId == 0) resp.sendRedirect("/reminders?userId=%d".formatted(userId));
-        else resp.sendRedirect("/reminders?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/reminders");
+        else resp.sendRedirect("/reminders?groupId=%d".formatted(groupId));
     }
 }

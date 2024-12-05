@@ -33,7 +33,7 @@ public class UserSettingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
 
         req.setAttribute("user", userService.getUserById(userId));
         req.setAttribute("userId", userId);
@@ -45,12 +45,12 @@ public class UserSettingsServlet extends HttpServlet {
         String method = req.getParameter("_method");
         if ("DELETE".equals(method)) {
             deleteUserSettings(
-                    Integer.parseInt(req.getParameter("userId")),
+                    (Integer) req.getSession().getAttribute("userId"),
                     req, resp
             );
         } else if ("PUT".equals(method)) {
             putUserSettings(
-                    Integer.parseInt(req.getParameter("userId")),
+                    (Integer) req.getSession().getAttribute("userId"),
                     req.getParameter("username"),
                     req.getParameter("password"),
                     req.getParameter("newPassword"),
@@ -67,7 +67,7 @@ public class UserSettingsServlet extends HttpServlet {
         try {
             User user = userService.getUserById(userId);
             userService.update(userId, user, username, password, newPassword, repeatPassword, telegramId, sendingToTelegram, sendingToEmail);
-            resp.sendRedirect("/user?userId=%d".formatted(userId));
+            resp.sendRedirect("/user");
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/users/settings.jsp").forward(req, resp);
@@ -76,6 +76,6 @@ public class UserSettingsServlet extends HttpServlet {
 
     private void deleteUserSettings(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         userService.delete(userId);
-        resp.sendRedirect(req.getContextPath() + "/mainPage");
+        resp.sendRedirect("/mainPage");
     }
 }

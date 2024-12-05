@@ -23,7 +23,6 @@
         <form action="/record" method="get">
             <div class="form">
                 <input type="hidden" name="recordId" value="${record.getId()}">
-                <input type="hidden" name="userId" value="${userId}">
                 <input type="hidden" name="groupId" value="${groupId}">
 
                 <button type="submit">
@@ -37,7 +36,6 @@
 </div>
 
 <form action="/records/new" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Создать запись</button>

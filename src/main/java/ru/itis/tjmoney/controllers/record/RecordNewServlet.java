@@ -26,7 +26,7 @@ public class RecordNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getRecordNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );
@@ -38,7 +38,7 @@ public class RecordNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         postRecordNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req.getParameter("title"),
                 req.getParameter("content"),
@@ -55,7 +55,7 @@ public class RecordNewServlet extends HttpServlet {
 
     private void postRecordNew(int userId, int groupId, String title, String content, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         recordService.save(userId, groupId, title, content);
-        if (groupId == 0) resp.sendRedirect("/records?userId=%d".formatted(userId));
-        else resp.sendRedirect("/records?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/records");
+        else resp.sendRedirect("/records?groupId=%d".formatted(groupId));
     }
 }

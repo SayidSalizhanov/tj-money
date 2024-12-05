@@ -39,7 +39,6 @@
             <input type="hidden" name="username" value="${application.getUsername()}">
             <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
             <input type="hidden" name="applicationStatus" value="одобрено">
-            <input type="hidden" name="userId" value="${userId}">
             <input type="hidden" name="groupId" value="${groupId}">
             <button type="submit">Принять</button>
         </form>
@@ -47,9 +46,8 @@
             <input type="hidden" name="username" value="${application.getUsername()}">
             <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
             <input type="hidden" name="applicationStatus" value="отклонено">
-            <input type="hidden" name="userId" value="${userId}">
             <input type="hidden" name="groupId" value="${groupId}">
-            <button type="submit">Удалить</button>
+            <button type="submit">Отклонить</button>
         </form>
     </c:forEach>
 </div>

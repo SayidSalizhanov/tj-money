@@ -11,7 +11,7 @@ import java.util.List;
 public class ApplicationDAO {
     private static String FIND_APPLICATIONS_BY_USERID_SQL = "SELECT * FROM Applications WHERE user_id = ?";
     private static String FIND_APPLICATIONS_BY_GROUPID_SQL = "SELECT * FROM Applications WHERE group_id = ?";
-    private static String DELETE_APPLICATION_BY_ID_SQL = "DELETE * FROM Applications WHERE id = ?";
+    private static String DELETE_APPLICATION_BY_ID_SQL = "DELETE FROM Applications WHERE id = ?";
     private static String SAVE_APPLICATION_SQL = "INSERT INTO Applications (user_id, group_id, send_at, status) VALUES (?,?,?,?)";
     private static String UPDATE_APPLICATION_SQL = "UPDATE Applications SET status = ? WHERE id = ?";
 

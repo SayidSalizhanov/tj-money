@@ -23,7 +23,6 @@
         <form action="/goal" method="get">
             <div class="form">
                 <input type="hidden" name="goalId" value="${goal.getId()}">
-                <input type="hidden" name="userId" value="${userId}">
                 <input type="hidden" name="groupId" value="${groupId}">
 
                 <button type="submit">
@@ -38,7 +37,6 @@
 </div>
 
 <form action="/goals/new" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Создать цель</button>

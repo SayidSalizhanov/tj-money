@@ -26,7 +26,7 @@ public class GoalNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         getGoalNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req, resp
         );
@@ -38,7 +38,7 @@ public class GoalNewServlet extends HttpServlet {
         int groupId = groupIdStr == null ? 0 : Integer.parseInt(groupIdStr);
 
         postGoalNew(
-                Integer.parseInt(req.getParameter("userId")),
+                (Integer) req.getSession().getAttribute("userId"),
                 groupId,
                 req.getParameter("title"),
                 req.getParameter("description"),
@@ -56,7 +56,7 @@ public class GoalNewServlet extends HttpServlet {
 
     private void postGoalNew(int userId, int groupId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         goalService.save(userId, groupId, title, description, progress);
-        if (groupId == 0) resp.sendRedirect("/goals?userId=%d".formatted(userId));
-        else resp.sendRedirect("/goals?userId=%d&groupId=%d".formatted(userId, groupId));
+        if (groupId == 0) resp.sendRedirect("/goals");
+        else resp.sendRedirect("/goals?groupId=%d".formatted(groupId));
     }
 }

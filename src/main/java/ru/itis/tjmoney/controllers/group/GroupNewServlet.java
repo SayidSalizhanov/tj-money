@@ -30,14 +30,14 @@ public class GroupNewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
 
         getGroupNew(userId, req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
 
         postNewGroup(
                 userId,
@@ -55,6 +55,6 @@ public class GroupNewServlet extends HttpServlet {
 
     private void postNewGroup(int userId, String name, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         groupService.save(userId, name, description);
-        resp.sendRedirect("/user/groups?userId=%d".formatted(userId));
+        resp.sendRedirect("/user/groups");
     }
 }

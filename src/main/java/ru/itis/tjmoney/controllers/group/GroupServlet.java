@@ -30,7 +30,7 @@ public class GroupServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         getGroupRequest(userId, groupId, req, resp);

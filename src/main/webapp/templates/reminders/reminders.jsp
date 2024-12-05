@@ -23,7 +23,6 @@
         <form action="/reminder" method="get">
             <div class="form">
                 <input type="hidden" name="reminderId" value="${reminder.getId()}">
-                <input type="hidden" name="userId" value="${userId}">
                 <input type="hidden" name="groupId" value="${groupId}">
 
                 <button type="submit">
@@ -38,7 +37,6 @@
 </div>
 
 <form action="/reminders/new" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
     <input type="hidden" name="groupId" value="${groupId}">
 
     <button type="submit">Создать запись</button>
