@@ -12,9 +12,6 @@
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" value="${user.getUsername()}"><br><br>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" value="${user.getPassword()}"><br><br>
-
     <label for="newPassword">Новый пароль:</label>
     <input type="password" id="newPassword" name="newPassword"><br><br>
 

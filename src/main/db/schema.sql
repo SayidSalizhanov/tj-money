@@ -2,7 +2,7 @@ create table Users (
                        id serial primary key,
                        username varchar(50) unique,
                        email varchar(50) unique,
-                       password varchar(16),
+                       password varchar,
                        telegram_id varchar(50),
                        sending_to_telegram boolean,
                        sending_to_email boolean

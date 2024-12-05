@@ -4,6 +4,7 @@ import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.exceptions.UserNotFoundException;
 import ru.itis.tjmoney.models.User;
+import ru.itis.tjmoney.util.PasswordUtil;
 
 public class UserService {
     private final UserDAO userDAO;
@@ -24,10 +25,10 @@ public class UserService {
         return user;
     }
 
-    public void update(int userId, User oldUser, String username, String password, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail) {
+    public void update(int userId, User oldUser, String username, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail) {
         if (userDAO.findByUsername(username) != null && !oldUser.getUsername().equals(username)) throw new UpdateException("Пользователь с таким именем уже существует");
         if (!newPassword.equals(repeatPassword)) throw new UpdateException("Введенные пароли не совпадают");
-        userDAO.update(new User(userId, username, null, password, telegramId, sendingToTelegram, sendingToEmail));
+        userDAO.update(new User(userId, username, null, PasswordUtil.encrypt(newPassword), telegramId, sendingToTelegram, sendingToEmail));
     }
 
     public void delete(int userId) {

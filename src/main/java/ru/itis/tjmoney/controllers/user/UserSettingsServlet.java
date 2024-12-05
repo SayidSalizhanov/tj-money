@@ -52,7 +52,6 @@ public class UserSettingsServlet extends HttpServlet {
             putUserSettings(
                     (Integer) req.getSession().getAttribute("userId"),
                     req.getParameter("username"),
-                    req.getParameter("password"),
                     req.getParameter("newPassword"),
                     req.getParameter("repeatPassword"),
                     req.getParameter("telegramId"),
@@ -63,10 +62,10 @@ public class UserSettingsServlet extends HttpServlet {
         }
     }
 
-    private void putUserSettings(int userId, String username, String password, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void putUserSettings(int userId, String username, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             User user = userService.getUserById(userId);
-            userService.update(userId, user, username, password, newPassword, repeatPassword, telegramId, sendingToTelegram, sendingToEmail);
+            userService.update(userId, user, username, newPassword, repeatPassword, telegramId, sendingToTelegram, sendingToEmail);
             resp.sendRedirect("/user");
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
