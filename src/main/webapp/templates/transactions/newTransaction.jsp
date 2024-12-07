@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>newTransaction</title>
+    <script src="/js/transaction/transactionCategory.js" defer></script>
 </head>
 <body>
 
@@ -11,11 +12,14 @@
         <label for="amount">Стоимость:</label><br>
         <input type="text" id="amount" name="amount" required><br><br>
 
-        <label for="category">Категория:</label><br>
-        <input type="text" id="category" name="category" required><br><br>
-
         <label for="type">Тип:</label><br>
-        <input type="text" id="type" name="type" required><br><br>
+        <select id="type" name="type" required>
+            <option value="Доход">Доход</option>
+            <option value="Расход">Расход</option>
+        </select><br><br>
+
+        <label for="category">Категория:</label><br>
+        <select id="category" name="category" required></select><br><br>
 
         <label for="datetime">Дата и время:</label><br>
         <input type="datetime-local" id="datetime" name="datetime" required><br><br>

@@ -15,8 +15,6 @@ public class LoginService {
     public User login(String email, String password) {
         User user = userDAO.findByEmail(email);
         if (user == null) throw new LoginException("Пользователь с такой почтой не найден");
-        System.out.println(user.getPassword());
-        System.out.println(PasswordUtil.encrypt(password));
         if (!user.getPassword().equals(PasswordUtil.encrypt(password))) throw new LoginException("Неправильный пароль");
         return user;
     }

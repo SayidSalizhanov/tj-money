@@ -47,7 +47,7 @@ public class GroupMemberService {
                         userId,
                         groupId,
                         LocalDateTime.now(),
-                        "user"
+                        "USER"
                 )
         );
     }

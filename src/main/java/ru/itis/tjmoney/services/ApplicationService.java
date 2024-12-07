@@ -42,7 +42,7 @@ public class ApplicationService {
 
     public List<ApplicationUserDTO> getGroupApplicationUserDTOs(int groupId) {
         List<Application> applications = applicationDAO.findGroupApplications(groupId).stream()
-                                                                                      .filter(a -> a.getStatus().equalsIgnoreCase("в ожидании"))
+                                                                                      .filter(a -> a.getStatus().equalsIgnoreCase("В ожидании"))
                                                                                       .toList();
 
         List<ApplicationUserDTO> applicationsDTOs = new ArrayList<>();

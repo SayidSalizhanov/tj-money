@@ -17,11 +17,13 @@
         <label for="amount">Стоимость:</label><br>
         <input type="text" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
 
-        <label for="category">Категория:</label><br>
-        <input type="text" id="category" name="category" value="${transaction.getCategory()}" required><br><br>
+        <p>Тип: ${transaction.getType()}</p>
+        <input type="hidden" name="type" value="${transaction.getType()}">
 
-        <label for="type">Тип:</label><br>
-        <input type="text" id="type" name="type" value="${transaction.getType()}" required><br><br>
+        <p>Категория: ${transaction.getCategory()}</p>
+        <input type="hidden" name="category" value="${transaction.getCategory()}">
+
+        <p>Дата и время: ${transaction.getDateTime()}</p>
 
         <label for="description">Описание:</label><br>
         <textarea id="description" name="description" required>${transaction.getDescription()}</textarea><br><br>

@@ -35,7 +35,7 @@ public class GroupApplicationsServlet extends HttpServlet {
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
-        if (groupMember.getRole().equalsIgnoreCase("admin")) getGroupApplications(userId, groupId, req, resp);
+        if (groupMember.getRole().equalsIgnoreCase("ADMIN")) getGroupApplications(userId, groupId, req, resp);
         else resp.sendRedirect("/group/members?groupId=%d".formatted(groupId));
     }
 
@@ -45,7 +45,7 @@ public class GroupApplicationsServlet extends HttpServlet {
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         GroupMember groupMember = groupMemberService.getGroupMember(userId, groupId);
-        if (groupMember.getRole().equalsIgnoreCase("admin")) {
+        if (groupMember.getRole().equalsIgnoreCase("ADMIN")) {
             postGroupApplications(
                     userId,
                     groupId,
@@ -69,7 +69,7 @@ public class GroupApplicationsServlet extends HttpServlet {
     private void postGroupApplications(int userId, int groupId, String username, int applicationId, String applicationStatus, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int userIdForDelete = userService.getByUsername(username).getId();
         applicationService.updateStatus(applicationId, applicationStatus);
-        if (applicationStatus.equalsIgnoreCase("одобрено")) groupMemberService.save(userIdForDelete, groupId);
-        resp.sendRedirect("/templates/groups/applications?groupId=%d".formatted(groupId));
+        if (applicationStatus.equalsIgnoreCase("Одобрено")) groupMemberService.save(userIdForDelete, groupId);
+        resp.sendRedirect("/groups/applications?groupId=%d".formatted(groupId));
     }
 }

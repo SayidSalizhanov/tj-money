@@ -10,8 +10,6 @@ import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.services.TransactionService;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @WebServlet("/transaction")
 public class TransactionServlet extends HttpServlet {

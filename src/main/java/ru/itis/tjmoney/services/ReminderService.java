@@ -1,7 +1,6 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.ReminderDAO;
-import ru.itis.tjmoney.models.Goal;
 import ru.itis.tjmoney.models.Reminder;
 
 import java.time.LocalDateTime;
