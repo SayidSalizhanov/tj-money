@@ -40,7 +40,7 @@
     <c:forEach var="transaction" items="${transactions}">
         <div>
             <p>Финансы: ${transaction.getAmount()}</p>
-            <p>Дата: ${transaction.getDateTime.toString()}</p>
+            <p>Дата: ${transaction.getDateTime().toString()}</p>
             <p>Категория: ${transaction.getCategory()}</p>
             <p>Тип: ${transaction.getType()}</p>
         </div>

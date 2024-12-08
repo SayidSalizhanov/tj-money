@@ -1,0 +1,79 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    font-size: 16px; /* Увеличение текста */
+}
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.create-transaction-form {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.create-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+}
+
+.transactions-list {
+    background-color: #f4f4f4; /* Основной цвет фона */
+    /*padding: 20px;*/
+    border-radius: 5px;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+}
+
+.transaction {
+    background-color: #fff; /* Установка белого фона для каждой транзакции */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Отступ между плашками */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-button {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.transaction-button:hover .transaction-details {
+    background-color: #f0f0f0;
+}
+
+.transaction-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; /* Увеличение размера плашек */
+    border-radius: 5px;
+}
+
+.left-column, .right-column {
+    width: 48%;
+}
+
+.transaction-details p {
+    margin: 10px 0; /* Увеличение расстояния между строками */
+    font-size: 18px; /* Увеличение текста */
+}

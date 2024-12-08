@@ -8,17 +8,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.services.TransactionService;
+import ru.itis.tjmoney.services.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/transaction")
 public class TransactionServlet extends HttpServlet {
     private TransactionService transactionService;
+    private UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
     @Override
@@ -62,6 +65,7 @@ public class TransactionServlet extends HttpServlet {
         req.setAttribute("transactionId", transactionId);
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
+        if (groupId != 0) req.setAttribute("ownerName", userService.getUserById(userId).getUsername());
         req.getRequestDispatcher("/templates/transactions/transaction.jsp").forward(req, resp);
     }
 

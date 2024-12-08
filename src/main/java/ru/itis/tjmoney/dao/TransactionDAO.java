@@ -61,7 +61,7 @@ public class TransactionDAO {
                                 resultSet.getInt("amount"),
                                 resultSet.getString("category"),
                                 resultSet.getString("type"),
-                                resultSet.getTimestamp("dateTime").toLocalDateTime(),
+                                resultSet.getTimestamp("date_time").toLocalDateTime(),
                                 resultSet.getString("description")
                         )
                 );
@@ -91,7 +91,7 @@ public class TransactionDAO {
                                 resultSet.getInt("amount"),
                                 resultSet.getString("category"),
                                 resultSet.getString("type"),
-                                resultSet.getTimestamp("dateTime").toLocalDateTime(),
+                                resultSet.getTimestamp("date_time").toLocalDateTime(),
                                 resultSet.getString("description")
                         )
                 );

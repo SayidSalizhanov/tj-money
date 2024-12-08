@@ -1,46 +1,41 @@
 <%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Goals</title>
+    <link rel="stylesheet" href="/css/goals/goals.css">
 </head>
 <body>
 
-<%--<div class="sort">--%>
-<%--    <label>Сортировать:</label>--%>
-<%--    <input type="text" placeholder="Поиск...">--%>
-<%--    <select>--%>
-<%--        <option>Название</option>--%>
-<%--        <option>По алфавиту вверх</option>--%>
-<%--        <!-- Добавьте другие заглушки по мере необходимости -->--%>
-<%--    </select>--%>
-<%--    <button>Применить</button> <!-- Заглушка для применения сортировки -->--%>
-<%--</div>--%>
+<div class="content">
+    <form action="/goals/new" method="GET" class="create-goal-form">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <button type="submit" class="create-button">Создать цель</button>
+    </form>
 
-<div>
-    <c:forEach var="goal" items="${goals}">
-        <form action="/goal" method="get">
-            <div class="form">
-                <input type="hidden" name="goalId" value="${goal.getId()}">
-                <input type="hidden" name="groupId" value="${groupId}">
-
-                <button type="submit">
-                    <div>
-                        <p>Название: ${goal.getTitle()}</p>
-                        <p>Статус: ${goal.getProgress()}</p>
-                    </div>
-                </button>
-            </div>
-        </form>
-    </c:forEach>
+    <div class="goals-list">
+        <c:forEach var="goal" items="${goals}">
+            <form action="/goal" method="get" class="goal-form">
+                <div class="goal">
+                    <input type="hidden" name="goalId" value="${goal.getId()}">
+                    <input type="hidden" name="groupId" value="${groupId}">
+                    <button type="submit" class="goal-button">
+                        <div class="goal-details">
+                            <div class="left-column">
+                                <p>Название: ${goal.getTitle()}</p>
+                            </div>
+                            <div class="right-column">
+                                <p>Прогресс: ${goal.getProgress()}</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </c:forEach>
+    </div>
 </div>
-
-<form action="/goals/new" method="GET">
-    <input type="hidden" name="groupId" value="${groupId}">
-
-    <button type="submit">Создать цель</button>
-</form>
 
 </body>
 </html>
