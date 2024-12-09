@@ -35,8 +35,6 @@
             <button type="submit" class="save-button">Сохранить</button>
         </div>
     </form>
-
-    <button class="back-button" onclick="window.history.back();">← Назад</button>
 </div>
 
 </body>

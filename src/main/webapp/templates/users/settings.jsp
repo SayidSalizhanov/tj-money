@@ -32,8 +32,6 @@
     <button type="submit">Сохранить изменения</button>
 </form>
 
-<button type="button" onclick="window.history.back();">Назад</button>
-
 <form action="/user/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
 

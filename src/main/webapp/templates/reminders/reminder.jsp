@@ -38,8 +38,6 @@
 
         <button type="submit" class="delete-button">Удалить напоминание</button>
     </form>
-
-    <button class="back-button" onclick="window.history.back();">← Назад</button>
 </div>
 
 </body>

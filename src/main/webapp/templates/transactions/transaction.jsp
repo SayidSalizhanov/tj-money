@@ -49,8 +49,6 @@
 
         <button type="submit" class="delete-button">Удалить транзакцию</button>
     </form>
-
-    <button class="back-button" onclick="window.history.back();">← Назад</button>
 </div>
 
 </body>

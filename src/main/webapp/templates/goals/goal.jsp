@@ -35,8 +35,6 @@
 
         <button type="submit" class="delete-button">Удалить цель</button>
     </form>
-
-    <button class="back-button" onclick="window.history.back();">← Назад</button>
 </div>
 
 </body>

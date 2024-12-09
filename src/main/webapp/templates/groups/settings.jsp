@@ -20,8 +20,6 @@
     <button type="submit">Сохранить изменения</button>
 </form>
 
-<button type="button" onclick="window.history.back();">Назад</button>
-
 <form action="/group/settings" method="POST">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="groupId" value="${groupId}">
