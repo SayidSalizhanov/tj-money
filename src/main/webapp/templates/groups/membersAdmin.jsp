@@ -42,13 +42,15 @@
             <p>Дата присоединения: ${member.getJoinedAt()}</p>
             <p>Роль: ${member.getRole()}</p>
         </div>
-        <form action="/group/members" method="post" style="display:inline;">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="username" value="${member.getUsername()}">
-            <input type="hidden" name="userId" value="${userId}">
-            <input type="hidden" name="groupId" value="${groupId}">
-            <button type="submit">Удалить</button>
-        </form>
+        <c:if test="${member.getRole() == 'USER'}">
+            <form action="/group/members" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="username" value="${member.getUsername()}">
+                <input type="hidden" name="userId" value="${userId}">
+                <input type="hidden" name="groupId" value="${groupId}">
+                <button type="submit">Удалить</button>
+            </form>
+        </c:if>
     </c:forEach>
 </div>
 
