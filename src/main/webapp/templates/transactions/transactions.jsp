@@ -24,7 +24,12 @@
                     <button type="submit" class="transaction-button">
                         <div class="transaction-details">
                             <div class="left-column">
-                                <p>Финансы: ${transaction.getAmount()}</p>
+                                <c:if test="${groupId != 0}">
+                                    <p>Участник: ${transaction.getUsername()}</p>
+                                </c:if>
+                                <c:if test="${groupId == 0}">
+                                    <p>Финансы: ${transaction.getAmount()}</p>
+                                </c:if>
                                 <p>Дата: ${transaction.getDateTime().toString()}</p>
                             </div>
                             <div class="right-column">

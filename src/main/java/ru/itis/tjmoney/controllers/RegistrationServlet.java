@@ -41,6 +41,7 @@ public class RegistrationServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("userId", user.getId());
             session.setAttribute("login", user.getEmail());
+            session.setAttribute("username", user.getUsername());
 
             resp.sendRedirect(req.getContextPath() + "/mainPage");
         } catch (RegistrationException e) {

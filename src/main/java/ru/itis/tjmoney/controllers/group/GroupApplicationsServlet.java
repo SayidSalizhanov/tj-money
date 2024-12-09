@@ -70,6 +70,6 @@ public class GroupApplicationsServlet extends HttpServlet {
         int userIdForDelete = userService.getByUsername(username).getId();
         applicationService.updateStatus(applicationId, applicationStatus);
         if (applicationStatus.equalsIgnoreCase("Одобрено")) groupMemberService.save(userIdForDelete, groupId);
-        resp.sendRedirect("/groups/applications?groupId=%d".formatted(groupId));
+        resp.sendRedirect("/group/applications?groupId=%d".formatted(groupId));
     }
 }

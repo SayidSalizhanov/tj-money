@@ -26,12 +26,12 @@ public class TransactionService {
     }
 
     public List<Transaction> getUserAndGroupTransactions(int userId, int groupId) {
-        return groupId == 0 ? transactionDAO.findUserTransactions(userId) : transactionDAO.findUserAndGroupTransactions(userId, groupId);
+        return groupId == 0 ? transactionDAO.findUserTransactions(userId) : transactionDAO.findGroupTransactions(groupId);
     }
 
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
-                .map(t -> new TransactionDTO(t.getId(), t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(userId).getUsername(), t.getDescription(), t.getDateTime().toString()))
+                .map(t -> new TransactionDTO(t.getId(), t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(t.getUserId()).getUsername(), t.getDescription(), t.getDateTime().toString()))
                 .toList();
     }
 

@@ -20,7 +20,7 @@ create table Group_Members (
                                user_id int,
                                foreign key (user_id) references Users (id) on delete cascade,
                                group_id int,
-                               foreign key (group_id) references Groups (id) on delete set null,
+                               foreign key (group_id) references Groups (id) on delete cascade,
                                joined_at timestamp,
                                role varchar
 );
@@ -30,7 +30,7 @@ create table Goals (
                        user_id int,
                        foreign key (user_id) references Users (id) on delete cascade,
                        group_id int,
-                       foreign key (group_id) references Groups (id) on delete set null,
+                       foreign key (group_id) references Groups (id) on delete cascade,
                        title varchar(50),
                        description varchar(400),
                        progress int
@@ -41,7 +41,7 @@ create table Applications (
                               user_id int,
                               foreign key (user_id) references Users (id) on delete cascade,
                               group_id int,
-                              foreign key (group_id) references Groups (id) on delete set null,
+                              foreign key (group_id) references Groups (id) on delete cascade,
                               send_at timestamp,
                               status varchar
 );
@@ -51,7 +51,7 @@ create table Records (
                          user_id int,
                          foreign key (user_id) references Users (id) on delete cascade,
                          group_id int,
-                         foreign key (group_id) references Groups (id) on delete set null,
+                         foreign key (group_id) references Groups (id) on delete cascade,
                          title varchar(50),
                          content varchar(400),
                          created_at timestamp,
@@ -63,7 +63,7 @@ create table Reminders (
                            user_id int,
                            foreign key (user_id) references Users (id) on delete cascade,
                            group_id int,
-                           foreign key (group_id) references Groups (id) on delete set null,
+                           foreign key (group_id) references Groups (id) on delete cascade,
                            title varchar(50),
                            message varchar(200),
                            send_at timestamp,
@@ -75,7 +75,7 @@ create table Transactions (
                               user_id int,
                               foreign key (user_id) references Users (id) on delete cascade,
                               group_id int,
-                              foreign key (group_id) references Groups (id) on delete set null,
+                              foreign key (group_id) references Groups (id) on delete cascade,
                               amount int,
                               category varchar,
                               type varchar,
