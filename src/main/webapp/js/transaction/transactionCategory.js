@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "Аренда",
         "Премии и бонусы",
         "Интересы",
-        "Пенсия и пособия",
+        "Пенсия и пособия"
     ];
 
     const expenseCategories = [

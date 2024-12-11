@@ -7,7 +7,6 @@ html, body {
     width: 50%;
     min-height: 100vh;
     margin: 0 auto;
-    margin-top: -50px;
     display: flex;
     flex-direction: column;
     align-items: center;
