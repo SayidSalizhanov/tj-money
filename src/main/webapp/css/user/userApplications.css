@@ -1,0 +1,70 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    font-size: 16px; /* Увеличение текста */
+}
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.applications-list {
+    background-color: #f4f4f4; /* Основной цвет фона */
+    border-radius: 5px;
+}
+
+.application {
+    background-color: #fff; /* Установка белого фона для каждой заявки */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Отступ между плашками */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.application-info {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 50px); /* Уменьшение ширины для размещения кнопки удаления */
+}
+
+.application-info p {
+    margin: 10px 0; /* Увеличение расстояния между строками */
+    font-size: 18px; /* Увеличение текста */
+}
+
+.delete-form {
+    display: inline;
+    position: absolute;
+    right: 10px; /* Отступ от правого края */
+    height: 100%; /* Установка высоты как у плашки */
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+    height: 100%; /* Установка высоты как у плашки */
+    width: 60px; /* Фиксированная ширина для кнопки */
+    border: none;
+    /*border-radius: 5px;*/
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-button:hover {
+    background-color: #e53935;
+}
+
+.delete-button i {
+    font-size: 20px; /* Увеличение размера иконки */
+}

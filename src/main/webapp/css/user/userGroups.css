@@ -1,0 +1,80 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    font-size: 16px;
+}
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.action-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.action-button:hover {
+    background-color: #45a049;
+}
+
+.groups-list {
+    background-color: #f4f4f4; /* Основной цвет фона */
+    border-radius: 5px;
+}
+
+.group {
+    background-color: #fff; /* Установка белого фона для каждой группы */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Отступ между плашками */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.group-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-button {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.group-button:hover .group-details {
+    background-color: #f0f0f0;
+}
+
+.group-details {
+    padding: 10px; /* Увеличение размера плашек */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.left-column, .right-column {
+    width: 48%;
+}
+
+.group-details p {
+    margin: 10px 0; /* Увеличение расстояния между строками */
+    font-size: 18px; /* Увеличение текста */
+    width: 48%;
+}

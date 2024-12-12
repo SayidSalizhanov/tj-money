@@ -27,6 +27,7 @@ nav {
     display: flex;
     justify-content: center;
     flex-grow: 1;
+    margin-left: 70px;
 }
 
 nav ul {
