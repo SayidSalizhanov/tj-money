@@ -1,7 +1,10 @@
-/*html, body {*/
-/*    height: 100%;*/
-/*    overflow: hidden;*/
-/*}*/
+html, body {
+    background-image: url('/static/background.png'); /* Указываем путь к изображению */
+    background-size: cover; /* Изображение будет покрывать всю страницу */
+    background-repeat: no-repeat; /* Изображение не будет повторяться */
+    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-position: center;
+}
 
 .content {
     width: 50%;

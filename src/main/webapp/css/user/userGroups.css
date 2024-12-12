@@ -2,6 +2,11 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
+    background-image: url('/static/background.png'); /* Указываем путь к изображению */
+    background-size: cover; /* Изображение будет покрывать всю страницу */
+    background-repeat: no-repeat; /* Изображение не будет повторяться */
+    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-position: center;
     background-color: #f4f4f4;
     font-size: 16px;
 }
@@ -19,7 +24,7 @@ html, body {
 }
 
 .action-button {
-    background-color: green;
+    background-color: #3c90a1;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -28,7 +33,7 @@ html, body {
 }
 
 .action-button:hover {
-    background-color: #45a049;
+    background-color: #004d80;
 }
 
 .groups-list {

@@ -1,5 +1,10 @@
 body {
     font-family: Arial, sans-serif;
+    background-image: url('/static/background.png'); /* Указываем путь к изображению */
+    background-size: cover; /* Изображение будет покрывать всю страницу */
+    background-repeat: no-repeat; /* Изображение не будет повторяться */
+    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-position: center;
     background-color: #f5f5f5;
     margin: 0;
 }
