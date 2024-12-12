@@ -23,7 +23,7 @@ public class GoalService {
     }
 
     public List<Goal> getUserAndGroupGoals(int userId, int groupId) {
-        return groupId == 0 ? goalDAO.findUserGoals(userId) : goalDAO.findUserAndGroupGoals(userId, groupId);
+        return groupId == 0 ? goalDAO.findUserGoals(userId) : goalDAO.findGroupGoals(groupId);
     }
 
     public Goal getGoal(int goalId) {

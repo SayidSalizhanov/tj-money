@@ -22,7 +22,7 @@ public class ReminderService {
     }
 
     public List<Reminder> getUserAndGroupReminders(int userId, int groupId) {
-        return groupId == 0 ? reminderDAO.findUserReminders(userId) : reminderDAO.findUserAndGroupReminders(userId, groupId);
+        return groupId == 0 ? reminderDAO.findUserReminders(userId) : reminderDAO.findGroupReminders(groupId);
     }
 
     public Reminder getReminder(int reminderId) {

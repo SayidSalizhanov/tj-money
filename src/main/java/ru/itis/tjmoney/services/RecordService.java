@@ -24,7 +24,7 @@ public class RecordService {
     }
 
     public List<Record> getUserAndGroupRecords(int userId, int groupId) {
-        return groupId == 0 ? recordDAO.findUserRecords(userId) : recordDAO.findUserAndGroupRecords(userId, groupId);
+        return groupId == 0 ? recordDAO.findUserRecords(userId) : recordDAO.findGroupRecords(groupId);
     }
 
     public Record getRecord(int recordId) {
