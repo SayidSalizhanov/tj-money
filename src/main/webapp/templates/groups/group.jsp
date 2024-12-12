@@ -36,15 +36,32 @@
 
 <hr>
 
-<div>
-    <c:forEach var="transaction" items="${transactions}">
-        <div>
-            <p>Финансы: ${transaction.getAmount()}</p>
-            <p>Дата: ${transaction.getDateTime().toString()}</p>
-            <p>Категория: ${transaction.getCategory()}</p>
-            <p>Тип: ${transaction.getType()}</p>
-        </div>
-    </c:forEach>
+<div class="financial-section">
+    <div class="financial-info">
+        <h2>Доходы</h2>
+        <p><strong>Общий доход:</strong> ${income}</p>
+        <p><strong>Заработная плата:</strong> ${Заработная_плата}</p>
+        <p><strong>Прибыль от бизнеса:</strong> ${Прибыль_от_бизнеса}</p>
+        <p><strong>Дивиденты:</strong> ${Дивиденты}</p>
+        <p><strong>Аренда:</strong> ${Аренда}</p>
+        <p><strong>Премии и бонусы:</strong> ${Премии_и_бонусы}</p>
+        <p><strong>Интересы:</strong> ${Интересы}</p>
+        <p><strong>Пенсии и пособия:</strong> ${Пенсии_и_пособия}</p>
+        <p><strong>Другое:</strong> ${Другие_доходы}</p>
+    </div>
+
+    <div class="financial-info">
+        <h2>Расходы</h2>
+        <p><strong>Общие расходы:</strong> ${expense}</p>
+        <p><strong>Еда и напитки:</strong> ${Еда_и_напитки}</p>
+        <p><strong>Транспорт:</strong> ${Транспорт}</p>
+        <p><strong>Жилье:</strong> ${Жилье}</p>
+        <p><strong>Развлечения:</strong> ${Развлечения}</p>
+        <p><strong>Одежда:</strong> ${Одежда}</p>
+        <p><strong>Здоровье:</strong> ${Здоровье}</p>
+        <p><strong>Образование:</strong> ${Образование}</p>
+        <p><strong>Другое:</strong> ${Другие_расходы}</p>
+    </div>
 </div>
 
 <hr>

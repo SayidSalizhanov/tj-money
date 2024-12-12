@@ -40,6 +40,15 @@ public class TransactionService {
 
     public List<Map<String, Integer>> getUserTransactionsGenerals(int userId) {
         List<Transaction> transactions = getUserTransactions(userId);
+        return getTransactionsGeneralsMaps(transactions);
+    }
+
+    public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId) {
+        List<Transaction> transactions = getGroupTransactions(groupId);
+        return getTransactionsGeneralsMaps(transactions);
+    }
+
+    private List<Map<String, Integer>> getTransactionsGeneralsMaps(List<Transaction> transactions) {
         Map<String, Integer> mapOfIncomeTransactions = new HashMap<>();
         Map<String, Integer> mapOfExpenseTransactions = new HashMap<>();
 
