@@ -62,11 +62,12 @@ public class UserSettingsServlet extends HttpServlet {
 
     private void putUserSettings(int userId, String username, String telegramId, boolean sendingToTelegram, boolean sendingToEmail, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            User user = userService.getUserById(userId);
-            userService.update(userId, user, username, telegramId, sendingToTelegram, sendingToEmail);
+            userService.update(userId, username, telegramId, sendingToTelegram, sendingToEmail);
             resp.sendRedirect("/user");
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute("user", userService.getUserById(userId));
+            req.setAttribute("userId", userId);
             req.getRequestDispatcher("/templates/users/settings.jsp").forward(req, resp);
         }
     }

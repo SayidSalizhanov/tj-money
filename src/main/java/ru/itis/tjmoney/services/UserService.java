@@ -25,14 +25,20 @@ public class UserService {
         return user;
     }
 
-    public void update(int userId, User oldUser, String username, String telegramId, boolean sendingToTelegram, boolean sendingToEmail) {
+    public void update(int userId, String username, String telegramId, boolean sendingToTelegram, boolean sendingToEmail) {
+        User oldUser = getUserById(userId);
         if (userDAO.findByUsername(username) != null && !oldUser.getUsername().equals(username)) throw new UpdateException("Пользователь с таким именем уже существует");
 
         if (telegramId.isEmpty()) userDAO.update(new User(userId, username, null, null, null, sendingToTelegram, sendingToEmail));
         else userDAO.update(new User(userId, username, null, null, telegramId, sendingToTelegram, sendingToEmail));
     }
 
-    public void changePassword(String newPassword, int userId) {
+    public void changePassword(String oldPassword, String newPassword, String repeatPassword, int userId) {
+        String currentPassword = getUserById(userId).getPassword();
+
+        if (!PasswordUtil.encrypt(oldPassword).equalsIgnoreCase(currentPassword)) throw new UpdateException("Неверный старый пароль");
+        if (!newPassword.equals(repeatPassword)) throw new UpdateException("Новые пароли не совпадают");
+
         userDAO.updatePassword(PasswordUtil.encrypt(newPassword), userId);
     }
 

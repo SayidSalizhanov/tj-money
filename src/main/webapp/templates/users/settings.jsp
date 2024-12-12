@@ -33,6 +33,10 @@
                 <input type="checkbox" id="sendingToEmail" name="sendingToEmail">
             </div>
 
+            <c:if test="${not empty errorMessage}">
+                <span style="color:red;">${errorMessage}</span><br>
+            </c:if>
+
             <button type="submit" class="save-button">Сохранить изменения</button>
         </form>
 

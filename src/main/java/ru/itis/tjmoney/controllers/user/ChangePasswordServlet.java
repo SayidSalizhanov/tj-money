@@ -40,25 +40,16 @@ public class ChangePasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = (Integer) req.getSession().getAttribute("userId");
-        String currentPassword = userService.getUserById(userId).getPassword();
-
         String oldPassword = req.getParameter("oldPassword");
-        if (!PasswordUtil.encrypt(oldPassword).equalsIgnoreCase(currentPassword)) {
-            req.setAttribute("errorMessage", "Неверный старый пароль");
-            req.getRequestDispatcher("/templates/users/changePassword.jsp").forward(req, resp);
-            return;
-        }
-
         String newPassword = req.getParameter("newPassword");
         String repeatPassword = req.getParameter("repeatPassword");
 
-        if (!newPassword.equals(repeatPassword)) {
-            req.setAttribute("errorMessage", "Новые пароли не совпадают");
+        try {
+            userService.changePassword(oldPassword, newPassword, repeatPassword, userId);
+            resp.sendRedirect("/user");
+        } catch (UpdateException e) {
+            req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/templates/users/changePassword.jsp").forward(req, resp);
-            return;
         }
-
-        userService.changePassword(newPassword, userId);
-        resp.sendRedirect("/user");
     }
 }

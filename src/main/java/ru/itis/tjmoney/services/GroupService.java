@@ -4,6 +4,7 @@ import ru.itis.tjmoney.dao.GroupDAO;
 import ru.itis.tjmoney.dao.GroupMemberDAO;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.dto.UserGroupDTO;
+import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.models.Group;
 import ru.itis.tjmoney.models.GroupMember;
 
@@ -50,6 +51,10 @@ public class GroupService {
         return groupDAO.findById(groupId);
     }
 
+    public Group getGroupByName(String name) {
+        return groupDAO.findByName(name);
+    }
+
     public List<Group> getAllGroups() {
         return groupDAO.findAll();
     }
@@ -71,6 +76,9 @@ public class GroupService {
     }
 
     public void update(int groupId, String name, String description) {
+        Group oldGroup = getGroupById(groupId);
+        if (groupDAO.findByName(name) != null && !oldGroup.getName().equals(name)) throw new UpdateException("Группа с таким именем уже существует");
+
         groupDAO.update(
                 new Group(
                         groupId,
@@ -79,8 +87,6 @@ public class GroupService {
                         description
                 )
         );
-
-        // todo написать проверку на данные
     }
 
     public void delete(int groupId) {

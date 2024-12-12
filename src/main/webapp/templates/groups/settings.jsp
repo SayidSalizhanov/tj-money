@@ -17,6 +17,10 @@
     <label for="description">Описание:</label>
     <textarea type="text" id="description" name="description">${group.getDescription()}</textarea><br><br>
 
+    <c:if test="${not empty errorMessage}">
+        <span style="color:red;">${errorMessage}</span><br>
+    </c:if>
+
     <button type="submit">Сохранить изменения</button>
 </form>
 

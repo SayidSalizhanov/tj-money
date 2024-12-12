@@ -76,6 +76,9 @@ public class GroupSettingsServlet extends HttpServlet {
             resp.sendRedirect("/group?groupId=%d".formatted(groupId));
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute("group", groupService.getGroupById(groupId));
+            req.setAttribute("groupId", groupId);
+            req.setAttribute("userId", userId);
             req.getRequestDispatcher("/templates/groups/settings.jsp").forward(req, resp);
         }
     }
