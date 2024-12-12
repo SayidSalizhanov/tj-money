@@ -3,12 +3,14 @@ package ru.itis.tjmoney.services;
 import ru.itis.tjmoney.dao.GroupDAO;
 import ru.itis.tjmoney.dao.GroupMemberDAO;
 import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dto.GroupDTO;
 import ru.itis.tjmoney.dto.UserGroupDTO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.models.Group;
 import ru.itis.tjmoney.models.GroupMember;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,17 @@ public class GroupService {
 
     public Group getGroupById(int groupId) {
         return groupDAO.findById(groupId);
+    }
+
+    public GroupDTO getGroupDTOById(int groupId) {
+        Group group = getGroupById(groupId);
+
+        return new GroupDTO(
+                group.getId(),
+                group.getName(),
+                group.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                group.getDescription()
+        );
     }
 
     public Group getGroupByName(String name) {

@@ -20,10 +20,10 @@
             <input type="text" id="title" name="title" value="${record.getTitle()}" required><br><br>
 
             <label for="createdAt">Создана:</label><br>
-            <p id="createdAt">${record.getCreatedAt().toString()}</p><br>
+            <p id="createdAt">${record.getCreatedAt()}</p><br>
 
             <label for="updatedAt">Изменена:</label><br>
-            <p id="updatedAt">${record.getUpdatedAt().toString()}</p><br>
+            <p id="updatedAt">${record.getUpdatedAt()}</p><br>
 
             <label for="content">Содержание:</label><br>
             <textarea id="content" name="content" required>${record.getContent()}</textarea><br><br>

@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ApplicationGroupDTO {
-    private int id;
-    private String groupName;
-    private String sendAt;
-    private String status;
+public class RecordDTO {
+    private String title;
+    private String content;
+    private String createdAt;
+    private String updatedAt;
 }

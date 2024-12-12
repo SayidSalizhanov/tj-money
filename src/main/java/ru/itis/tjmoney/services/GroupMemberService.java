@@ -7,6 +7,7 @@ import ru.itis.tjmoney.exceptions.GroupMemberNotFoundException;
 import ru.itis.tjmoney.models.GroupMember;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class GroupMemberService {
@@ -28,7 +29,11 @@ public class GroupMemberService {
 
     public List<GroupMemberDTO> getMembersDTO(int groupId) {
         return getMembersByGroupId(groupId).stream()
-                .map(m -> new GroupMemberDTO(userDAO.findById(m.getUserId()).getUsername(), m.getJoinedAt().toString(), m.getRole()))
+                .map(m -> new GroupMemberDTO(
+                        userDAO.findById(m.getUserId()).getUsername(),
+                        m.getJoinedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                        m.getRole()
+                ))
                 .toList();
     }
 

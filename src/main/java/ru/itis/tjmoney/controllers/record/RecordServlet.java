@@ -56,7 +56,7 @@ public class RecordServlet extends HttpServlet {
     }
 
     private void getRecordPage(int userId, int groupId, int recordId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("record", recordService.getRecord(recordId));
+        req.setAttribute("record", recordService.getRecordDTO(recordId));
         req.setAttribute("recordId", recordId);
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);

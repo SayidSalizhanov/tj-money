@@ -86,7 +86,7 @@
 
         <hr><br>
 
-        <form action="/user/logout" method="post">
+        <form action="/user" method="post">
             <button type="submit" class="logout-button">Выйти</button>
         </form>
     </div>

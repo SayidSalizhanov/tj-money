@@ -6,6 +6,7 @@ import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.models.Transaction;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,15 @@ public class TransactionService {
 
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
-                .map(t -> new TransactionDTO(t.getId(), t.getAmount(), t.getCategory(), t.getType(), userDAO.findById(t.getUserId()).getUsername(), t.getDescription(), t.getDateTime().toString()))
+                .map(t -> new TransactionDTO(
+                        t.getId(),
+                        t.getAmount(),
+                        t.getCategory(),
+                        t.getType(),
+                        userDAO.findById(t.getUserId()).getUsername(),
+                        t.getDescription(),
+                        t.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                ))
                 .toList();
     }
 
@@ -95,7 +104,7 @@ public class TransactionService {
                 transaction.getType(),
                 userDAO.findById(transaction.getUserId()).getUsername(),
                 transaction.getDescription(),
-                transaction.getDateTime().toString()
+                transaction.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         );
     }
 

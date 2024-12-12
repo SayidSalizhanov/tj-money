@@ -36,7 +36,7 @@ public class GroupViewingServlet extends HttpServlet {
     }
 
     private void getGroupViewing(int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("group", groupService.getGroupById(groupId));
+        req.setAttribute("group", groupService.getGroupDTOById(groupId));
         req.setAttribute("membersCount", groupMemberService.getMembersByGroupId(groupId).size());
         req.setAttribute("admin", groupService.getAdminUsername(groupId));
         req.getRequestDispatcher("/templates/groups/groupViewing.jsp").forward(req, resp);

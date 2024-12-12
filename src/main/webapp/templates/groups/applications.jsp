@@ -7,28 +7,6 @@
 </head>
 <body>
 
-<%--<div>--%>
-<%--    <label>Период:</label>--%>
-<%--    <input type="radio" name="period" value="за месяц" checked> за месяц--%>
-<%--    <input type="radio" name="period" value="за год"> за год<br><br>--%>
-
-<%--    <label>Категория:</label>--%>
-<%--    <select name="category">--%>
-<%--        <option value="все" selected>все</option>--%>
-<%--        <option value="категория1">Категория 1</option>--%>
-<%--        <option value="категория2">Категория 2</option>--%>
-<%--    </select>--%>
-<%--    <br><br>--%>
-
-<%--    <label>Тип:</label>--%>
-<%--    <select name="type">--%>
-<%--        <option value="все" selected>все</option>--%>
-<%--        <option value="доход">Доход</option>--%>
-<%--        <option value="расход">Расход</option>--%>
-<%--    </select>--%>
-<%--    <br><br>--%>
-<%--</div>--%>
-
 <div>
     <c:forEach var="application" items="${applications}">
         <div>

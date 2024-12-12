@@ -35,7 +35,7 @@ public class GroupServlet extends HttpServlet {
         int userId = (Integer) req.getSession().getAttribute("userId");
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
-        req.setAttribute("group", groupService.getGroupById(groupId));
+        req.setAttribute("group", groupService.getGroupDTOById(groupId));
 
         List<Map<String, Integer>> transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId);
 

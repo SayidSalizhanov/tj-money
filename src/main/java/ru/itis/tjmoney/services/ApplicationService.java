@@ -8,6 +8,7 @@ import ru.itis.tjmoney.dto.ApplicationUserDTO;
 import ru.itis.tjmoney.models.Application;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ApplicationService {
                     new ApplicationGroupDTO(
                             application.getId(),
                             groupDAO.findById(application.getGroupId()).getName(),
-                            application.getSendAt(),
+                            application.getSendAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                             application.getStatus()
                     )
             );
@@ -51,7 +52,7 @@ public class ApplicationService {
                     new ApplicationUserDTO(
                             String.valueOf(application.getId()),
                             userDAO.findById(application.getUserId()).getUsername(),
-                            application.getSendAt().toString()
+                            application.getSendAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
             );
         }
