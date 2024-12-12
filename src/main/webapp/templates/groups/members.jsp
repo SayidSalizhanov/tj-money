@@ -1,20 +1,27 @@
 <%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
-    <title>Members</title>
+    <meta charset="UTF-8">
+    <title>Участники группы</title>
+    <link rel="stylesheet" href="/css/group/members.css">
 </head>
 <body>
 
-<div>
-    <c:forEach var="member" items="${members}">
-        <div>
-            <p>Пользователь: ${member.getUsername()}</p>
-            <p>Дата присоединения: ${member.getJoinedAt()}</p>
-            <p>Роль: ${member.getRole()}</p>
+<div class="content-wrapper">
+    <div class="content">
+        <h2>Участники группы</h2>
+        <div class="members-list">
+            <c:forEach var="member" items="${members}">
+                <div class="member">
+                    <p><strong>Пользователь:</strong> ${member.getUsername()}</p>
+                    <p><strong>Дата присоединения:</strong> ${member.getJoinedAt()}</p>
+                    <p><strong>Роль:</strong> ${member.getRole()}</p>
+                </div>
+            </c:forEach>
         </div>
-    </c:forEach>
+    </div>
 </div>
 
 </body>
