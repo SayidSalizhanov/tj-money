@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/mainPage.css">
 </head>
 <body>
-<h1>Articles</h1>
+<h1>Статьи</h1>
 <c:forEach var="article" items="${articles}">
     <div class="article">
         <h2>${article.getTitle()}</h2>

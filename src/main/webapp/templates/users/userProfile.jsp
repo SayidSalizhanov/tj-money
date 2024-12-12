@@ -14,8 +14,8 @@
         <div class="info">
             <h2>Информация о пользователе</h2>
             <p><strong>ID:</strong> ${user.getId()}</p>
-            <p><strong>Username:</strong> ${user.getUsername()}</p>
-            <p><strong>Email:</strong> ${user.getEmail()}</p>
+            <p><strong>Имя пользователя:</strong> ${user.getUsername()}</p>
+            <p><strong>Почта:</strong> ${user.getEmail()}</p>
             <c:if test="${user.getTelegramId() == null}">
                 <p><strong>Telegram:</strong> отсутствует</p>
             </c:if>

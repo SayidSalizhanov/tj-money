@@ -14,7 +14,7 @@
             <input type="hidden" name="_method" value="PUT">
 
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Имя пользователя:</label>
                 <input type="text" id="username" name="username" value="${user.getUsername()}">
             </div>
 
