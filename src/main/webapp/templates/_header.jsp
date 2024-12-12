@@ -15,11 +15,11 @@
     <nav>
         <ul class="centered-menu">
             <li><a href="/mainPage">Главная</a></li>
-            <li><a href="/calculations">Вычисления</a></li>
+            <li><a href="https://kaktotak.by/kalkuliatory" target="_blank">Вычисления</a></li>
             <li><a href="/aboutUs">О нас</a></li>
         </ul>
         <ul>
-            <li><a href="/user">Профиль</a></li> <!-- Профиль будет справа -->
+            <li><a href="/user">Профиль</a></li>
         </ul>
     </nav>
 </header>

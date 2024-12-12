@@ -12,6 +12,7 @@ body {
 h1 {
     padding: 20px; /* Add padding specifically to the heading */
     margin: 0;
+    text-align: center;
 }
 
 .article {
