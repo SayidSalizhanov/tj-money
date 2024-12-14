@@ -13,7 +13,7 @@
     <form action="/transactions/new" method="post" class="transaction-form">
         <div class="form">
             <label for="amount">Стоимость:</label><br>
-            <input type="text" id="amount" name="amount" required><br><br>
+            <input type="number" id="amount" name="amount" required><br><br>
 
             <label for="type">Тип:</label><br>
             <select id="type" name="type" required>

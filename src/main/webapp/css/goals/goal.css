@@ -38,7 +38,7 @@ label {
     width: 100%;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="number"], textarea {
     width: 100%;
     padding: 10px;
     margin-top: 5px;

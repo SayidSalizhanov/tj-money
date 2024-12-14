@@ -15,7 +15,7 @@
             <input type="text" id="title" name="title" required><br><br>
 
             <label for="progress">Прогресс:</label><br>
-            <input type="text" id="progress" name="progress" required><br><br>
+            <input type="number" id="progress" name="progress" min="0" max="100" required><br><br>
 
             <label for="description">Содержание:</label><br>
             <textarea id="description" name="description" required></textarea><br><br>

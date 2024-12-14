@@ -17,7 +17,7 @@
             <input type="hidden" name="transactionId" value="${transactionId}">
 
             <label for="amount">Стоимость:</label><br>
-            <input type="text" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
+            <input type="number" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
 
             <label for="type">Тип:</label><br>
             <p id="type">${transaction.getType()}</p><br>
