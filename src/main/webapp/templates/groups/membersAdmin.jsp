@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Администратор участников</title>
     <link rel="stylesheet" href="/css/group/membersAdmin.css">
+    <script src="/js/group/deleteMembers.js" defer></script>
 </head>
 <body>
 
@@ -24,12 +25,12 @@
                     <p><strong>Дата присоединения:</strong> ${member.getJoinedAt()}</p>
                     <p><strong>Роль:</strong> ${member.getRole()}</p>
                     <c:if test="${member.getRole() == 'USER'}">
-                        <form action="/group/members" method="post" class="delete-form">
+                        <form action="/group/members" method="post" class="delete-form" id="delete-form-${member.getUsername()}">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="username" value="${member.getUsername()}">
                             <input type="hidden" name="userId" value="${userId}">
                             <input type="hidden" name="groupId" value="${groupId}">
-                            <button type="submit" class="delete-button">Удалить</button>
+                            <button type="submit" class="delete-button" id="delete-button-${member.getUsername()}">Удалить</button>
                         </form>
                     </c:if>
                 </div>

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Заявки на участие</title>
     <link rel="stylesheet" href="/css/group/applications.css">
+    <script src="/js/group/adminApplications.js" defer></script>
 </head>
 <body>
 
@@ -17,19 +18,19 @@
                 <div class="application">
                     <p><strong>Пользователь:</strong> ${application.getUsername()}</p>
                     <p><strong>Дата:</strong> ${application.getSendAt()}</p>
-                    <form action="/group/applications" method="post" class="action-form">
+                    <form action="/group/applications" method="post" class="action-form" id="approve-form-${application.getApplicationId()}">
                         <input type="hidden" name="username" value="${application.getUsername()}">
                         <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
                         <input type="hidden" name="applicationStatus" value="Одобрено">
                         <input type="hidden" name="groupId" value="${groupId}">
-                        <button type="submit" class="approve-button">Принять</button>
+                        <button type="submit" class="approve-button" id="approve-button-${application.getApplicationId()}">Принять</button>
                     </form>
-                    <form action="/group/applications" method="post" class="action-form">
+                    <form action="/group/applications" method="post" class="action-form" id="reject-form-${application.getApplicationId()}">
                         <input type="hidden" name="username" value="${application.getUsername()}">
                         <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
                         <input type="hidden" name="applicationStatus" value="Отклонено">
                         <input type="hidden" name="groupId" value="${groupId}">
-                        <button type="submit" class="reject-button">Отклонить</button>
+                        <button type="submit" class="reject-button" id="reject-button-${application.getApplicationId()}">Отклонить</button>
                     </form>
                 </div>
             </c:forEach>

@@ -56,6 +56,5 @@ public class UserApplicationsServlet extends HttpServlet {
 
     private void deleteUserGroupApplication(int applicationId, int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         applicationService.deleteUserApplication(applicationId);
-        resp.sendRedirect("/user/applications");
     }
 }

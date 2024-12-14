@@ -26,7 +26,7 @@
                         </button>
                     </div>
                 </form>
-                <form action="/groups" method="post" class="apply-form" id="apply-button-${group.getId()}">
+                <form action="/groups" method="post" class="apply-form" id="apply-form-${group.getId()}">
                     <input type="hidden" name="groupId" value="${group.getId()}">
                     <button type="submit" class="apply-button" id="apply-button-${group.getId()}">Подать заявку</button>
                 </form>

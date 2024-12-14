@@ -97,7 +97,8 @@ html, body {
 }
 
 .apply-button.disabled {
-    background-color: #b1b1b1;
+    background-color: grey; !important;
     cursor: not-allowed;
+    pointer-events: none;
 }
 

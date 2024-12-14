@@ -7,6 +7,7 @@
     <title>Applications</title>
     <link rel="stylesheet" href="/css/user/userApplications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <script src="/js/user/deleteUserApplications.js" defer></script>
 </head>
 <body>
 
@@ -22,7 +23,7 @@
                 <form action="/user/applications" method="post" class="delete-form">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="applicationId" value="${application.getId()}">
-                    <button type="submit" class="delete-button">
+                    <button type="submit" class="delete-button" id="delete-button-${application.getId()}">
                         <i class="bi bi-trash"></i>
                     </button>
                 </form>
