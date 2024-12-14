@@ -90,3 +90,10 @@ create table Articles (
                           author varchar(50),
                           published_at timestamp
 );
+
+create table avatars(
+                        id serial primary key,
+                        user_id int,
+                        url varchar,
+                        foreign key (user_id) references users(id) on delete cascade
+);
