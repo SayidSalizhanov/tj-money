@@ -11,17 +11,22 @@
 
 <div class="content-wrapper">
     <div class="content">
-        <div class="info">
-            <h2>Информация о пользователе</h2>
-            <p><strong>ID:</strong> ${user.getId()}</p>
-            <p><strong>Имя пользователя:</strong> ${user.getUsername()}</p>
-            <p><strong>Почта:</strong> ${user.getEmail()}</p>
-            <c:if test="${user.getTelegramId() == null}">
-                <p><strong>Telegram:</strong> отсутствует</p>
-            </c:if>
-            <c:if test="${user.getTelegramId() != null}">
-                <p><strong>Telegram:</strong> ${user.getTelegramId()}</p>
-            </c:if>
+        <div class="info-avatar">
+            <div class="info">
+                <h2>Информация о пользователе</h2>
+                <p><strong>ID:</strong> ${user.getId()}</p>
+                <p><strong>Имя пользователя:</strong> ${user.getUsername()}</p>
+                <p><strong>Почта:</strong> ${user.getEmail()}</p>
+                <c:if test="${user.getTelegramId() == null}">
+                    <p><strong>Telegram:</strong> отсутствует</p>
+                </c:if>
+                <c:if test="${user.getTelegramId() != null}">
+                    <p><strong>Telegram:</strong> ${user.getTelegramId()}</p>
+                </c:if>
+            </div>
+            <div class="avatar">
+                <img src="${urlPhoto}" alt="Avatar" class="rounded-circle" width="200" height="200">
+            </div>
         </div>
 
         <div class="button-group">

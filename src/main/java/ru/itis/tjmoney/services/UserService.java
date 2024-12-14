@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.services;
 
+import ru.itis.tjmoney.dao.AvatarDAO;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.exceptions.UserNotFoundException;
@@ -8,9 +9,11 @@ import ru.itis.tjmoney.util.PasswordUtil;
 
 public class UserService {
     private final UserDAO userDAO;
+    private final AvatarDAO avatarDAO;
 
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, AvatarDAO avatarDAO) {
         this.userDAO = userDAO;
+        this.avatarDAO = avatarDAO;
     }
 
     public User getUserById(int id) {
@@ -44,5 +47,20 @@ public class UserService {
 
     public void delete(int userId) {
         userDAO.delete(userId);
+    }
+
+    public void uploadPhoto(int userId, String url) {
+        if (avatarDAO.findUrl(userId) == null) avatarDAO.save(userId, url);
+        else avatarDAO.update(userId, url);
+    }
+
+    public String getPhotoUrl(int userId) {
+        String url = avatarDAO.findUrl(userId);
+        if (url == null) return "/static/defaultAvatar.png";
+        return url;
+    }
+
+    public void deletePhoto(int userId) {
+        avatarDAO.delete(userId);
     }
 }

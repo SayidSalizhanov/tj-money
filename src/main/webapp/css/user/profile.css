@@ -40,6 +40,13 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.info-avatar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 h2 {
     color: #333;
 }
@@ -112,4 +119,12 @@ strong {
 .button-group form {
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+.avatar {
+    margin-left: 20px;
+}
+
+.rounded-circle {
+    border-radius: 5px;
 }

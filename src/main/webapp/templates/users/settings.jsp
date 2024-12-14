@@ -45,6 +45,10 @@
                 <button type="submit" class="small-button">Сменить пароль</button>
             </form>
 
+            <form action="/user/changeAvatar" method="GET" class="settings-form-inline">
+                <button type="submit" class="small-button photo-button">Сменить аватар</button>
+            </form>
+
             <form action="/user/settings" method="POST" class="settings-form-inline">
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" class="small-button delete-button">Удалить пользователя</button>

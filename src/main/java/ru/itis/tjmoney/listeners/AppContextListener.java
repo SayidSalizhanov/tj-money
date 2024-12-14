@@ -15,9 +15,10 @@ public class AppContextListener implements ServletContextListener {
         sce.getServletContext().setAttribute("articleService", articleService);
 
         UserDAO userDAO = new UserDAO();
+        AvatarDAO avatarDAO = new AvatarDAO();
         RegistrationService registrationService = new RegistrationService(userDAO);
         LoginService loginService = new LoginService(userDAO);
-        UserService userService = new UserService(userDAO);
+        UserService userService = new UserService(userDAO, avatarDAO);
         sce.getServletContext().setAttribute("registrationService", registrationService);
         sce.getServletContext().setAttribute("loginService", loginService);
         sce.getServletContext().setAttribute("userService", userService);

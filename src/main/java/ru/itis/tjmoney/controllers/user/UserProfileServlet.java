@@ -38,6 +38,7 @@ public class UserProfileServlet extends HttpServlet {
         List<Map<String, Integer>> transactionsGenerals = transactionService.getUserTransactionsGenerals(userId);
 
         req.setAttribute("user", userService.getUserById(userId));
+        req.setAttribute("urlPhoto", userService.getPhotoUrl(userId));
 
         req.setAttribute("income", transactionsGenerals.get(0).values().stream().mapToInt(Integer::intValue).sum());
         req.setAttribute("expense", transactionsGenerals.get(1).values().stream().mapToInt(Integer::intValue).sum());
