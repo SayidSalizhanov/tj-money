@@ -64,6 +64,7 @@ public class UserSettingsServlet extends HttpServlet {
         try {
             userService.update(userId, username, telegramId, sendingToTelegram, sendingToEmail);
             resp.sendRedirect("/user");
+            req.getSession().setAttribute("username", username);
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.setAttribute("user", userService.getUserById(userId));

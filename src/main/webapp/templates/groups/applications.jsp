@@ -20,14 +20,14 @@
                     <form action="/group/applications" method="post" class="action-form">
                         <input type="hidden" name="username" value="${application.getUsername()}">
                         <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
-                        <input type="hidden" name="applicationStatus" value="одобрено">
+                        <input type="hidden" name="applicationStatus" value="Одобрено">
                         <input type="hidden" name="groupId" value="${groupId}">
                         <button type="submit" class="approve-button">Принять</button>
                     </form>
                     <form action="/group/applications" method="post" class="action-form">
                         <input type="hidden" name="username" value="${application.getUsername()}">
                         <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
-                        <input type="hidden" name="applicationStatus" value="отклонено">
+                        <input type="hidden" name="applicationStatus" value="Отклонено">
                         <input type="hidden" name="groupId" value="${groupId}">
                         <button type="submit" class="reject-button">Отклонить</button>
                     </form>

@@ -1,11 +1,13 @@
 package ru.itis.tjmoney.services;
 
+import ru.itis.tjmoney.dao.ApplicationDAO;
 import ru.itis.tjmoney.dao.GroupDAO;
 import ru.itis.tjmoney.dao.GroupMemberDAO;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.dto.GroupDTO;
 import ru.itis.tjmoney.dto.UserGroupDTO;
 import ru.itis.tjmoney.exceptions.UpdateException;
+import ru.itis.tjmoney.models.Application;
 import ru.itis.tjmoney.models.Group;
 import ru.itis.tjmoney.models.GroupMember;
 
@@ -18,11 +20,13 @@ public class GroupService {
     private final UserDAO userDAO;
     private final GroupDAO groupDAO;
     private final GroupMemberDAO groupMemberDAO;
+    private final ApplicationDAO applicationDAO;
 
-    public GroupService(UserDAO userDAO, GroupDAO groupDAO, GroupMemberDAO groupMemberDAO) {
+    public GroupService(UserDAO userDAO, GroupDAO groupDAO, GroupMemberDAO groupMemberDAO, ApplicationDAO applicationDAO) {
         this.userDAO = userDAO;
         this.groupDAO = groupDAO;
         this.groupMemberDAO = groupMemberDAO;
+        this.applicationDAO = applicationDAO;
     }
 
     public List<UserGroupDTO> getUserGroupsDTOs(int userId) {
@@ -84,8 +88,17 @@ public class GroupService {
 
     public List<Group> getGroupsWhereUserNotJoined(int userId) {
         List<GroupMember> groupMembers = groupMemberDAO.findByUserId(userId);
-        List<Group> userGroups = groupMembers.stream().map(gm -> groupDAO.findById(gm.getGroupId())).toList();
-        return getAllGroups().stream().filter(g -> !userGroups.contains(g)).toList();
+        List<Group> userGroups = groupMembers.stream()
+                .map(gm -> groupDAO.findById(gm.getGroupId()))
+                .toList();
+        List<Integer> nonRejectedUserApplicationsGroupId = applicationDAO.findUserApplications(userId).stream()
+                .filter(a -> !a.getStatus().equalsIgnoreCase("Отклонено"))
+                .map(Application::getGroupId)
+                .toList();
+        return getAllGroups().stream()
+                .filter(g -> !userGroups.contains(g))
+                .filter(g -> !nonRejectedUserApplicationsGroupId.contains(g.getId()))
+                .toList();
     }
 
     public void update(int groupId, String name, String description) {

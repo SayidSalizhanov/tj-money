@@ -95,3 +95,9 @@ html, body {
 .apply-button:hover {
     background-color: #218838;
 }
+
+.apply-button.disabled {
+    background-color: #b1b1b1;
+    cursor: not-allowed;
+}
+

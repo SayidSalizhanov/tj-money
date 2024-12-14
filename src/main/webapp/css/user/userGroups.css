@@ -24,7 +24,7 @@ html, body {
 }
 
 .action-button {
-    background-color: #3c90a1;
+    background-color: #00819c;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -33,7 +33,7 @@ html, body {
 }
 
 .action-button:hover {
-    background-color: #004d80;
+    background-color: #005e9e;
 }
 
 .groups-list {

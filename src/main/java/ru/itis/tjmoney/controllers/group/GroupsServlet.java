@@ -55,6 +55,5 @@ public class GroupsServlet extends HttpServlet {
 
     private void postGroups(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         applicationService.createApplication(userId, groupId);
-        resp.sendRedirect("/groups");
     }
 }
