@@ -1,13 +1,18 @@
 package ru.itis.tjmoney.services;
 
+import ru.itis.tjmoney.dao.ApplicationDAO;
 import ru.itis.tjmoney.dao.GroupDAO;
 import ru.itis.tjmoney.dao.GroupMemberDAO;
 import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dto.GroupDTO;
 import ru.itis.tjmoney.dto.UserGroupDTO;
+import ru.itis.tjmoney.exceptions.UpdateException;
+import ru.itis.tjmoney.models.Application;
 import ru.itis.tjmoney.models.Group;
 import ru.itis.tjmoney.models.GroupMember;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +20,13 @@ public class GroupService {
     private final UserDAO userDAO;
     private final GroupDAO groupDAO;
     private final GroupMemberDAO groupMemberDAO;
+    private final ApplicationDAO applicationDAO;
 
-    public GroupService(UserDAO userDAO, GroupDAO groupDAO, GroupMemberDAO groupMemberDAO) {
+    public GroupService(UserDAO userDAO, GroupDAO groupDAO, GroupMemberDAO groupMemberDAO, ApplicationDAO applicationDAO) {
         this.userDAO = userDAO;
         this.groupDAO = groupDAO;
         this.groupMemberDAO = groupMemberDAO;
+        this.applicationDAO = applicationDAO;
     }
 
     public List<UserGroupDTO> getUserGroupsDTOs(int userId) {
@@ -50,6 +57,21 @@ public class GroupService {
         return groupDAO.findById(groupId);
     }
 
+    public GroupDTO getGroupDTOById(int groupId) {
+        Group group = getGroupById(groupId);
+
+        return new GroupDTO(
+                group.getId(),
+                group.getName(),
+                group.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                group.getDescription()
+        );
+    }
+
+    public Group getGroupByName(String name) {
+        return groupDAO.findByName(name);
+    }
+
     public List<Group> getAllGroups() {
         return groupDAO.findAll();
     }
@@ -57,7 +79,7 @@ public class GroupService {
     public String getAdminUsername(int groupId) {
         List<GroupMember> groupMembers = groupMemberDAO.findByGroupId(groupId);
         for (GroupMember groupMember : groupMembers) {
-            if (groupMember.getRole().equalsIgnoreCase("админ")) {
+            if (groupMember.getRole().equalsIgnoreCase("admin")) {
                 return userDAO.findById(groupMember.getUserId()).getUsername();
             }
         }
@@ -66,11 +88,23 @@ public class GroupService {
 
     public List<Group> getGroupsWhereUserNotJoined(int userId) {
         List<GroupMember> groupMembers = groupMemberDAO.findByUserId(userId);
-        List<Group> userGroups = groupMembers.stream().map(gm -> groupDAO.findById(gm.getGroupId())).toList();
-        return getAllGroups().stream().filter(g -> !userGroups.contains(g)).toList();
+        List<Group> userGroups = groupMembers.stream()
+                .map(gm -> groupDAO.findById(gm.getGroupId()))
+                .toList();
+        List<Integer> nonRejectedUserApplicationsGroupId = applicationDAO.findUserApplications(userId).stream()
+                .filter(a -> !a.getStatus().equalsIgnoreCase("Отклонено"))
+                .map(Application::getGroupId)
+                .toList();
+        return getAllGroups().stream()
+                .filter(g -> !userGroups.contains(g))
+                .filter(g -> !nonRejectedUserApplicationsGroupId.contains(g.getId()))
+                .toList();
     }
 
     public void update(int groupId, String name, String description) {
+        Group oldGroup = getGroupById(groupId);
+        if (groupDAO.findByName(name) != null && !oldGroup.getName().equals(name)) throw new UpdateException("Группа с таким именем уже существует");
+
         groupDAO.update(
                 new Group(
                         groupId,
@@ -79,8 +113,6 @@ public class GroupService {
                         description
                 )
         );
-
-        // todo написать проверку на данные
     }
 
     public void delete(int groupId) {

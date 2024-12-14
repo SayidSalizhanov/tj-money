@@ -8,7 +8,14 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/users/*", "/users", "/groups/*", "/groups"})
+@WebFilter(urlPatterns = {
+        "/user/*",
+        "/group/*", "/groups/*",
+        "/goal/*", "/goals/*",
+        "/record/*", "/records/*",
+        "/transaction/*", "/transactions/*",
+        "/reminder/*", "/reminders/*"
+})
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -27,8 +34,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         HttpSession session = httpServletRequest.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
+        if (session == null || session.getAttribute("login") == null) {
+            httpServletResponse.sendRedirect("/login");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

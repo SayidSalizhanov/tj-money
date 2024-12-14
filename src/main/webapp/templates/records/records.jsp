@@ -1,45 +1,36 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 11.11.2024
-  Time: 20:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Records</title>
+    <link rel="stylesheet" href="/css/records/records.css">
 </head>
 <body>
 
-<h3>Записи</h3>
+<div class="content">
+    <form action="/records/new" method="GET" class="create-record-form">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <button type="submit" class="create-button">Создать запись</button>
+    </form>
 
-<div class="sort">
-    <label>Сортировать:</label>
-    <input type="text" placeholder="Поиск...">
-    <select>
-        <option>Название</option>
-        <option>По алфавиту вверх</option>
-        <!-- Добавьте другие заглушки по мере необходимости -->
-    </select>
-    <button>Применить</button> <!-- Заглушка для применения сортировки -->
+    <div class="records-list">
+        <c:forEach var="record" items="${records}">
+            <form action="/record" method="get" class="record-form">
+                <div class="record">
+                    <input type="hidden" name="recordId" value="${record.getId()}">
+                    <input type="hidden" name="groupId" value="${groupId}">
+                    <button type="submit" class="record-button">
+                        <div class="record-details">
+                            <p>Название: ${record.getTitle()}</p>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </c:forEach>
+    </div>
 </div>
-
-<div>
-    <c:forEach var="record" items="${records}">
-        <div class="record">
-            <p><a href="/records/${record.getId()}">Название: ${record.getName()}</a></p>
-        </div>
-    </c:forEach>
-</div>
-
-<form action="/records/new" method="GET">
-    <input type="hidden" name="userId" value="${userId}">
-    <input type="hidden" name="groupId" value="${groupId}">
-
-    <button type="submit">Создать запись</button>
-</form>
 
 </body>
 </html>

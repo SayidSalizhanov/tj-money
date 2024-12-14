@@ -1,36 +1,31 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 08.11.2024
-  Time: 12:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>NewGoal</title>
+    <link rel="stylesheet" href="/css/goals/newGoal.css">
 </head>
 <body>
 
-<form action="/goals/new" method="post">
-    <div class="form">
-        <label for="title">Название:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+<div class="content">
+    <form action="/goals/new" method="post" class="goal-form">
+        <div class="form">
+            <label for="title">Название:</label><br>
+            <input type="text" id="title" name="title" required><br><br>
 
-        <label for="progress">Прогресс:</label><br>
-        <input type="text" id="progress" name="progress" required><br><br>
+            <label for="progress">Прогресс:</label><br>
+            <input type="number" id="progress" name="progress" min="0" max="100" required><br><br>
 
-        <label for="description">Содержание:</label><br>
-        <textarea id="description" name="description" required></textarea><br><br>
+            <label for="description">Содержание:</label><br>
+            <textarea id="description" name="description" required></textarea><br><br>
 
-        <input type="hidden" name="userId" value="${userId}">
-        <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="${groupId}">
 
-        <button type="submit" style="background-color: green; color: white;">Сохранить цель</button>
-    </div>
-</form>
-
-<button onclick="window.history.back();">← Назад</button>
+            <button type="submit" class="save-button">Сохранить цель</button>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

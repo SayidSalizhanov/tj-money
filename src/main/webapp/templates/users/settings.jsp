@@ -1,53 +1,57 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 04.11.2024
-  Time: 21:12
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
-    <title>Settings</title>
+    <meta charset="UTF-8">
+    <title>Настройки</title>
+    <link rel="stylesheet" href="/css/user/settings.css">
 </head>
 <body>
 
-<form action="/users/${userId}/settings" method="post">
-    <input type="hidden" name="_method" value="PUT">
+<div class="content-wrapper">
+    <div class="content">
+        <form action="/user/settings" method="post" class="settings-form">
+            <input type="hidden" name="_method" value="PUT">
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" value="${user.getUsername()}"><br><br>
+            <div class="form-group">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" name="username" value="${user.getUsername()}">
+            </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" value="${user.getPassword()}"><br><br>
+            <div class="form-group">
+                <label for="telegramId">Telegram:</label>
+                <input type="text" id="telegramId" name="telegramId" value="${user.getTelegramId()}">
+            </div>
 
-    <label for="newPassword">Новый пароль:</label>
-    <input type="password" id="newPassword" name="newPassword"><br><br>
+            <div class="form-group">
+                <label for="sendingToTelegram">Хотите получать напоминания и другую информацию через телеграмм бота?</label>
+                <input type="checkbox" id="sendingToTelegram" name="sendingToTelegram">
+            </div>
 
-    <label for="repeatPassword">Повторите пароль:</label>
-    <input type="password" id="repeatPassword" name="repeatPassword"><br><br>
+            <div class="form-group">
+                <label for="sendingToEmail">Хотите получать напоминания и другую информацию на почту?</label>
+                <input type="checkbox" id="sendingToEmail" name="sendingToEmail">
+            </div>
 
-    <button type="button">Сменить пароль</button><br><br>
+            <c:if test="${not empty errorMessage}">
+                <span style="color:red;">${errorMessage}</span><br>
+            </c:if>
 
-    <label for="telegramId">Telegram:</label>
-    <input type="text" id="telegramId" name="telegramId" value="${user.getTelegramId()}"><br><br>
+            <button type="submit" class="save-button">Сохранить изменения</button>
+        </form>
 
-    <p>Хотите получать напоминания и другую информацию через телеграмм бота?</p>
-    <input type="checkbox" id="sendingToTelegram" name="sendingToTelegram"><br>
+        <div class="button-group">
+            <form action="/user/changePassword" method="GET" class="settings-form-inline">
+                <button type="submit" class="small-button">Сменить пароль</button>
+            </form>
 
-    <p>Хотите получать напоминания и другую информацию на почту?</p>
-    <input type="checkbox" id="sendingToEmail" name="sendingToEmail"><br><br>
-
-    <button type="submit">Сохранить изменения</button>
-</form>
-
-<button type="button" onclick="window.history.back();">Назад</button>
-
-<form action="/users/${userId}/settings" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
-
-    <button type="submit">Удалить цель</button>
-</form>
+            <form action="/user/settings" method="POST" class="settings-form-inline">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="small-button delete-button">Удалить пользователя</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

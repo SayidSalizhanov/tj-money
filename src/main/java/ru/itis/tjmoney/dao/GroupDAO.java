@@ -11,6 +11,7 @@ import java.util.List;
 public class GroupDAO {
     private static final String FIND_ALL_SQL = "SELECT * FROM Groups";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Groups WHERE id = ?";
+    private static final String FIND_BY_NAME_SQL = "SELECT * FROM Groups WHERE name = ?";
     private static final String SAVE_SQL = "INSERT INTO Groups (name, created_at, description) VALUES (?, ?, ?)";
     private static final String UPDATE_SQL = "UPDATE Groups SET name = ?, description = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM Groups WHERE id = ?";
@@ -52,6 +53,16 @@ public class GroupDAO {
         return groups;
     }
 
+    public Group findByName(String name) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME_SQL)) {
+            statement.setString(1, name);
+            return getGroup(statement);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
+
     public Group findById(int groupId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL)) {
@@ -85,7 +96,9 @@ public class GroupDAO {
 
             statement.executeUpdate();
 
-            int id = statement.getGeneratedKeys().getInt(1);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            int id = resultSet.getInt(1);
 
             return new Group(id, group.getName(), group.getCreatedAt(), group.getDescription());
         } catch (SQLException e) {

@@ -82,7 +82,9 @@ public class GroupMemberDAO {
 
             statement.executeUpdate();
 
-            int id = statement.getGeneratedKeys().getInt(1);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            int id = resultSet.getInt(1);
 
             return new GroupMember(id, groupMember.getUserId(), groupMember.getGroupId(), groupMember.getJoinedAt(), groupMember.getRole());
         } catch (SQLException e) {

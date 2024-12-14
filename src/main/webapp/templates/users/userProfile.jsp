@@ -1,82 +1,95 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 04.11.2024
-  Time: 19:31
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
-    <title>Profile</title>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="/css/user/profile.css">
 </head>
 <body>
 
-<div class="info">
-    <p>id: ${user.getId()}</p>
-    <p>${user.getUsername()}</p>
-    <p>${user.getEmail()}</p>
-
-    <c:if test="${user.getTelegramId() == null}">
-        <p>telegram: отсутствует</p>
-    </c:if>
-
-    <c:if test="${user.getTelegramId() != null}">
-        <p>telegram: ${user.getTelegramId()}</p>
-    </c:if>
-</div>
-
-<div>
-    <form action="/users/${userId}/settings" method="GET">
-        <button type="submit">Настройки</button>
-    </form>
-
-    <form action="/users/${userId}/groups" method="GET">
-        <button type="submit">Группы</button>
-    </form>
-
-    <form action="/transactions?userId=${userId}" method="GET">
-        <button type="submit">Транзакции</button>
-    </form>
-</div>
-
-<hr>
-
-<div>
-    <c:forEach var="transaction" items="${transactions}">
-        <div>
-            <p>Финансы: ${transaction.getAmount()}</p>
-            <p>Дата: ${transaction.getDateTime()}</p>
-            <p>Категория: ${transaction.getCategory()}</p>
-            <p>Тип: ${transaction.getType()}</p>
+<div class="content-wrapper">
+    <div class="content">
+        <div class="info">
+            <h2>Информация о пользователе</h2>
+            <p><strong>ID:</strong> ${user.getId()}</p>
+            <p><strong>Имя пользователя:</strong> ${user.getUsername()}</p>
+            <p><strong>Почта:</strong> ${user.getEmail()}</p>
+            <c:if test="${user.getTelegramId() == null}">
+                <p><strong>Telegram:</strong> отсутствует</p>
+            </c:if>
+            <c:if test="${user.getTelegramId() != null}">
+                <p><strong>Telegram:</strong> ${user.getTelegramId()}</p>
+            </c:if>
         </div>
-    </c:forEach>
-</div>
 
-<hr>
+        <div class="button-group">
+            <form action="/user/settings" method="GET">
+                <button type="submit" class="nav-button">Настройки</button>
+            </form>
 
-<div>
-    <form action="/goals" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
-        <input type="hidden" name="groupId" value="${groupId}">
+            <form action="/user/groups" method="GET">
+                <button type="submit" class="nav-button">Группы</button>
+            </form>
 
-        <button type="submit">Цели</button>
-    </form>
+            <form action="/transactions" method="GET">
+                <button type="submit" class="nav-button">Транзакции</button>
+            </form>
+        </div>
 
-    <form action="/reminders" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
-        <input type="hidden" name="groupId" value="${groupId}">
+        <hr>
 
-        <button type="submit">Напоминания</button>
-    </form>
+        <div class="financial-section">
+            <div class="financial-info">
+                <h2>Доходы</h2>
+                <p><strong>Общий доход:</strong> ${income}</p>
+                <p><strong>Заработная плата:</strong> ${Заработная_плата}</p>
+                <p><strong>Прибыль от бизнеса:</strong> ${Прибыль_от_бизнеса}</p>
+                <p><strong>Дивиденты:</strong> ${Дивиденты}</p>
+                <p><strong>Аренда:</strong> ${Аренда}</p>
+                <p><strong>Премии и бонусы:</strong> ${Премии_и_бонусы}</p>
+                <p><strong>Интересы:</strong> ${Интересы}</p>
+                <p><strong>Пенсии и пособия:</strong> ${Пенсии_и_пособия}</p>
+                <p><strong>Другое:</strong> ${Другие_доходы}</p>
+            </div>
 
-    <form action="/records" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
-        <input type="hidden" name="groupId" value="${groupId}">
+            <div class="financial-info">
+                <h2>Расходы</h2>
+                <p><strong>Общие расходы:</strong> ${expense}</p>
+                <p><strong>Еда и напитки:</strong> ${Еда_и_напитки}</p>
+                <p><strong>Транспорт:</strong> ${Транспорт}</p>
+                <p><strong>Жилье:</strong> ${Жилье}</p>
+                <p><strong>Развлечения:</strong> ${Развлечения}</p>
+                <p><strong>Одежда:</strong> ${Одежда}</p>
+                <p><strong>Здоровье:</strong> ${Здоровье}</p>
+                <p><strong>Образование:</strong> ${Образование}</p>
+                <p><strong>Другое:</strong> ${Другие_расходы}</p>
+            </div>
+        </div>
 
-        <button type="submit">Записи</button>
-    </form>
+        <hr><br>
+
+        <div class="button-group">
+            <form action="/goals" method="GET">
+                <button type="submit" class="goal-button">Цели</button>
+            </form>
+
+            <form action="/reminders" method="GET">
+                <button type="submit" class="reminder-button">Напоминания</button>
+            </form>
+
+            <form action="/records" method="GET">
+                <button type="submit" class="record-button">Записи</button>
+            </form>
+        </div>
+
+        <hr><br>
+
+        <form action="/user" method="post">
+            <button type="submit" class="logout-button">Выйти</button>
+        </form>
+    </div>
 </div>
 
 </body>

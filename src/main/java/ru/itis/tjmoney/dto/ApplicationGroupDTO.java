@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class ApplicationGroupDTO {
     private int id;
     private String groupName;
-    private LocalDateTime sendAt;
+    private String sendAt;
     private String status;
 }

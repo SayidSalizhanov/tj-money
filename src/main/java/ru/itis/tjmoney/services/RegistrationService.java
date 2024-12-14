@@ -3,6 +3,7 @@ package ru.itis.tjmoney.services;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.exceptions.RegistrationException;
 import ru.itis.tjmoney.models.User;
+import ru.itis.tjmoney.util.PasswordUtil;
 
 public class RegistrationService {
     private final UserDAO userDAO;
@@ -22,7 +23,7 @@ public class RegistrationService {
             throw new RegistrationException("Введенные пароли не совпадают");
         }
 
-        User user = new User(0, username, email, password, null, false, false);
+        User user = new User(0, username, email, PasswordUtil.encrypt(password), null, false, false);
 
         return userDAO.save(user);
     }

@@ -1,27 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 11.11.2024
-  Time: 20:26
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>New Record</title>
+    <link rel="stylesheet" href="/css/records/newRecord.css">
 </head>
 <body>
-<form action="/records/new" method="post">
-    <label for="title">Название:</label>
-    <input type="text" id="title" name="title" required>
-    <br>
-    <label for="content">Содержание:</label>
-    <textarea id="content" name="content" required></textarea>
-    <br>
 
-    <input type="hidden" name="userId" value="${userId}">
-    <input type="hidden" name="groupId" value="${groupId}">
-    <button type="submit">Сохранить запись</button>
-</form>
+<div class="content">
+    <form action="/records/new" method="post" class="record-form">
+        <div class="form">
+            <label for="title">Название:</label><br>
+            <input type="text" id="title" name="title" required><br><br>
+
+            <label for="content">Содержание:</label><br>
+            <textarea id="content" name="content" required></textarea><br><br>
+
+            <input type="hidden" name="groupId" value="${groupId}">
+
+            <button type="submit" class="save-button">Сохранить запись</button>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

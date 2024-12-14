@@ -1,7 +1,6 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.ReminderDAO;
-import ru.itis.tjmoney.models.Goal;
 import ru.itis.tjmoney.models.Reminder;
 
 import java.time.LocalDateTime;
@@ -23,7 +22,7 @@ public class ReminderService {
     }
 
     public List<Reminder> getUserAndGroupReminders(int userId, int groupId) {
-        return groupId == 0 ? reminderDAO.findUserReminders(userId) : reminderDAO.findUserAndGroupReminders(userId, groupId);
+        return groupId == 0 ? reminderDAO.findUserReminders(userId) : reminderDAO.findGroupReminders(groupId);
     }
 
     public Reminder getReminder(int reminderId) {

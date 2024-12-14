@@ -1,40 +1,55 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Transaction</title>
+    <link rel="stylesheet" href="/css/transactions/transaction.css">
 </head>
 <body>
 
-<h3>Редактирование транзакции</h3>
+<div class="content">
+    <form action="/transaction" method="post" class="transaction-form">
+        <div class="form">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="transactionId" value="${transactionId}">
 
-<form action="/transactions/${transactionId}" method="post">
-    <div class="form">
-        <input type="hidden" name="_method" value="PUT">
+            <label for="amount">Стоимость:</label><br>
+            <input type="number" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
 
-        <label for="amount">Стоимость:</label><br>
-        <input type="text" id="amount" name="amount" value="${transaction.getAmount()}" required><br><br>
+            <label for="type">Тип:</label><br>
+            <p id="type">${transaction.getType()}</p><br>
+            <input type="hidden" name="type" value="${transaction.getType()}">
 
-        <label for="category">Категория:</label><br>
-        <input type="text" id="category" name="category" value="${transaction.getCategory()}" required><br><br>
+            <label for="category">Категория:</label><br>
+            <p id="category">${transaction.getCategory()}</p><br>
+            <input type="hidden" name="category" value="${transaction.getCategory()}">
 
-        <label for="type">Тип:</label><br>
-        <input type="text" id="type" name="type" value="${transaction.getType()}" required><br><br>
+            <label for="dateTime">Дата и время:</label><br>
+            <p id="dateTime">${transaction.getDateTime()}</p><br>
 
-        <label for="description">Описание:</label><br>
-        <textarea id="description" name="description" required>${transaction.getDescription()}</textarea><br><br>
+            <c:if test="${not empty ownerName}">
+                <label for="ownerName">Участник:</label><br>
+                <p id="ownerName">${ownerName}</p><br>
+            </c:if>
 
-        <button type="submit">Сохранить изменения</button>
-    </div>
-</form>
+            <label for="description">Описание:</label><br>
+            <textarea id="description" name="description" required>${transaction.getDescription()}</textarea><br><br>
 
-<form action="/transactions/${transactionId}" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="save-button">Сохранить изменения</button>
+        </div>
+    </form>
 
-    <button type="submit">Удалить транзакцию</button>
-</form>
+    <form action="/transaction" method="POST" class="delete-form">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="transactionId" value="${transactionId}">
 
-<button onclick="window.history.back();">← Назад</button>
+        <button type="submit" class="delete-button">Удалить транзакцию</button>
+    </form>
+</div>
 
 </body>
 </html>

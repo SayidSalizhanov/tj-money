@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -11,14 +11,14 @@ import ru.itis.tjmoney.services.RecordService;
 
 import java.io.IOException;
 
-@WebServlet("/records/*")
-public class RecordServlet extends HttpServlet {
+@WebServlet("/lkajfbpja")
+public class RecordServletPrototype extends HttpServlet {
     private RecordService recordService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        recordService = (RecordService) getServletContext().getAttribute("recordService");
         super.init(config);
+        recordService = (RecordService) getServletContext().getAttribute("recordService");
     }
 
     @Override

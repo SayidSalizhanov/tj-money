@@ -1,43 +1,41 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 08.11.2024
-  Time: 12:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Goal</title>
+    <link rel="stylesheet" href="/css/goals/goal.css">
 </head>
 <body>
 
-<h3>Редактирование Цели</h3>
+<div class="content">
+    <form action="/goal" method="POST" class="goal-form">
+        <div class="form">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="goalId" value="${goalId}">
 
-<form action="/goals/${goalId}" method="POST">
-    <div class="form">
-        <input type="hidden" name="_method" value="PUT">
+            <label for="title">Название:</label><br>
+            <input type="text" id="title" name="title" value="${goal.getTitle()}" required><br><br>
 
-        <label for="title">Название:</label><br>
-        <input type="text" id="title" name="title" value="${goal.getTitle()}" required><br><br>
+            <label for="progress">Прогресс:</label><br>
+            <input type="number" id="progress" name="progress" min="0" max="100" value="${goal.getProgress()}" required><br><br>
 
-        <label for="progress">Прогресс:</label><br>
-        <input type="text" id="progress" name="progress" value="${goal.getProgress()}" required><br><br>
+            <label for="description">Содержание:</label><br>
+            <textarea id="description" name="description" required>${goal.getDescription()}</textarea><br><br>
 
-        <label for="description">Содержание:</label><br>
-        <textarea id="description" name="description" required>${goal.getDescription()}</textarea><br><br>
+            <button type="submit" class="save-button">Сохранить изменения</button>
+        </div>
+    </form>
 
-        <button type="submit">Сохранить изменения</button>
-    </div>
-</form>
+    <form action="/goal" method="POST" class="delete-form">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="goalId" value="${goalId}">
 
-<form action="/goals/${goalId}" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
-
-    <button type="submit">Удалить цель</button>
-</form>
-
-<button onclick="window.history.back();">← Назад</button>
+        <button type="submit" class="delete-button">Удалить цель</button>
+    </form>
+</div>
 
 </body>
 </html>

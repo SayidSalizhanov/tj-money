@@ -1,45 +1,41 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sayid
-  Date: 11.11.2024
-  Time: 18:57
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Reminders</title>
+    <link rel="stylesheet" href="/css/reminders/reminders.css">
 </head>
 <body>
 
-<h3>Напоминания</h3>
+<div class="content">
+    <form action="/reminders/new" method="GET" class="create-reminder-form">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <button type="submit" class="create-button">Создать напоминание</button>
+    </form>
 
-<div class="sort">
-    <label>Сортировать:</label>
-    <input type="text" placeholder="Поиск...">
-    <select>
-        <option>Название</option>
-        <option>По алфавиту вверх</option>
-        <!-- Добавьте другие заглушки по мере необходимости -->
-    </select>
-    <button>Применить</button> <!-- Заглушка для применения сортировки -->
-</div>
-
-<div>
-    <c:forEach var="reminder" items="${reminders}">
-        <div class="reminder">
-            <a href="/reminders/${record.getId()}">
-                <div>
-                    <p>Название: ${transaction.getTitle()}</p>
-                    <p>Статус: ${transaction.getStatus()}</p>
+    <div class="reminders-list">
+        <c:forEach var="reminder" items="${reminders}">
+            <form action="/reminder" method="get" class="reminder-form">
+                <div class="reminder">
+                    <input type="hidden" name="reminderId" value="${reminder.getId()}">
+                    <input type="hidden" name="groupId" value="${groupId}">
+                    <button type="submit" class="reminder-button">
+                        <div class="reminder-details">
+                            <div class="left-column">
+                                <p>Название: ${reminder.getTitle()}</p>
+                            </div>
+                            <div class="right-column">
+                                <p>Статус: ${reminder.getStatus()}</p>
+                            </div>
+                        </div>
+                    </button>
                 </div>
-            </a>
-        </div>
-    </c:forEach>
+            </form>
+        </c:forEach>
+    </div>
 </div>
-
-<button onclick="window.location.href='/reminders/new?userId=${userId}&groupId=${groupId}'">Создать запись</button>
 
 </body>
 </html>

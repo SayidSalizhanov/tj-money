@@ -1,25 +1,49 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>UserGroups</title>
+    <link rel="stylesheet" href="/css/user/userGroups.css">
 </head>
 <body>
 
-<div>
-    <button class="button" onclick="location.href='/users/${userId}/groups/applications'">Мои заявки</button>
-    <button class="button" onclick="location.href='/groups/new'">Создать группу</button>
-    <button class="button" onclick="location.href='/groups'">Найти группу</button>
-</div>
-<div class="placeholder">Placeholder для сортировки и выборов</div>
-<div>
-    <c:forEach var="group" items="${userGroupsDTOs}">
-        <a href="/groups/${group.getGroupId()}" class="group-entry">
-            <div>Название: ${group.getGroupName()}</div>
-            <div>Описание: ${group.getDescription()}</div>
-            <div>Роль: ${group.getRole()}</div>
-        </a>
-    </c:forEach>
+<div class="content">
+    <div class="button-group">
+        <form action="/user/applications" method="GET">
+            <button type="submit" class="action-button">Мои заявки</button>
+        </form>
+
+        <form action="/groups/new" method="GET">
+            <button type="submit" class="action-button">Создать группу</button>
+        </form>
+
+        <form action="/groups" method="GET">
+            <button type="submit" class="action-button">Найти группу</button>
+        </form>
+    </div>
+
+    <div class="groups-list">
+        <c:forEach var="group" items="${userGroupsDTOs}">
+            <form action="/group" method="get" class="group-form">
+                <div class="group">
+                    <input type="hidden" name="groupId" value="${group.getGroupId()}">
+                    <button type="submit" class="group-button">
+                        <div class="group-details">
+                            <div class="left-column">
+                                <p>Название: ${group.getGroupName()}</p>
+                                <p>Роль: ${group.getRole()}</p>
+                            </div>
+                            <div class="right-column">
+                                <p>Описание: ${group.getDescription()}</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </c:forEach>
+    </div>
 </div>
 
 </body>

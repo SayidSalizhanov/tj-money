@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -7,18 +7,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.GoalService;
+import ru.itis.tjmoney.services.TransactionService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-@WebServlet("/goals/*")
-public class GoalServlet extends HttpServlet {
-    private GoalService goalService;
+@WebServlet("/dlknbkdn")
+public class TransactionServletPrototype extends HttpServlet {
+    private TransactionService transactionService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        goalService = (GoalService) getServletContext().getAttribute("goalService");
         super.init(config);
+        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
     }
 
     @Override
@@ -33,7 +35,7 @@ public class GoalServlet extends HttpServlet {
         else groupId = 0;
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            getGoalsRequest(userId, groupId, req, resp);
+            getTransactionsRequest(userId, groupId, req, resp);
             return;
         }
 
@@ -41,22 +43,29 @@ public class GoalServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            getGoalNew(userId, groupId, req, resp);
+            getTransactionNew(userId, groupId, req, resp);
         } else {
-            int goalId;
+            int transactionId;
             try {
-                goalId = Integer.parseInt(action);
+                transactionId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            getGoalPage(goalId, req, resp);
+            getTransactionPage(transactionId, req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getParameter("_method");
+        if ("DELETE".equals(method)) {
+            doDelete(req, resp);
+        } else if ("PUT".equals(method)) {
+            doPut(req, resp);
+        }
+
         String pathInfo = req.getPathInfo();
         String strUserId = req.getParameter("userId");
         String strGroupId = req.getParameter("groupId");
@@ -74,12 +83,14 @@ public class GoalServlet extends HttpServlet {
         String action = pathParts[1];
 
         if (action.equals("new")) {
-            postGoalNew(
+            postTransactionNew(
                     userId,
                     groupId,
-                    req.getParameter("title"),
+                    Integer.parseInt(req.getParameter("amount")),
+                    req.getParameter("category"),
+                    req.getParameter("type"),
+                    LocalDateTime.parse(req.getParameter("datetime"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")),
                     req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("progress")),
                     req,
                     resp
             );
@@ -107,20 +118,21 @@ public class GoalServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int goalId;
+            int transactionId;
             try {
-                goalId = Integer.parseInt(action);
+                transactionId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            putGoalPage(userId,
+            putTransactionPage(userId,
                     groupId,
-                    goalId,
-                    req.getParameter("title"),
+                    transactionId,
+                    Integer.parseInt(req.getParameter("amount")),
+                    req.getParameter("category"),
+                    req.getParameter("type"),
                     req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("progress")),
                     req,
                     resp
             );
@@ -148,57 +160,55 @@ public class GoalServlet extends HttpServlet {
         if (action.equals("new")) {
             req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
         } else {
-            int goalId;
+            int transactionId;
             try {
-                goalId = Integer.parseInt(action);
+                transactionId = Integer.parseInt(action);
             } catch (NumberFormatException e) {
                 req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
                 return;
             }
 
-            deleteGoalPage(userId, groupId, goalId, req, resp);
+            deleteTransactionPage(userId, groupId, transactionId, req, resp);
         }
     }
 
-    private void getGoalsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("goals", goalService.getUserAndGroupGoals(userId, groupId));
+    private void getTransactionsRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("transactions", transactionService.getUserAndGroupTransactionDTOs(userId, groupId));
+        req.getRequestDispatcher("templates/transactions/transactions.jsp").forward(req, resp);
+    }
+
+    private void getTransactionPage(int transactionId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("transaction", transactionService.getTransactionDTO(transactionId));
+        req.setAttribute("transactionId", transactionId);
+        req.getRequestDispatcher("templates/transactions/transaction.jsp").forward(req, resp);
+    }
+
+    private void getTransactionNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/transactions/newTransaction.jsp").forward(req, resp);
     }
 
-    private void getGoalPage(int goalId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("goal", goalService.getGoal(goalId));
-        req.setAttribute("goalId", goalId);
-        req.getRequestDispatcher("templates/goals/goal.jsp").forward(req, resp);
+    private void postTransactionNew(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        transactionService.save(userId, groupId, amount, category, type, date, description);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void getGoalNew(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("userId", userId);
-        req.setAttribute("groupId", groupId);
-        req.getRequestDispatcher("templates/goals/newGoal.jsp").forward(req, resp);
+    private void deleteTransactionPage(int userId, int groupId, int transactionId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        transactionService.delete(transactionId);
+        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId);
+        else resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId + "&groupId=" + groupId);
     }
 
-    private void postGoalNew(int userId, int groupId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        goalService.save(userId, groupId, title, description, progress);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
-    }
-
-    private void deleteGoalPage(int userId, int groupId, int goalId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        goalService.delete(goalId);
-        if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-        else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
-    }
-
-    private void putGoalPage(int userId, int groupId, int goalId, String title, String description, int progress, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void putTransactionPage(int userId, int groupId, int transactionId, int amount, String category, String type, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            goalService.update(title, description, progress, goalId);
-            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId);
-            else resp.sendRedirect(req.getContextPath() + "/goals?" + "userId=" + userId + "&groupId=" + groupId);
+            transactionService.update(amount, category, type, description, transactionId);
+            if (groupId == 0) resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId);
+            else resp.sendRedirect(req.getContextPath() + "/transactions?" + "userId=" + userId + "&groupId=" + groupId);
         } catch (UpdateException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/goals/goals.jsp").forward(req, resp);
+            req.getRequestDispatcher("templates/transactions/transactions.jsp").forward(req, resp);
         }
     }
 }

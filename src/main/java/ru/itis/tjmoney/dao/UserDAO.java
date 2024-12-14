@@ -14,8 +14,9 @@ public class UserDAO {
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Users (username, email, password, telegram_id, sending_to_telegram, sending_to_email) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE_SQL = "UPDATE Users SET username = ?, password = ?, telegram_id = ?, sending_to_telegram = ?, sending_to_email = ? WHERE user_id = ?";
-    private static final String DELETE_SQL = "DELETE FROM Users WHERE user_id = ?";
+    private static final String UPDATE_SQL = "UPDATE Users SET username = ?, telegram_id = ?, sending_to_telegram = ?, sending_to_email = ? WHERE id = ?";
+    private static final String UPDATE_PASSWORD_SQL = "UPDATE Users SET password = ? WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM Users WHERE id = ?";
 
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -102,7 +103,9 @@ public class UserDAO {
 
             statement.executeUpdate();
 
-            int id = statement.getGeneratedKeys().getInt(1);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            int id = resultSet.getInt(1);
 
             return new User(id, user.getUsername(), user.getEmail(), user.getPassword(), null, false, false);
         } catch (SQLException e) {
@@ -114,11 +117,22 @@ public class UserDAO {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedUser.getUsername());
-            statement.setString(2, updatedUser.getPassword());
-            statement.setString(3, updatedUser.getTelegramId());
-            statement.setBoolean(4, updatedUser.isSendingToTelegram());
-            statement.setBoolean(5, updatedUser.isSendingToEmail());
-            statement.setInt(6 ,updatedUser.getId());
+            statement.setString(2, updatedUser.getTelegramId());
+            statement.setBoolean(3, updatedUser.isSendingToTelegram());
+            statement.setBoolean(4, updatedUser.isSendingToEmail());
+            statement.setInt(5,updatedUser.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
+
+    public void updatePassword(String newPassword, int userId) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_SQL)) {
+            statement.setString(1, newPassword);
+            statement.setInt(2, userId);
 
             statement.executeUpdate();
         } catch (SQLException e) {

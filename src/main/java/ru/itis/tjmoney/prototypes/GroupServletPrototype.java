@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -13,8 +13,8 @@ import ru.itis.tjmoney.services.*;
 
 import java.io.IOException;
 
-@WebServlet("/groups/*")
-public class GroupServlet extends HttpServlet {
+@WebServlet("/ojkfnmm")
+public class GroupServletPrototype extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
     private GroupService groupService;
@@ -23,12 +23,12 @@ public class GroupServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
         groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
         groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
-        super.init(config);
     }
 
     @Override

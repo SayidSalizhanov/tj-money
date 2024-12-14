@@ -1,4 +1,4 @@
-package ru.itis.tjmoney.servlets;
+package ru.itis.tjmoney.prototypes;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.services.ApplicationService;
 import ru.itis.tjmoney.services.GroupService;
 import ru.itis.tjmoney.services.TransactionService;
@@ -14,8 +13,8 @@ import ru.itis.tjmoney.services.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/users/*")
-public class UserServlet extends HttpServlet {
+@WebServlet("/ladfkbka")
+public class UserServletPrototype extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
     private GroupService groupService;
@@ -23,20 +22,22 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
         groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
-        super.init(config);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+
+        System.out.println("first");
 
         String[] pathParts = pathInfo.split("/");
         String idStr = pathParts[1];
@@ -44,17 +45,23 @@ public class UserServlet extends HttpServlet {
         try {
             userId = Integer.parseInt(idStr);
         } catch (NumberFormatException e) {
-            req.getRequestDispatcher("templates/error.jsp").forward(req, resp);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+
+        System.out.println("second");
 
         String action = (pathParts.length > 2) ? pathParts[2] : null;
         String subAction = (pathParts.length > 3) ? pathParts[3] : null;
 
         if (action == null) {
+            System.out.println("before user");
             getUserRequest(userId, req, resp);
+            System.out.println("after user");
             return;
         }
+
+        System.out.println("third");
 
         switch (action) {
             case "settings":
@@ -142,15 +149,15 @@ public class UserServlet extends HttpServlet {
 
         switch (action) {
             case "settings":
-                putUserSettings(userId,
-                        req.getParameter("username"),
-                        req.getParameter("password"),
-                        req.getParameter("newPassword"),
-                        req.getParameter("repeatPassword"),
-                        req.getParameter("telegramId"),
-                        Boolean.parseBoolean(req.getParameter("sendingToTelegram")),
-                        Boolean.parseBoolean(req.getParameter("sendingToEmail")),
-                        req, resp);
+//                putUserSettings(userId,
+//                        req.getParameter("username"),
+//                        req.getParameter("password"),
+//                        req.getParameter("newPassword"),
+//                        req.getParameter("repeatPassword"),
+//                        req.getParameter("telegramId"),
+//                        Boolean.parseBoolean(req.getParameter("sendingToTelegram")),
+//                        Boolean.parseBoolean(req.getParameter("sendingToEmail")),
+//                        req, resp);
                 break;
             case "groups":
                 if (subAction == null) {
@@ -210,7 +217,7 @@ public class UserServlet extends HttpServlet {
         req.setAttribute("transactions", transactionService.getUserTransactions(userId));
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", 0);
-        req.getRequestDispatcher("templates/userProfile.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/templates/users/userProfile.jsp").forward(req, resp);
     }
 
     //=====
@@ -220,16 +227,16 @@ public class UserServlet extends HttpServlet {
         req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/users/userSettings.jsp").forward(req, resp);
     }
-
-    private void putUserSettings(int userId, String username, String password, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        try {
-            userService.update(userId, username, password, newPassword, repeatPassword, telegramId, sendingToTelegram, sendingToEmail);
-            resp.sendRedirect(req.getContextPath() + "/users/" + userId);
-        } catch (UpdateException e) {
-            req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/users/settings.jsp").forward(req, resp);
-        }
-    }
+//
+//    private void putUserSettings(int userId, String username, String password, String newPassword, String repeatPassword, String telegramId, boolean sendingToTelegram, boolean sendingToEmail, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+//        try {
+//            userService.update(userId, username, password, newPassword, repeatPassword, telegramId, sendingToTelegram, sendingToEmail);
+//            resp.sendRedirect(req.getContextPath() + "/users/" + userId);
+//        } catch (UpdateException e) {
+//            req.setAttribute("errorMessage", e.getMessage());
+//            req.getRequestDispatcher("templates/users/settings.jsp").forward(req, resp);
+//        }
+//    }
 
     private void deleteUserSettings(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         userService.delete(userId);

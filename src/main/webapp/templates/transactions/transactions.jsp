@@ -1,57 +1,47 @@
+<%@ include file="/templates/_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Transactions</title>
+    <link rel="stylesheet" href="/css/transactions/transactions.css">
 </head>
 <body>
 
-<div class="form">
-    <h3>Транзакции</h3>
+<div class="content">
+    <form action="/transactions/new" method="GET" class="create-transaction-form">
+        <input type="hidden" name="groupId" value="${groupId}">
+        <button type="submit" class="create-button">Создать транзакцию</button>
+    </form>
 
-    <div>
-        <label>Период:</label>
-        <input type="radio" name="period" value="за месяц" checked> за месяц
-        <input type="radio" name="period" value="за год"> за год<br><br>
-
-        <label>Категория:</label>
-        <select name="category">
-            <option value="все" selected>все</option>
-            <option value="категория1">Категория 1</option>
-            <option value="категория2">Категория 2</option>
-            <!-- Добавьте другие категории по мере необходимости -->
-        </select>
-        <br><br>
-
-        <label>Тип:</label>
-        <select name="type">
-            <option value="все" selected>все</option>
-            <option value="доход">Доход</option>
-            <option value="расход">Расход</option>
-            <!-- Добавьте другие типы по мере необходимости -->
-        </select>
-        <br><br>
-    </div>
-
-    <div>
+    <div class="transactions-list">
         <c:forEach var="transaction" items="${transactions}">
-            <a href="/transactions/${transaction.getId()}">
-                <div>
-                    <p>Финансы: ${transaction.getAmount()}</p>
-                    <p>Дата: ${transaction.getDateTime()}</p>
-                    <p>Категория: ${transaction.getCategory()}</p>
-                    <p>Тип: ${transaction.getType()}</p>
+            <form action="/transaction" method="get" class="transaction-form">
+                <div class="transaction">
+                    <input type="hidden" name="transactionId" value="${transaction.getTransactionId()}">
+                    <input type="hidden" name="groupId" value="${groupId}">
+                    <button type="submit" class="transaction-button">
+                        <div class="transaction-details">
+                            <div class="left-column">
+                                <c:if test="${groupId != 0}">
+                                    <p>Участник: ${transaction.getUsername()}</p>
+                                </c:if>
+                                <c:if test="${groupId == 0}">
+                                    <p>Финансы: ${transaction.getAmount()}</p>
+                                </c:if>
+                                <p>Дата: ${transaction.getDateTime().toString()}</p>
+                            </div>
+                            <div class="right-column">
+                                <p>Категория: ${transaction.getCategory()}</p>
+                                <p>Тип: ${transaction.getType()}</p>
+                            </div>
+                        </div>
+                    </button>
                 </div>
-            </a>
+            </form>
         </c:forEach>
     </div>
-
-    <form action="/transactions/new" method="GET">
-        <input type="hidden" name="userId" value="${userId}">
-        <input type="hidden" name="groupId" value="${groupId}">
-
-        <button type="submit">Создать транзакцию</button>
-    </form>
 </div>
 
 </body>

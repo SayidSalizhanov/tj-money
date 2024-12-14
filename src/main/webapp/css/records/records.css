@@ -1,0 +1,80 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('/static/background.png'); /* Указываем путь к изображению */
+    background-size: cover; /* Изображение будет покрывать всю страницу */
+    background-repeat: no-repeat; /* Изображение не будет повторяться */
+    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-position: center;
+    background-color: #f4f4f4;
+    font-size: 16px; /* Увеличение текста */
+}
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.create-record-form {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.create-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+}
+
+.records-list {
+    background-color: #f4f4f4; /* Основной цвет фона */
+    /*padding: 20px;*/
+    border-radius: 5px;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+}
+
+.record {
+    background-color: #fff; /* Установка белого фона для каждой записи */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Отступ между плашками */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.record-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.record-button {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.record-button:hover .record-details {
+    background-color: #f0f0f0;
+}
+
+.record-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; /* Увеличение размера плашек */
+    border-radius: 5px;
+}
+
+.record-details p {
+    margin: 10px 0; /* Увеличение расстояния между строками */
+    font-size: 18px; /* Увеличение текста */
+}

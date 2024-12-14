@@ -1,9 +1,11 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.RecordDAO;
+import ru.itis.tjmoney.dto.RecordDTO;
 import ru.itis.tjmoney.models.Record;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class RecordService {
@@ -22,11 +24,22 @@ public class RecordService {
     }
 
     public List<Record> getUserAndGroupRecords(int userId, int groupId) {
-        return groupId == 0 ? recordDAO.findUserRecords(userId) : recordDAO.findUserAndGroupRecords(userId, groupId);
+        return groupId == 0 ? recordDAO.findUserRecords(userId) : recordDAO.findGroupRecords(groupId);
     }
 
     public Record getRecord(int recordId) {
         return recordDAO.findRecordById(recordId);
+    }
+
+    public RecordDTO getRecordDTO(int recordId) {
+        Record record = getRecord(recordId);
+
+        return new RecordDTO(
+                record.getTitle(),
+                record.getContent(),
+                record.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                record.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
     }
 
     public void save(int userId, int groupId, String title, String content) {
