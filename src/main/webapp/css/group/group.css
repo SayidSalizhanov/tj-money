@@ -44,7 +44,7 @@ h2 {
     color: #333;
 }
 
-.info, .financial-info, .button-group {
+.info, .financial-info {
     margin-bottom: 20px;
 }
 
@@ -102,6 +102,11 @@ strong {
 
 .logout-button:hover {
     background-color: #c82333;
+}
+
+.button-group-wrapper {
+    display: flex;
+    justify-content: space-between;
 }
 
 .button-group {

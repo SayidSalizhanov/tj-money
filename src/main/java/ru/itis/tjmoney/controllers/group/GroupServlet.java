@@ -36,6 +36,7 @@ public class GroupServlet extends HttpServlet {
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         req.setAttribute("group", groupService.getGroupDTOById(groupId));
+        req.setAttribute("role", groupMemberService.getGroupMember(userId, groupId).getRole());
 
         List<Map<String, Integer>> transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId);
 
@@ -54,5 +55,14 @@ public class GroupServlet extends HttpServlet {
         req.setAttribute("groupId", groupId);
         req.setAttribute("userId", userId);
         req.getRequestDispatcher("/templates/groups/group.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int userId = (Integer) req.getSession().getAttribute("userId");
+        int groupId = Integer.parseInt(req.getParameter("groupId"));
+
+        groupMemberService.deleteByUserIdAndGroupId(userId, groupId);
+        resp.sendRedirect("/mainPage");
     }
 }

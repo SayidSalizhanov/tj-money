@@ -75,25 +75,25 @@
 
         <hr><br>
 
-        <div class="button-group">
-            <form action="/goals" method="GET">
-                <button type="submit" class="goal-button">Цели</button>
-            </form>
+        <div class="button-group-wrapper">
+            <div class="button-group">
+                <form action="/goals" method="GET">
+                    <button type="submit" class="goal-button">Цели</button>
+                </form>
 
-            <form action="/reminders" method="GET">
-                <button type="submit" class="reminder-button">Напоминания</button>
-            </form>
+                <form action="/reminders" method="GET">
+                    <button type="submit" class="reminder-button">Напоминания</button>
+                </form>
 
-            <form action="/records" method="GET">
-                <button type="submit" class="record-button">Записи</button>
+                <form action="/records" method="GET">
+                    <button type="submit" class="record-button">Записи</button>
+                </form>
+            </div>
+
+            <form action="/user" method="post">
+                <button type="submit" class="logout-button">Выйти</button>
             </form>
         </div>
-
-        <hr><br>
-
-        <form action="/user" method="post">
-            <button type="submit" class="logout-button">Выйти</button>
-        </form>
     </div>
 </div>
 

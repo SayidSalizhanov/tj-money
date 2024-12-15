@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.services;
 
+import ru.itis.tjmoney.dao.ApplicationDAO;
 import ru.itis.tjmoney.dao.GroupMemberDAO;
 import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.dto.GroupMemberDTO;
@@ -12,10 +13,12 @@ import java.util.List;
 
 public class GroupMemberService {
     private final GroupMemberDAO groupMemberDAO;
+    private final ApplicationDAO applicationDAO;
     private final UserDAO userDAO;
 
-    public GroupMemberService(GroupMemberDAO groupMemberDAO, UserDAO userDAO) {
+    public GroupMemberService(GroupMemberDAO groupMemberDAO, ApplicationDAO applicationDAO, UserDAO userDAO) {
         this.groupMemberDAO = groupMemberDAO;
+        this.applicationDAO = applicationDAO;
         this.userDAO = userDAO;
     }
 
@@ -59,5 +62,10 @@ public class GroupMemberService {
 
     public void delete(int id) {
         groupMemberDAO.delete(id);
+    }
+
+    public void deleteByUserIdAndGroupId(int userId, int groupId) {
+        groupMemberDAO.deleteByUserIdAndGroupId(userId, groupId);
+        applicationDAO.deleteByUserIdAndGroupId(userId, groupId);
     }
 }

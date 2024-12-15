@@ -17,11 +17,24 @@ public class GroupMemberDAO {
     private static final String FIND_GROUP_MEMBER_BY_USER_ID_AND_BY_GROUP_ID = "SELECT * FROM Group_Members WHERE user_id = ? AND group_id = ?";
     private static final String FIND_BY_ID_SQL = "SELECT FROM Group_Members WHERE id = ?";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM Group_Members WHERE id = ?";
+    private static final String DELETE_BY_USERID_BY_GROUPID_SQL = "DELETE FROM Group_Members WHERE user_id = ? AND group_id = ?";
 
     public void delete(int id) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+    }
+
+    public void deleteByUserIdAndGroupId(int userId, int groupId) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_USERID_BY_GROUPID_SQL)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, groupId);
 
             statement.executeUpdate();
         } catch (SQLException e) {

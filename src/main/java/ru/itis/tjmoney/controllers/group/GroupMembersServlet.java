@@ -73,6 +73,7 @@ public class GroupMembersServlet extends HttpServlet {
     }
 
     private void deleteGroupMembersAdmin(int userId, int groupId, String username, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        groupMemberService.delete(groupMemberService.getByUsernameAndGroupId(username, groupId).getId());
+//        groupMemberService.delete(groupMemberService.getByUsernameAndGroupId(username, groupId).getId());
+        groupMemberService.deleteByUserIdAndGroupId(userService.getByUsername(username).getId(), groupId);
     }
 }

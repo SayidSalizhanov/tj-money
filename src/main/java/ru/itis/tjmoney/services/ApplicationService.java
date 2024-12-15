@@ -61,7 +61,7 @@ public class ApplicationService {
     }
 
     public void deleteUserApplication(int id) {
-        applicationDAO.deleteApplicationByUserId(id);
+        applicationDAO.deleteApplicationById(id);
     }
 
     public void createApplication(int userId, int groupId) {
