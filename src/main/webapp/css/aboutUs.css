@@ -1,0 +1,60 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('/static/background.png'); /* Указываем путь к изображению */
+    background-size: cover; /* Изображение будет покрывать всю страницу */
+    background-repeat: no-repeat; /* Изображение не будет повторяться */
+    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-position: center;
+    background-color: #f4f4f4;
+    font-size: 16px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Сместим изображения вниз */
+    margin-top: 50px; /* Добавим отступ сверху */
+}
+
+.image-container {
+    margin: 0 40px;
+}
+
+.responsive-img1 {
+    width: 591px;
+    height: 200px;
+}
+
+.responsive-img2 {
+    width: 200px;
+    height: 200px;
+}
+
+.text {
+    text-align: center;
+    margin-top: 40px; /* Добавим отступ сверху */
+}
+
+.text p {
+    font-size: 30px;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto; /* Центрируем текст */
+    line-height: 1.5;
+}
