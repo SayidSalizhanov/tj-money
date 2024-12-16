@@ -14,14 +14,14 @@
         <div class="info-avatar">
             <div class="info">
                 <h2>Информация о пользователе</h2>
-                <p><strong>ID:</strong> ${user.getId()}</p>
-                <p><strong>Имя пользователя:</strong> ${user.getUsername()}</p>
-                <p><strong>Почта:</strong> ${user.getEmail()}</p>
-                <c:if test="${user.getTelegramId() == null}">
+                <p><strong>ID:</strong> ${user.id}</p>
+                <p><strong>Имя пользователя:</strong> ${user.username}</p>
+                <p><strong>Почта:</strong> ${user.email}</p>
+                <c:if test="${user.telegramId == null}">
                     <p><strong>Telegram:</strong> отсутствует</p>
                 </c:if>
-                <c:if test="${user.getTelegramId() != null}">
-                    <p><strong>Telegram:</strong> ${user.getTelegramId()}</p>
+                <c:if test="${user.telegramId != null}">
+                    <p><strong>Telegram:</strong> ${user.telegramId}</p>
                 </c:if>
             </div>
             <div class="avatar">

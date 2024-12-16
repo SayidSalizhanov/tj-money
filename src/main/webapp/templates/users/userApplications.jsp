@@ -16,14 +16,14 @@
         <c:forEach var="application" items="${applicationsDTOs}">
             <div class="application">
                 <div class="application-info">
-                    <p>Название: ${application.getGroupName()}</p>
-                    <p>Дата: ${application.getSendAt()}</p>
-                    <p>Статус: ${application.getStatus()}</p>
+                    <p>Название: ${application.groupName}</p>
+                    <p>Дата: ${application.sendAt}</p>
+                    <p>Статус: ${application.status}</p>
                 </div>
                 <form action="/user/applications" method="post" class="delete-form">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="applicationId" value="${application.getId()}">
-                    <button type="submit" class="delete-button" id="delete-button-${application.getId()}">
+                    <input type="hidden" name="applicationId" value="${application.id}">
+                    <button type="submit" class="delete-button" id="delete-button-${application.id}">
                         <i class="bi bi-trash"></i>
                     </button>
                 </form>

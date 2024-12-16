@@ -19,15 +19,15 @@
         <c:forEach var="goal" items="${goals}">
             <form action="/goal" method="get" class="goal-form">
                 <div class="goal">
-                    <input type="hidden" name="goalId" value="${goal.getId()}">
+                    <input type="hidden" name="goalId" value="${goal.id}">
                     <input type="hidden" name="groupId" value="${groupId}">
                     <button type="submit" class="goal-button">
                         <div class="goal-details">
                             <div class="left-column">
-                                <p>Название: ${goal.getTitle()}</p>
+                                <p>Название: ${goal.title}</p>
                             </div>
                             <div class="right-column">
-                                <p>Прогресс: ${goal.getProgress()}</p>
+                                <p>Прогресс: ${goal.progress}</p>
                             </div>
                         </div>
                     </button>

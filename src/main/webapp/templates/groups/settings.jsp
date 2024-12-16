@@ -18,12 +18,12 @@
 
             <div class="form-group">
                 <label for="name">Название группы:</label>
-                <input type="text" id="name" name="name" value="${group.getName()}">
+                <input type="text" id="name" name="name" value="${group.name}">
             </div>
 
             <div class="form-group">
                 <label for="description">Описание:</label>
-                <textarea id="description" name="description">${group.getDescription()}</textarea>
+                <textarea id="description" name="description">${group.description}</textarea>
             </div>
 
             <c:if test="${not empty errorMessage}">

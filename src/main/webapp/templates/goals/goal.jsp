@@ -16,13 +16,13 @@
             <input type="hidden" name="goalId" value="${goalId}">
 
             <label for="title">Название:</label><br>
-            <input type="text" id="title" name="title" value="${goal.getTitle()}" required><br><br>
+            <input type="text" id="title" name="title" value="${goal.title}" required><br><br>
 
             <label for="progress">Прогресс:</label><br>
-            <input type="number" id="progress" name="progress" min="0" max="100" value="${goal.getProgress()}" required><br><br>
+            <input type="number" id="progress" name="progress" min="0" max="100" value="${goal.progress}" required><br><br>
 
             <label for="description">Содержание:</label><br>
-            <textarea id="description" name="description" required>${goal.getDescription()}</textarea><br><br>
+            <textarea id="description" name="description" required>${goal.description}</textarea><br><br>
 
             <button type="submit" class="save-button">Сохранить изменения</button>
         </div>

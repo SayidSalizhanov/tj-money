@@ -15,12 +15,12 @@
 
             <div class="form-group">
                 <label for="username">Имя пользователя:</label>
-                <input type="text" id="username" name="username" value="${user.getUsername()}">
+                <input type="text" id="username" name="username" value="${user.username}">
             </div>
 
             <div class="form-group">
                 <label for="telegramId">Telegram:</label>
-                <input type="text" id="telegramId" name="telegramId" value="${user.getTelegramId()}">
+                <input type="text" id="telegramId" name="telegramId" value="${user.telegramId}">
             </div>
 
             <div class="form-group">

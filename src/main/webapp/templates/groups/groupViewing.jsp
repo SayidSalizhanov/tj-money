@@ -11,10 +11,10 @@
 <div class="content">
     <h1>Группа</h1>
     <div class="group-details">
-        <p><strong>id:</strong> ${group.getId()}</p>
-        <p><strong>Название:</strong> ${group.getName()}</p>
-        <p><strong>Создана:</strong> ${group.getCreatedAt()}</p>
-        <p><strong>Описание:</strong> ${group.getDescription()}</p>
+        <p><strong>id:</strong> ${group.id}</p>
+        <p><strong>Название:</strong> ${group.name}</p>
+        <p><strong>Создана:</strong> ${group.createdAt}</p>
+        <p><strong>Описание:</strong> ${group.description}</p>
         <p><strong>Количество участников:</strong> ${membersCount}</p>
         <p><strong>Админ:</strong> ${admin}</p>
     </div>

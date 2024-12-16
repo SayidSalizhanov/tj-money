@@ -13,10 +13,10 @@
     <div class="content">
         <div class="info">
             <h2>Информация о группе</h2>
-            <p><strong>ID:</strong> ${group.getId()}</p>
-            <p><strong>Название:</strong> ${group.getName()}</p>
-            <p><strong>Создана:</strong> ${group.getCreatedAt()}</p>
-            <p><strong>Описание:</strong> ${group.getDescription()}</p>
+            <p><strong>ID:</strong> ${group.id}</p>
+            <p><strong>Название:</strong> ${group.name}</p>
+            <p><strong>Создана:</strong> ${group.createdAt}</p>
+            <p><strong>Описание:</strong> ${group.description}</p>
         </div>
 
         <div class="button-group">

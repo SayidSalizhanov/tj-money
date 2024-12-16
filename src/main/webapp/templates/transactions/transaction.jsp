@@ -17,18 +17,18 @@
             <input type="hidden" name="transactionId" value="${transactionId}">
 
             <label for="amount">Стоимость:</label><br>
-            <input type="number" id="amount" name="amount" min="0" max="1000000" value="${transaction.getAmount()}" required><br><br>
+            <input type="number" id="amount" name="amount" min="0" max="1000000" value="${transaction.amount}" required><br><br>
 
             <label for="type">Тип:</label><br>
-            <p id="type">${transaction.getType()}</p><br>
-            <input type="hidden" name="type" value="${transaction.getType()}">
+            <p id="type">${transaction.type}</p><br>
+            <input type="hidden" name="type" value="${transaction.type}">
 
             <label for="category">Категория:</label><br>
-            <p id="category">${transaction.getCategory()}</p><br>
-            <input type="hidden" name="category" value="${transaction.getCategory()}">
+            <p id="category">${transaction.category}</p><br>
+            <input type="hidden" name="category" value="${transaction.category}">
 
             <label for="dateTime">Дата и время:</label><br>
-            <p id="dateTime">${transaction.getDateTime()}</p><br>
+            <p id="dateTime">${transaction.dateTime}</p><br>
 
             <c:if test="${not empty ownerName}">
                 <label for="ownerName">Участник:</label><br>
@@ -36,7 +36,7 @@
             </c:if>
 
             <label for="description">Описание:</label><br>
-            <textarea id="description" name="description" required>${transaction.getDescription()}</textarea><br><br>
+            <textarea id="description" name="description" required>${transaction.description}</textarea><br><br>
 
             <button type="submit" class="save-button">Сохранить изменения</button>
         </div>

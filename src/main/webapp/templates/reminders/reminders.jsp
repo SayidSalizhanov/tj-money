@@ -19,15 +19,15 @@
         <c:forEach var="reminder" items="${reminders}">
             <form action="/reminder" method="get" class="reminder-form">
                 <div class="reminder">
-                    <input type="hidden" name="reminderId" value="${reminder.getId()}">
+                    <input type="hidden" name="reminderId" value="${reminder.id}">
                     <input type="hidden" name="groupId" value="${groupId}">
                     <button type="submit" class="reminder-button">
                         <div class="reminder-details">
                             <div class="left-column">
-                                <p>Название: ${reminder.getTitle()}</p>
+                                <p>Название: ${reminder.title}</p>
                             </div>
                             <div class="right-column">
-                                <p>Статус: ${reminder.getStatus()}</p>
+                                <p>Статус: ${reminder.status}</p>
                             </div>
                         </div>
                     </button>

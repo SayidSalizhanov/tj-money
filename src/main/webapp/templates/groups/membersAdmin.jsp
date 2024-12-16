@@ -21,16 +21,16 @@
         <div class="members-list">
             <c:forEach var="member" items="${members}">
                 <div class="member">
-                    <p><strong>Пользователь:</strong> ${member.getUsername()}</p>
-                    <p><strong>Дата присоединения:</strong> ${member.getJoinedAt()}</p>
-                    <p><strong>Роль:</strong> ${member.getRole()}</p>
-                    <c:if test="${member.getRole() == 'USER'}">
-                        <form action="/group/members" method="post" class="delete-form" id="delete-form-${member.getUsername()}">
+                    <p><strong>Пользователь:</strong> ${member.username}</p>
+                    <p><strong>Дата присоединения:</strong> ${member.joinedAt}</p>
+                    <p><strong>Роль:</strong> ${member.role}</p>
+                    <c:if test="${member.role == 'USER'}">
+                        <form action="/group/members" method="post" class="delete-form" id="delete-form-${member.username}">
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="username" value="${member.getUsername()}">
+                            <input type="hidden" name="username" value="${member.username}">
                             <input type="hidden" name="userId" value="${userId}">
                             <input type="hidden" name="groupId" value="${groupId}">
-                            <button type="submit" class="delete-button" id="delete-button-${member.getUsername()}">Удалить</button>
+                            <button type="submit" class="delete-button" id="delete-button-${member.username}">Удалить</button>
                         </form>
                     </c:if>
                 </div>
