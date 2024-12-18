@@ -35,6 +35,13 @@
             <button type="submit" class="save-button">Сохранить</button>
         </div>
     </form>
+
+    <div class="upload-xls">
+        <form action="/uploadTransactions" method="get">
+            <input type="hidden" name="groupId" value="${groupId}">
+            <button type="submit" class="upload-button">Загрузить excel таблицу</button>
+        </form>
+    </div>
 </div>
 
 </body>

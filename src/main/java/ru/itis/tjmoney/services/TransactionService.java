@@ -1,10 +1,16 @@
 package ru.itis.tjmoney.services;
 
+import jakarta.servlet.http.Part;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.itis.tjmoney.dao.TransactionDAO;
 import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dto.ExcelParseTransactionDTO;
 import ru.itis.tjmoney.dto.TransactionDTO;
+import ru.itis.tjmoney.exceptions.ExcelParseException;
 import ru.itis.tjmoney.models.Transaction;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -127,7 +133,41 @@ public class TransactionService {
 
     public void update(int amount, String category, String type, String description, int id) {
         transactionDAO.update(new Transaction(id, 0, 0, amount, category, type, null, description));
+    }
 
-        // здесь должна быть какая-то проверка
+    public void parseExcelToTransactions(Part filePart, int userId, int groupId) {
+        String fileName = filePart.getSubmittedFileName();
+
+        List<ExcelParseTransactionDTO> transactionDTOs = new ArrayList<>();
+
+        if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
+            try (InputStream fis = filePart.getInputStream();
+                 XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+
+                var sheet = workbook.getSheetAt(0);
+
+                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                    Row row = sheet.getRow(i);
+                    if (row != null && row.getCell(0) != null) {
+                        int amount = (int) row.getCell(0).getNumericCellValue();
+                        if (amount > 1000000 || amount < 0) throw new ExcelParseException("Стоимость не должна превышать 1000000");
+                        String type = row.getCell(1).getStringCellValue();
+                        String category = row.getCell(2).getStringCellValue();
+                        LocalDateTime date = row.getCell(3).getLocalDateTimeCellValue();
+                        String description = row.getCell(4).getStringCellValue();
+
+                        transactionDTOs.add(new ExcelParseTransactionDTO(amount, type, category, date, description));
+                    }
+                }
+            } catch (Exception e) {
+                throw new ExcelParseException(e.getMessage());
+            }
+        } else {
+            throw new ExcelParseException("Тип файла не известен");
+        }
+
+        for (ExcelParseTransactionDTO dto : transactionDTOs) {
+            save(userId, groupId, dto.getAmount(), dto.getType(), dto.getCategory(), dto.getDate(), dto.getDescription());
+        }
     }
 }

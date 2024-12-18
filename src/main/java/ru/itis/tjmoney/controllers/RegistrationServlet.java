@@ -46,7 +46,7 @@ public class RegistrationServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/mainPage");
         } catch (RegistrationException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/templates/register.jsp").forward(req, resp);
         }
     }
 }
