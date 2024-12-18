@@ -9,9 +9,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import ru.itis.tjmoney.services.ApplicationService;
-import ru.itis.tjmoney.services.GroupService;
-import ru.itis.tjmoney.services.TransactionService;
 import ru.itis.tjmoney.services.UserService;
 import ru.itis.tjmoney.util.CloudinaryUtil;
 
@@ -26,18 +23,12 @@ import java.util.Map;
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024) // 5 MB
 public class ChangeAvatarServlet extends HttpServlet {
     private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
     private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
     }
 
     @Override

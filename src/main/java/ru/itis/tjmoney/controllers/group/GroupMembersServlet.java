@@ -14,18 +14,12 @@ import java.io.IOException;
 @WebServlet("/group/members")
 public class GroupMembersServlet extends HttpServlet {
     private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
     private GroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
         groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 

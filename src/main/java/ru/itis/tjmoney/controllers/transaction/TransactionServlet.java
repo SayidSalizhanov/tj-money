@@ -11,21 +11,18 @@ import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.models.GroupMember;
 import ru.itis.tjmoney.services.GroupMemberService;
 import ru.itis.tjmoney.services.TransactionService;
-import ru.itis.tjmoney.services.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/transaction")
 public class TransactionServlet extends HttpServlet {
     private TransactionService transactionService;
-    private UserService userService;
     private GroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        userService = (UserService) getServletContext().getAttribute("userService");
         groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 

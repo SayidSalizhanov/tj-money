@@ -14,8 +14,6 @@ import java.io.IOException;
 @WebServlet("/group/applications")
 public class GroupApplicationsServlet extends HttpServlet {
     private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
     private ApplicationService applicationService;
     private GroupMemberService groupMemberService;
 
@@ -23,8 +21,6 @@ public class GroupApplicationsServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
         applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
         groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
