@@ -12,9 +12,13 @@ html, body {
 }
 
 .content {
+    min-height: 100vh;
     width: 50%;
     margin: 0 auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .form-container {
@@ -23,6 +27,7 @@ html, body {
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 100px;
 }
 
 label {
