@@ -1,18 +1,18 @@
 create table Users (
                        id serial primary key,
-                       username varchar(50) unique,
-                       email varchar(50) unique,
+                       username varchar unique,
+                       email varchar unique,
                        password varchar,
-                       telegram_id varchar(50),
+                       telegram_id varchar,
                        sending_to_telegram boolean,
                        sending_to_email boolean
 );
 
 create table Groups (
                         id serial primary key,
-                        name varchar(50) unique,
+                        name varchar unique,
                         created_at timestamp,
-                        description varchar(400)
+                        description varchar
 );
 
 create table Group_Members (
@@ -31,8 +31,8 @@ create table Goals (
                        foreign key (user_id) references Users (id) on delete cascade,
                        group_id int,
                        foreign key (group_id) references Groups (id) on delete cascade,
-                       title varchar(50),
-                       description varchar(400),
+                       title varchar,
+                       description varchar,
                        progress int
 );
 
@@ -52,8 +52,8 @@ create table Records (
                          foreign key (user_id) references Users (id) on delete cascade,
                          group_id int,
                          foreign key (group_id) references Groups (id) on delete cascade,
-                         title varchar(50),
-                         content varchar(400),
+                         title varchar,
+                         content varchar,
                          created_at timestamp,
                          updated_at timestamp
 );
@@ -64,8 +64,8 @@ create table Reminders (
                            foreign key (user_id) references Users (id) on delete cascade,
                            group_id int,
                            foreign key (group_id) references Groups (id) on delete cascade,
-                           title varchar(50),
-                           message varchar(200),
+                           title varchar,
+                           message varchar,
                            send_at timestamp,
                            status varchar
 );
@@ -80,14 +80,14 @@ create table Transactions (
                               category varchar,
                               type varchar,
                               date_time timestamp,
-                              description varchar(200)
+                              description varchar
 );
 
 create table Articles (
                           id serial primary key,
-                          title varchar(50),
-                          content varchar(400),
-                          author varchar(50),
+                          title varchar,
+                          content varchar,
+                          author varchar,
                           published_at timestamp
 );
 
