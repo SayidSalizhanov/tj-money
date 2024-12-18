@@ -37,7 +37,7 @@
     </form>
 
     <div class="upload-xls">
-        <form action="/uploadTransactions" method="get">
+        <form action="/transactions/new/uploadTransactions" method="get">
             <input type="hidden" name="groupId" value="${groupId}">
             <button type="submit" class="upload-button">Загрузить excel таблицу</button>
         </form>

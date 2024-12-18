@@ -11,7 +11,7 @@
 
 <div class="content">
     <h2>Загрузите Excel файл</h2>
-    <form action="/uploadTransactions" method="post" enctype="multipart/form-data">
+    <form action="/transactions/new/uploadTransactions" method="post" enctype="multipart/form-data">
         <input type="hidden" name="groupId" value="${groupId}">
 
         <label for="file">Выберите файл:</label>

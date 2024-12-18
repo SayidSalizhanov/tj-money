@@ -13,7 +13,7 @@ import ru.itis.tjmoney.services.TransactionService;
 
 import java.io.IOException;
 
-@WebServlet("/uploadTransactions")
+@WebServlet("/transactions/new/uploadTransactions")
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class UploadTransactionsFromExcelServlet extends HttpServlet {
     private TransactionService transactionService;

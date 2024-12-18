@@ -23,7 +23,7 @@ html, body {
 }
 
 .create-button {
-    background-color: green;
+    background-color: #00819c;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -32,7 +32,7 @@ html, body {
 }
 
 .create-button:hover {
-    background-color: #45a049;
+    background-color: #005e9e;
 }
 
 .transactions-list {

@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    overflow: hidden;
     font-family: Arial, sans-serif;
     background-image: url('/static/background.png'); /* Указываем путь к изображению */
     background-size: cover; /* Изображение будет покрывать всю страницу */
