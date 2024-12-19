@@ -3,13 +3,13 @@ html, body {
     margin: 0;
     overflow: hidden;
     font-family: Arial, sans-serif;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     background-color: #f4f4f4;
-    font-size: 16px; /* Увеличение текста */
+    font-size: 16px;
 }
 
 .content {
@@ -49,11 +49,11 @@ input[type="text"], textarea {
 }
 
 textarea {
-    height: 100px; /* Установка фиксированной высоты */
+    height: 100px;
 }
 
 .submit-button {
-    background-color: #28a745; /* Зеленый цвет */
+    background-color: #28a745;
     color: white;
     padding: 15px 25px;
     border: none;

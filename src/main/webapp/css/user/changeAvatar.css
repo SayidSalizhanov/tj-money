@@ -2,10 +2,10 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     background-color: #f4f4f4;
     font-size: 16px;
@@ -30,7 +30,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 1;  /* Чтобы занять всю доступную высоту */
+    flex: 1;
     width: 100%;
 }
 

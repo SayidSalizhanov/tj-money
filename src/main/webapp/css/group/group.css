@@ -2,10 +2,10 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     background-color: #f4f4f4;
     font-size: 16px;
@@ -82,7 +82,7 @@ strong {
 }
 
 .goal-button, .reminder-button, .record-button {
-    background-color: #28a745; /* Зелёный цвет */
+    background-color: #28a745;
     color: white;
     padding: 15px 25px;
     border: none;
@@ -93,7 +93,7 @@ strong {
 }
 
 .goal-button:hover, .reminder-button:hover, .record-button:hover {
-    background-color: #218838; /* Темно-зелёный цвет */
+    background-color: #218838;
 }
 
 .logout-button {
@@ -119,27 +119,23 @@ strong {
     margin-bottom: 10px;
 }
 
-/* Стили для формы */
 .filter-form {
     margin-bottom: 20px;
     text-align: center;
 }
 
-/* Стили для метки */
 .filter-form label {
     font-size: 14px;
     font-weight: bold;
     margin-right: 10px;
 }
 
-/* Стили для выпадающего списка */
 .filter-form select {
     padding: 5px;
     margin-right: 10px;
     font-size: 14px;
 }
 
-/* Стили для кнопки */
 .filter-form button {
     background-color: lightgray;
     color: black;
@@ -150,7 +146,6 @@ strong {
     font-size: 14px;
 }
 
-/* Стили для кнопки при наведении */
 .filter-form button:hover {
     background-color: dimgrey;
 }
