@@ -7,18 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.RecordService;
+import ru.itis.tjmoney.services.interfaces.IRecordService;
 
 import java.io.IOException;
 
 @WebServlet("/record")
 public class RecordServlet extends HttpServlet {
-    private RecordService recordService;
+    private IRecordService recordService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        recordService = (RecordService) getServletContext().getAttribute("recordService");
+        recordService = (IRecordService) getServletContext().getAttribute("recordService");
     }
 
     @Override

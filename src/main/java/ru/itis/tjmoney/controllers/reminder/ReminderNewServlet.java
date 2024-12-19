@@ -6,22 +6,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.ReminderService;
+import ru.itis.tjmoney.exceptions.ReminderException;
+import ru.itis.tjmoney.services.interfaces.IReminderService;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @WebServlet("/reminders/new")
 public class ReminderNewServlet extends HttpServlet {
-    private ReminderService reminderService;
+    private IReminderService reminderService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
+        reminderService = (IReminderService) getServletContext().getAttribute("reminderService");
     }
 
     @Override
@@ -58,9 +57,16 @@ public class ReminderNewServlet extends HttpServlet {
         req.getRequestDispatcher("/templates/reminders/newReminder.jsp").forward(req, resp);
     }
 
-    private void postReminderNew(int userId, int groupId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        reminderService.save(userId, groupId, title, message, sendAt);
-        if (groupId == 0) resp.sendRedirect("/reminders");
-        else resp.sendRedirect("/reminders?groupId=%d".formatted(groupId));
+    private void postReminderNew(int userId, int groupId, String title, String message, LocalDateTime sendAt, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        try {
+            reminderService.save(userId, groupId, title, message, sendAt);
+            if (groupId == 0) resp.sendRedirect("/reminders");
+            else resp.sendRedirect("/reminders?groupId=%d".formatted(groupId));
+        } catch (ReminderException e) {
+            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute("userId", userId);
+            req.setAttribute("groupId", groupId);
+            req.getRequestDispatcher("/templates/reminders/newReminder.jsp").forward(req, resp);
+        }
     }
 }

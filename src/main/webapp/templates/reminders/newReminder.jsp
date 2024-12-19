@@ -22,6 +22,10 @@
 
             <input type="hidden" name="groupId" value="${groupId}">
 
+            <c:if test="${not empty errorMessage}">
+                <span style="color:red;">${errorMessage}</span><br>
+            </c:if>
+
             <button type="submit" class="save-button">Сохранить</button>
         </div>
     </form>

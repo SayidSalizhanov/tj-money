@@ -16,16 +16,16 @@
             <input type="hidden" name="reminderId" value="${reminderId}">
 
             <label for="title">Название:</label><br>
-            <input type="text" id="title" name="title" value="${reminder.getTitle()}" required><br><br>
+            <input type="text" id="title" name="title" value="${reminder.title}" required><br><br>
 
             <label for="datetime">Дата и время:</label><br>
-            <input type="datetime-local" id="datetime" name="datetime" required value="${reminder.getSendAt()}"><br><br>
+            <input type="datetime-local" id="datetime" name="datetime" required value="${reminder.sendAt}"><br><br>
 
             <label for="status">Статус:</label><br>
-            <p id="status">${reminder.getStatus()}</p><br>
+            <p id="status">${reminder.status}</p><br>
 
             <label for="message">Содержание:</label><br>
-            <textarea id="message" name="message" required>${reminder.getMessage()}</textarea><br><br>
+            <textarea id="message" name="message" required>${reminder.message}</textarea><br><br>
 
             <button type="submit" class="save-button">Сохранить изменения</button>
         </div>

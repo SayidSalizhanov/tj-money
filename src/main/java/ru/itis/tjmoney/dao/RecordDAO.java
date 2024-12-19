@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.dao;
 
+import ru.itis.tjmoney.dao.interfaces.IRecordDAO;
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.Goal;
 import ru.itis.tjmoney.models.Record;
@@ -9,19 +10,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordDAO {
+public class RecordDAO implements IRecordDAO {
     private static final String FIND_USER_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE group_id = ?";
-    private static final String FIND_USER_AND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id = ?";
     private static final String FIND_RECORD_BY_ID_SQL = "SELECT * FROM Records WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Records (user_id, group_id, title, content, created_at, updated_at) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM Records WHERE id = ?";
     private static final String UPDATE_SQL = "UPDATE Records SET title = ?, content = ?, updated_at = ? WHERE id = ?";
 
+    @Override
     public List<Record> findUserRecords(int userId) {
         return getRecords(userId, FIND_USER_RECORDS_SQL);
     }
 
+    @Override
     public List<Record> findGroupRecords(int groupId) {
         return getRecords(groupId, FIND_GROUP_RECORDS_SQL);
     }
@@ -53,35 +55,7 @@ public class RecordDAO {
         return records;
     }
 
-    public List<Record> findUserAndGroupRecords(int userId, int groupId) {
-        List<Record> records = new ArrayList<>();
-
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_USER_AND_GROUP_RECORDS_SQL)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, groupId);
-
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                records.add(
-                        new Record(
-                                resultSet.getInt("id"),
-                                resultSet.getInt("user_id"),
-                                resultSet.getInt("group_id"),
-                                resultSet.getString("title"),
-                                resultSet.getString("content"),
-                                resultSet.getTimestamp("created_at").toLocalDateTime(),
-                                resultSet.getTimestamp("updated_at").toLocalDateTime()
-                        )
-                );
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
-
-        return records;
-    }
-
+    @Override
     public Record findRecordById(int recordId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_RECORD_BY_ID_SQL)) {
@@ -106,6 +80,7 @@ public class RecordDAO {
         }
     }
 
+    @Override
     public Record save(Record record) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -140,6 +115,7 @@ public class RecordDAO {
         }
     }
 
+    @Override
     public void update(Record updatedRecord) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
@@ -154,6 +130,7 @@ public class RecordDAO {
         }
     }
 
+    @Override
     public void deleteById(int id) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {

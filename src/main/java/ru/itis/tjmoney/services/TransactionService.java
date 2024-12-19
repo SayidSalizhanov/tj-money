@@ -1,10 +1,18 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.TransactionDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import jakarta.servlet.http.Part;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.itis.tjmoney.dao.interfaces.ITransactionDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
+import ru.itis.tjmoney.dto.ExcelParseTransactionDTO;
 import ru.itis.tjmoney.dto.TransactionDTO;
+import ru.itis.tjmoney.exceptions.ExcelParseException;
+import ru.itis.tjmoney.exceptions.TransactionException;
 import ru.itis.tjmoney.models.Transaction;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,27 +20,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransactionService {
-    private final TransactionDAO transactionDAO;
-    private final UserDAO userDAO;
+public class TransactionService implements ITransactionService {
+    private final ITransactionDAO transactionDAO;
+    private final IUserDAO userDAO;
 
-    public TransactionService(TransactionDAO transactionDAO, UserDAO userDAO) {
+    public TransactionService(ITransactionDAO transactionDAO, IUserDAO userDAO) {
         this.transactionDAO = transactionDAO;
         this.userDAO = userDAO;
     }
 
-    public List<Transaction> getUserTransactions(int userId) {
-        return transactionDAO.findUserTransactions(userId);
+    @Override
+    public List<Transaction> getUserTransactions(int userId, String period) {
+        return transactionDAO.findUserTransactions(userId, period);
     }
 
-    public List<Transaction> getGroupTransactions(int groupId) {
-        return transactionDAO.findGroupTransactions(groupId);
+    @Override
+    public List<Transaction> getGroupTransactions(int groupId, String period) {
+        return transactionDAO.findGroupTransactions(groupId, period);
     }
 
+    @Override
     public List<Transaction> getUserAndGroupTransactions(int userId, int groupId) {
-        return groupId == 0 ? transactionDAO.findUserTransactions(userId) : transactionDAO.findGroupTransactions(groupId);
+        return groupId == 0 ? transactionDAO.findUserTransactions(userId, "all") : transactionDAO.findGroupTransactions(groupId, "all");
     }
 
+    @Override
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
                 .map(t -> new TransactionDTO(
@@ -47,13 +59,15 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<Map<String, Integer>> getUserTransactionsGenerals(int userId) {
-        List<Transaction> transactions = getUserTransactions(userId);
+    @Override
+    public List<Map<String, Integer>> getUserTransactionsGenerals(int userId, String period) {
+        List<Transaction> transactions = getUserTransactions(userId, period);
         return getTransactionsGeneralsMaps(transactions);
     }
 
-    public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId) {
-        List<Transaction> transactions = getGroupTransactions(groupId);
+    @Override
+    public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId, String period) {
+        List<Transaction> transactions = getGroupTransactions(groupId, period);
         return getTransactionsGeneralsMaps(transactions);
     }
 
@@ -95,6 +109,7 @@ public class TransactionService {
         return maps;
     }
 
+    @Override
     public TransactionDTO getTransactionDTO(int transactionId) {
         Transaction transaction = transactionDAO.findTransactionById(transactionId);
         return new TransactionDTO(
@@ -108,7 +123,10 @@ public class TransactionService {
         );
     }
 
+    @Override
     public void save(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description) {
+        if (date.isAfter(LocalDateTime.now())) throw new TransactionException("Транзакция не может быть совершена в будущем");
+
         transactionDAO.save(new Transaction(
                 0,
                 userId,
@@ -121,13 +139,50 @@ public class TransactionService {
         ));
     }
 
+    @Override
     public void delete(int id) {
         transactionDAO.deleteById(id);
     }
 
+    @Override
     public void update(int amount, String category, String type, String description, int id) {
         transactionDAO.update(new Transaction(id, 0, 0, amount, category, type, null, description));
+    }
 
-        // здесь должна быть какая-то проверка
+    @Override
+    public void parseExcelToTransactions(Part filePart, int userId, int groupId) {
+        String fileName = filePart.getSubmittedFileName();
+
+        List<ExcelParseTransactionDTO> transactionDTOs = new ArrayList<>();
+
+        if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
+            try (InputStream fis = filePart.getInputStream();
+                 XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+
+                var sheet = workbook.getSheetAt(0);
+
+                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                    Row row = sheet.getRow(i);
+                    if (row != null && row.getCell(0) != null) {
+                        int amount = (int) row.getCell(0).getNumericCellValue();
+                        if (amount > 1000000 || amount < 0) throw new ExcelParseException("Стоимость не должна превышать 1000000");
+                        String type = row.getCell(1).getStringCellValue();
+                        String category = row.getCell(2).getStringCellValue();
+                        LocalDateTime date = row.getCell(3).getLocalDateTimeCellValue();
+                        String description = row.getCell(4).getStringCellValue();
+
+                        transactionDTOs.add(new ExcelParseTransactionDTO(amount, type, category, date, description));
+                    }
+                }
+            } catch (Exception e) {
+                throw new ExcelParseException(e.getMessage());
+            }
+        } else {
+            throw new ExcelParseException("Тип файла не известен");
+        }
+
+        for (ExcelParseTransactionDTO dto : transactionDTOs) {
+            save(userId, groupId, dto.getAmount(), dto.getCategory(), dto.getType(), dto.getDate(), dto.getDescription());
+        }
     }
 }

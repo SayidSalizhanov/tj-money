@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/oihaoicgfd")
+/*
+@WebServlet("/prototypes/4")
 public class ReminderServletPrototype extends HttpServlet {
     private ReminderService reminderService;
 
@@ -216,3 +217,4 @@ public class ReminderServletPrototype extends HttpServlet {
         }
     }
 }
+*/

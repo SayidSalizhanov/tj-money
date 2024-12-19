@@ -13,7 +13,7 @@ header {
 
 .logo img {
     height: 40px;
-    border-radius: 50%; /* Делаем логотип круглым */
+    border-radius: 50%;
 }
 
 nav {
@@ -27,7 +27,7 @@ nav {
     display: flex;
     justify-content: center;
     flex-grow: 1;
-    margin-left: 70px;
+    margin-left: 60px;
 }
 
 nav ul {

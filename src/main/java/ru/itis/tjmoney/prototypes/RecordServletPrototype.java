@@ -11,7 +11,8 @@ import ru.itis.tjmoney.services.RecordService;
 
 import java.io.IOException;
 
-@WebServlet("/lkajfbpja")
+/*
+@WebServlet("/prototypes/3")
 public class RecordServletPrototype extends HttpServlet {
     private RecordService recordService;
 
@@ -208,3 +209,4 @@ public class RecordServletPrototype extends HttpServlet {
         }
     }
 }
+*/

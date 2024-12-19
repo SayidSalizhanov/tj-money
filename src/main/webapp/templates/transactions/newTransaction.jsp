@@ -13,7 +13,7 @@
     <form action="/transactions/new" method="post" class="transaction-form">
         <div class="form">
             <label for="amount">Стоимость:</label><br>
-            <input type="number" id="amount" name="amount" required><br><br>
+            <input type="number" id="amount" name="amount" min="0" max="1000000" required><br><br>
 
             <label for="type">Тип:</label><br>
             <select id="type" name="type" required>
@@ -32,9 +32,20 @@
 
             <input type="hidden" name="groupId" value="${groupId}">
 
+            <c:if test="${not empty errorMessage}">
+                <span style="color:red;">${errorMessage}</span><br>
+            </c:if>
+
             <button type="submit" class="save-button">Сохранить</button>
         </div>
     </form>
+
+    <div class="upload-xls">
+        <form action="/transactions/new/uploadTransactions" method="get">
+            <input type="hidden" name="groupId" value="${groupId}">
+            <button type="submit" class="upload-button">Загрузить excel таблицу</button>
+        </form>
+    </div>
 </div>
 
 </body>

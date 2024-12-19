@@ -12,10 +12,10 @@
 <h1>Статьи</h1>
 <c:forEach var="article" items="${articles}">
     <div class="article">
-        <h2>${article.getTitle()}</h2>
-        <p class="content">${article.getContent()}</p>
-        <p><strong>Автор:</strong> ${article.getAuthor()}</p>
-        <p><strong>Опубликована:</strong> ${article.getPublishedAt()}</p>
+        <h2>${article.title}</h2>
+        <p class="content">${article.content}</p>
+        <p><strong>Автор:</strong> ${article.author}</p>
+        <p><strong>Опубликована:</strong> ${article.publishedAt}</p>
     </div>
 </c:forEach>
 </body>

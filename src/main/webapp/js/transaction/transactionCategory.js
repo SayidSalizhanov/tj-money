@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const updateCategories = () => {
         const selectedType = typeSelect.value;
-        categorySelect.innerHTML = '';  // Clear existing options
+        categorySelect.innerHTML = '';
 
         let categoriesToShow;
         if (selectedType === "Доход") {
@@ -40,16 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
             categorySelect.appendChild(option);
         });
 
-        // Add "Другое" option for both types
         const otherOption = document.createElement('option');
         otherOption.value = "Другое";
         otherOption.textContent = "Другое";
         categorySelect.appendChild(otherOption);
     };
 
-    // Update categories on type change
     typeSelect.addEventListener('change', updateCategories);
 
-    // Initialize categories on load
     updateCategories();
 });

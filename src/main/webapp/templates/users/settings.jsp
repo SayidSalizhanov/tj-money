@@ -15,12 +15,12 @@
 
             <div class="form-group">
                 <label for="username">Имя пользователя:</label>
-                <input type="text" id="username" name="username" value="${user.getUsername()}">
+                <input type="text" id="username" name="username" value="${user.username}">
             </div>
 
             <div class="form-group">
                 <label for="telegramId">Telegram:</label>
-                <input type="text" id="telegramId" name="telegramId" value="${user.getTelegramId()}">
+                <input type="text" id="telegramId" name="telegramId" value="${user.telegramId}">
             </div>
 
             <div class="form-group">
@@ -43,6 +43,10 @@
         <div class="button-group">
             <form action="/user/changePassword" method="GET" class="settings-form-inline">
                 <button type="submit" class="small-button">Сменить пароль</button>
+            </form>
+
+            <form action="/user/changeAvatar" method="GET" class="settings-form-inline">
+                <button type="submit" class="small-button photo-button">Сменить аватар</button>
             </form>
 
             <form action="/user/settings" method="POST" class="settings-form-inline">

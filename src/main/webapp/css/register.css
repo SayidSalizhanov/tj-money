@@ -1,14 +1,14 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Убираем возможность прокрутки */
+    overflow: hidden;
 }
 
 .content {
@@ -17,8 +17,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Делаем высоту контейнера равной высоте экрана */
-    box-sizing: border-box; /* Включаем padding и border в размеры элемента */
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 h1, h2 {
@@ -84,7 +84,6 @@ h1, h2 {
     text-decoration: underline;
 }
 
-/* Media Queries для адаптивного дизайна */
 @media (max-width: 768px) {
     .registration-form {
         width: 90%;

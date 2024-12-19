@@ -8,26 +8,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.models.GroupMember;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IGroupService;
 
 import java.io.IOException;
 
 @WebServlet("/group/settings")
 public class GroupSettingsServlet extends HttpServlet {
-    private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
-    private GroupMemberService groupMemberService;
+    private IGroupService groupService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        groupService = (IGroupService) getServletContext().getAttribute("groupService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override

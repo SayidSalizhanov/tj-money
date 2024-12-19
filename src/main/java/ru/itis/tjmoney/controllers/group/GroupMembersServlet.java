@@ -7,26 +7,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.models.GroupMember;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 
 @WebServlet("/group/members")
 public class GroupMembersServlet extends HttpServlet {
-    private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
-    private GroupMemberService groupMemberService;
+    private IUserService userService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override
@@ -73,6 +68,7 @@ public class GroupMembersServlet extends HttpServlet {
     }
 
     private void deleteGroupMembersAdmin(int userId, int groupId, String username, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        groupMemberService.delete(groupMemberService.getByUsernameAndGroupId(username, groupId).getId());
+//        groupMemberService.delete(groupMemberService.getByUsernameAndGroupId(username, groupId).getId());
+        groupMemberService.deleteByUserIdAndGroupId(userService.getByUsername(username).getId(), groupId);
     }
 }
