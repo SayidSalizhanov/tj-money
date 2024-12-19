@@ -27,16 +27,16 @@ public class TransactionService {
         this.userDAO = userDAO;
     }
 
-    public List<Transaction> getUserTransactions(int userId) {
-        return transactionDAO.findUserTransactions(userId);
+    public List<Transaction> getUserTransactions(int userId, String period) {
+        return transactionDAO.findUserTransactions(userId, period);
     }
 
-    public List<Transaction> getGroupTransactions(int groupId) {
-        return transactionDAO.findGroupTransactions(groupId);
+    public List<Transaction> getGroupTransactions(int groupId, String period) {
+        return transactionDAO.findGroupTransactions(groupId, period);
     }
 
     public List<Transaction> getUserAndGroupTransactions(int userId, int groupId) {
-        return groupId == 0 ? transactionDAO.findUserTransactions(userId) : transactionDAO.findGroupTransactions(groupId);
+        return groupId == 0 ? transactionDAO.findUserTransactions(userId, "all") : transactionDAO.findGroupTransactions(groupId, "all");
     }
 
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
@@ -53,13 +53,13 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<Map<String, Integer>> getUserTransactionsGenerals(int userId) {
-        List<Transaction> transactions = getUserTransactions(userId);
+    public List<Map<String, Integer>> getUserTransactionsGenerals(int userId, String period) {
+        List<Transaction> transactions = getUserTransactions(userId, period);
         return getTransactionsGeneralsMaps(transactions);
     }
 
-    public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId) {
-        List<Transaction> transactions = getGroupTransactions(groupId);
+    public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId, String period) {
+        List<Transaction> transactions = getGroupTransactions(groupId, period);
         return getTransactionsGeneralsMaps(transactions);
     }
 
@@ -167,7 +167,7 @@ public class TransactionService {
         }
 
         for (ExcelParseTransactionDTO dto : transactionDTOs) {
-            save(userId, groupId, dto.getAmount(), dto.getType(), dto.getCategory(), dto.getDate(), dto.getDescription());
+            save(userId, groupId, dto.getAmount(), dto.getCategory(), dto.getType(), dto.getDate(), dto.getDescription());
         }
     }
 }

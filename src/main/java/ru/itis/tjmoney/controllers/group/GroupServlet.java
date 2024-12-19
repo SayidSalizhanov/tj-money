@@ -34,7 +34,15 @@ public class GroupServlet extends HttpServlet {
         req.setAttribute("group", groupService.getGroupDTOById(groupId));
         req.setAttribute("role", groupMemberService.getGroupMember(userId, groupId).getRole());
 
-        List<Map<String, Integer>> transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId);
+        List<Map<String, Integer>> transactionsGenerals;
+
+        String period = req.getParameter("period");
+        if (period == null || period.isEmpty()) {
+            transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId, "all");
+        }
+        else {
+            transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId, period);
+        }
 
         req.setAttribute("income", transactionsGenerals.get(0).values().stream().mapToInt(Integer::intValue).sum());
         req.setAttribute("expense", transactionsGenerals.get(1).values().stream().mapToInt(Integer::intValue).sum());

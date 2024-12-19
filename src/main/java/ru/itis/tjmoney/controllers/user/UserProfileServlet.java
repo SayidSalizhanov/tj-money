@@ -29,7 +29,15 @@ public class UserProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = (Integer) req.getSession().getAttribute("userId");
 
-        List<Map<String, Integer>> transactionsGenerals = transactionService.getUserTransactionsGenerals(userId);
+        List<Map<String, Integer>> transactionsGenerals;
+
+        String period = req.getParameter("period");
+        if (period == null || period.isEmpty()) {
+            transactionsGenerals = transactionService.getUserTransactionsGenerals(userId, "all");
+        }
+        else {
+            transactionsGenerals = transactionService.getUserTransactionsGenerals(userId, period);
+        }
 
         req.setAttribute("user", userService.getUserById(userId));
         req.setAttribute("urlPhoto", userService.getPhotoUrl(userId));

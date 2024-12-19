@@ -45,6 +45,17 @@
 
         <hr>
 
+        <form action="/user" method="GET" class="filter-form">
+            <label for="incomePeriod">Выбрать период:</label>
+            <select id="incomePeriod" name="period">
+                <option value="all">Все время</option>
+                <option value="day">День</option>
+                <option value="month">Месяц</option>
+                <option value="year">Год</option>
+            </select>
+            <button type="submit">Применить</button>
+        </form>
+
         <div class="financial-section">
             <div class="financial-info">
                 <h2>Доходы</h2>

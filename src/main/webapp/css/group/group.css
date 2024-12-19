@@ -118,3 +118,39 @@ strong {
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+/* Стили для формы */
+.filter-form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Стили для метки */
+.filter-form label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Стили для выпадающего списка */
+.filter-form select {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/* Стили для кнопки */
+.filter-form button {
+    background-color: lightgray;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Стили для кнопки при наведении */
+.filter-form button:hover {
+    background-color: dimgrey;
+}

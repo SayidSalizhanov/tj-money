@@ -296,7 +296,7 @@ public class GroupServletPrototype extends HttpServlet {
 
     private void getGroupRequest(int userId, int groupId, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("group", groupService.getGroupById(groupId));
-        req.setAttribute("transactions", transactionService.getGroupTransactions(groupId));
+        req.setAttribute("transactions", transactionService.getGroupTransactions(groupId, "all"));
         req.setAttribute("groupId", groupId);
         req.setAttribute("userId", userId);
         req.getRequestDispatcher("templates/groups/group.jsp").forward(req, resp);

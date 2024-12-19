@@ -214,7 +214,7 @@ public class UserServletPrototype extends HttpServlet {
 
     private void getUserRequest(int userId, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setAttribute("user", userService.getUserById(userId));
-        req.setAttribute("transactions", transactionService.getUserTransactions(userId));
+        req.setAttribute("transactions", transactionService.getUserTransactions(userId, "all"));
         req.setAttribute("userId", userId);
         req.setAttribute("groupId", 0);
         getServletContext().getRequestDispatcher("/templates/users/userProfile.jsp").forward(req, resp);
