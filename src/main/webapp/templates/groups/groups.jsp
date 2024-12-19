@@ -33,6 +33,11 @@
             </div>
         </c:forEach>
     </div>
+    <div class="empty-list">
+        <c:if test="${empty groups}">
+            <p>Тут ничего нет...</p>
+        </c:if>
+    </div>
 </div>
 
 </body>

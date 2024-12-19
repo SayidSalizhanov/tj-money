@@ -19,7 +19,7 @@ html, body {
 
 .create-reminder-form {
     margin-bottom: 20px;
-    text-align: right;
+    text-align: center;
 }
 
 .create-button {
@@ -81,4 +81,10 @@ html, body {
 .reminder-details p {
     margin: 10px 0;
     font-size: 18px;
+}
+
+.empty-list {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
 }

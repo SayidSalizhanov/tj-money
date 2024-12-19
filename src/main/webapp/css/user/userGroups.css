@@ -83,3 +83,9 @@ html, body {
     font-size: 18px;
     width: 48%;
 }
+
+.empty-list {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+}

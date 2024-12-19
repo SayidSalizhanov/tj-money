@@ -42,6 +42,11 @@
             </form>
         </c:forEach>
     </div>
+    <div class="empty-list">
+        <c:if test="${empty transactions}">
+            <p>Тут ничего нет...</p>
+        </c:if>
+    </div>
 </div>
 
 </body>

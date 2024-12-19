@@ -100,3 +100,8 @@ html, body {
     pointer-events: none;
 }
 
+.empty-list {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+}
