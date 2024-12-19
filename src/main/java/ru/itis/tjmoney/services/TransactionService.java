@@ -3,8 +3,8 @@ package ru.itis.tjmoney.services;
 import jakarta.servlet.http.Part;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.itis.tjmoney.dao.TransactionDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.ITransactionDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.dto.ExcelParseTransactionDTO;
 import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.exceptions.ExcelParseException;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 public class TransactionService implements ITransactionService {
-    private final TransactionDAO transactionDAO;
-    private final UserDAO userDAO;
+    private final ITransactionDAO transactionDAO;
+    private final IUserDAO userDAO;
 
-    public TransactionService(TransactionDAO transactionDAO, UserDAO userDAO) {
+    public TransactionService(ITransactionDAO transactionDAO, IUserDAO userDAO) {
         this.transactionDAO = transactionDAO;
         this.userDAO = userDAO;
     }

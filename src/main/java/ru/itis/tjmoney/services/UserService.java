@@ -1,7 +1,7 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.AvatarDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IAvatarDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.exceptions.UserNotFoundException;
 import ru.itis.tjmoney.models.User;
@@ -9,10 +9,10 @@ import ru.itis.tjmoney.services.interfaces.IUserService;
 import ru.itis.tjmoney.util.PasswordUtil;
 
 public class UserService implements IUserService {
-    private final UserDAO userDAO;
-    private final AvatarDAO avatarDAO;
+    private final IUserDAO userDAO;
+    private final IAvatarDAO avatarDAO;
 
-    public UserService(UserDAO userDAO, AvatarDAO avatarDAO) {
+    public UserService(IUserDAO userDAO, IAvatarDAO avatarDAO) {
         this.userDAO = userDAO;
         this.avatarDAO = avatarDAO;
     }

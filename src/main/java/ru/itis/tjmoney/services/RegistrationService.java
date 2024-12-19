@@ -1,15 +1,15 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.exceptions.RegistrationException;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.services.interfaces.IRegistrationService;
 import ru.itis.tjmoney.util.PasswordUtil;
 
 public class RegistrationService implements IRegistrationService {
-    private final UserDAO userDAO;
+    private final IUserDAO userDAO;
 
-    public RegistrationService(UserDAO userDAO) {
+    public RegistrationService(IUserDAO userDAO) {
         this.userDAO = userDAO;
     }
 

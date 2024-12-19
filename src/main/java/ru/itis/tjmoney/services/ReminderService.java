@@ -1,6 +1,6 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ReminderDAO;
+import ru.itis.tjmoney.dao.interfaces.IReminderDAO;
 import ru.itis.tjmoney.exceptions.ReminderException;
 import ru.itis.tjmoney.models.Reminder;
 import ru.itis.tjmoney.services.interfaces.IReminderService;
@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReminderService implements IReminderService {
-    private final ReminderDAO reminderDAO;
+    private final IReminderDAO reminderDAO;
 
-    public ReminderService(ReminderDAO reminderDAO) {
+    public ReminderService(IReminderDAO reminderDAO) {
         this.reminderDAO = reminderDAO;
     }
 

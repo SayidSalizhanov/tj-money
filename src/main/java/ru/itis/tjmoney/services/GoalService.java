@@ -1,17 +1,15 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.GoalDAO;
+import ru.itis.tjmoney.dao.interfaces.IGoalDAO;
 import ru.itis.tjmoney.models.Goal;
-import ru.itis.tjmoney.models.Transaction;
 import ru.itis.tjmoney.services.interfaces.IGoalService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class GoalService implements IGoalService {
-    private final GoalDAO goalDAO;
+    private final IGoalDAO goalDAO;
 
-    public GoalService(GoalDAO goalDAO) {
+    public GoalService(IGoalDAO goalDAO) {
         this.goalDAO = goalDAO;
     }
 

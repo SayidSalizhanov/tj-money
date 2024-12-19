@@ -1,6 +1,6 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.RecordDAO;
+import ru.itis.tjmoney.dao.interfaces.IRecordDAO;
 import ru.itis.tjmoney.dto.RecordDTO;
 import ru.itis.tjmoney.models.Record;
 import ru.itis.tjmoney.services.interfaces.IRecordService;
@@ -10,9 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class RecordService implements IRecordService {
-    private final RecordDAO recordDAO;
+    private final IRecordDAO recordDAO;
 
-    public RecordService(RecordDAO recordDAO) {
+    public RecordService(IRecordDAO recordDAO) {
         this.recordDAO = recordDAO;
     }
 

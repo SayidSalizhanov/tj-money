@@ -1,15 +1,15 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.exceptions.LoginException;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.services.interfaces.ILoginService;
 import ru.itis.tjmoney.util.PasswordUtil;
 
 public class LoginService implements ILoginService {
-    private final UserDAO userDAO;
+    private final IUserDAO userDAO;
 
-    public LoginService(UserDAO userDAO) {
+    public LoginService(IUserDAO userDAO) {
         this.userDAO = userDAO;
     }
 

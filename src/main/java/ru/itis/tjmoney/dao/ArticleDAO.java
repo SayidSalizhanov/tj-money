@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.dao;
 
+import ru.itis.tjmoney.dao.interfaces.IArticleDAO;
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.Article;
 import ru.itis.tjmoney.util.ConnectionManager;
@@ -11,9 +12,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleDAO {
+public class ArticleDAO implements IArticleDAO {
     private static final String FIND_ALL_SQL = "SELECT * FROM Articles";
 
+    @Override
     public List<Article> findAll() {
         List<Article> articles = new ArrayList<>();
 

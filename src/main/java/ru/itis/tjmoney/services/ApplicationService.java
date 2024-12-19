@@ -1,8 +1,8 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ApplicationDAO;
-import ru.itis.tjmoney.dao.GroupDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IApplicationDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.dto.ApplicationGroupDTO;
 import ru.itis.tjmoney.dto.ApplicationUserDTO;
 import ru.itis.tjmoney.models.Application;
@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationService implements IApplicationService {
-    private final ApplicationDAO applicationDAO;
-    private final GroupDAO groupDAO;
-    private final UserDAO userDAO;
+    private final IApplicationDAO applicationDAO;
+    private final IGroupDAO groupDAO;
+    private final IUserDAO userDAO;
 
-    public ApplicationService(ApplicationDAO applicationDAO, GroupDAO groupDAO, UserDAO userDAO) {
+    public ApplicationService(IApplicationDAO applicationDAO, IGroupDAO groupDAO, IUserDAO userDAO) {
         this.applicationDAO = applicationDAO;
         this.groupDAO = groupDAO;
         this.userDAO = userDAO;

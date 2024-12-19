@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.dao;
 
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.util.ConnectionManager;
@@ -8,8 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
-    private static final String FIND_ALL_SQL = "SELECT * FROM Users";
+public class UserDAO implements IUserDAO {
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM Users WHERE email = ?";
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
@@ -18,32 +18,7 @@ public class UserDAO {
     private static final String UPDATE_PASSWORD_SQL = "UPDATE Users SET password = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM Users WHERE id = ?";
 
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-
-        try (Connection connection = ConnectionManager.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
-            while (resultSet.next()) {
-                users.add(
-                        new User(
-                                resultSet.getInt("id"),
-                                resultSet.getString("username"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                resultSet.getString("telegram_id"),
-                                resultSet.getBoolean("sending_to_telegram"),
-                                resultSet.getBoolean("sending_to_email")
-                        )
-                );
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
-
-        return users;
-    }
-
+    @Override
     public User findById(int id) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL);) {
@@ -54,6 +29,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public User findByEmail(String email) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
@@ -64,6 +40,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public User findByUsername(String username) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME_SQL);) {
@@ -91,6 +68,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public User save(User user) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -113,6 +91,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public void update(User updatedUser) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
@@ -128,6 +107,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public void updatePassword(String newPassword, int userId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_SQL)) {
@@ -140,6 +120,7 @@ public class UserDAO {
         }
     }
 
+    @Override
     public void delete(int id) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {

@@ -1,18 +1,16 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ArticleDAO;
+import ru.itis.tjmoney.dao.interfaces.IArticleDAO;
 import ru.itis.tjmoney.dto.ArticleDTO;
-import ru.itis.tjmoney.dto.TransactionDTO;
-import ru.itis.tjmoney.models.Article;
 import ru.itis.tjmoney.services.interfaces.IArticleService;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ArticleService implements IArticleService {
-    private final ArticleDAO articleDAO;
+    private final IArticleDAO articleDAO;
 
-    public ArticleService(ArticleDAO articleDAO) {
+    public ArticleService(IArticleDAO articleDAO) {
         this.articleDAO = articleDAO;
     }
 

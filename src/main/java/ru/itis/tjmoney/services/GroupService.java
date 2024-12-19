@@ -1,9 +1,9 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ApplicationDAO;
-import ru.itis.tjmoney.dao.GroupDAO;
-import ru.itis.tjmoney.dao.GroupMemberDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IApplicationDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupMemberDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.dto.GroupDTO;
 import ru.itis.tjmoney.dto.UserGroupDTO;
 import ru.itis.tjmoney.exceptions.UpdateException;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupService implements IGroupService {
-    private final UserDAO userDAO;
-    private final GroupDAO groupDAO;
-    private final GroupMemberDAO groupMemberDAO;
-    private final ApplicationDAO applicationDAO;
+    private final IUserDAO userDAO;
+    private final IGroupDAO groupDAO;
+    private final IGroupMemberDAO groupMemberDAO;
+    private final IApplicationDAO applicationDAO;
 
-    public GroupService(UserDAO userDAO, GroupDAO groupDAO, GroupMemberDAO groupMemberDAO, ApplicationDAO applicationDAO) {
+    public GroupService(IUserDAO userDAO, IGroupDAO groupDAO, IGroupMemberDAO groupMemberDAO, IApplicationDAO applicationDAO) {
         this.userDAO = userDAO;
         this.groupDAO = groupDAO;
         this.groupMemberDAO = groupMemberDAO;

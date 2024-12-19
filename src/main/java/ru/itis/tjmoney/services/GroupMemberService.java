@@ -1,8 +1,8 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ApplicationDAO;
-import ru.itis.tjmoney.dao.GroupMemberDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IApplicationDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupMemberDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.dto.GroupMemberDTO;
 import ru.itis.tjmoney.exceptions.GroupMemberNotFoundException;
 import ru.itis.tjmoney.models.GroupMember;
@@ -13,11 +13,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class GroupMemberService implements IGroupMemberService {
-    private final GroupMemberDAO groupMemberDAO;
-    private final ApplicationDAO applicationDAO;
-    private final UserDAO userDAO;
+    private final IGroupMemberDAO groupMemberDAO;
+    private final IApplicationDAO applicationDAO;
+    private final IUserDAO userDAO;
 
-    public GroupMemberService(GroupMemberDAO groupMemberDAO, ApplicationDAO applicationDAO, UserDAO userDAO) {
+    public GroupMemberService(IGroupMemberDAO groupMemberDAO, IApplicationDAO applicationDAO, IUserDAO userDAO) {
         this.groupMemberDAO = groupMemberDAO;
         this.applicationDAO = applicationDAO;
         this.userDAO = userDAO;

@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.dao;
 
+import ru.itis.tjmoney.dao.interfaces.IAvatarDAO;
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.util.ConnectionManager;
 
@@ -8,12 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AvatarDAO {
+public class AvatarDAO implements IAvatarDAO {
     private static final String FIND_URL_BY_USER_ID_SQL = "SELECT * FROM avatars WHERE user_id = ?";
     private static final String SAVE_SQL = "INSERT INTO avatars (user_id, url) values (?, ?)";
     private static final String UPDATE_AVATAR_URL_SQL = "UPDATE avatars SET url = ? WHERE user_id = ?";
     private static final String DELETE_SQL = "DELETE FROM avatars WHERE user_id = ?";
 
+    @Override
     public String findUrl(int userId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_URL_BY_USER_ID_SQL)) {
@@ -28,6 +30,7 @@ public class AvatarDAO {
         }
     }
 
+    @Override
     public void save(int userId, String url) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
@@ -39,6 +42,7 @@ public class AvatarDAO {
         }
     }
 
+    @Override
     public void update(int userId, String url) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_AVATAR_URL_SQL)) {
@@ -50,6 +54,7 @@ public class AvatarDAO {
         }
     }
 
+    @Override
     public void delete(int userId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {
