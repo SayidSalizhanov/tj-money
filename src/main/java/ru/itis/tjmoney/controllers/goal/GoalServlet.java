@@ -7,18 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.GoalService;
+import ru.itis.tjmoney.services.interfaces.IGoalService;
 
 import java.io.IOException;
 
 @WebServlet("/goal")
 public class GoalServlet extends HttpServlet {
-    private GoalService goalService;
+    private IGoalService goalService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        goalService = (GoalService) getServletContext().getAttribute("goalService");
+        goalService = (IGoalService) getServletContext().getAttribute("goalService");
     }
 
     @Override

@@ -7,20 +7,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.models.GroupMember;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 
 @WebServlet("/group/members")
 public class GroupMembersServlet extends HttpServlet {
-    private UserService userService;
-    private GroupMemberService groupMemberService;
+    private IUserService userService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override

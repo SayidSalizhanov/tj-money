@@ -9,18 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru.itis.tjmoney.exceptions.RegistrationException;
 import ru.itis.tjmoney.models.User;
-import ru.itis.tjmoney.services.RegistrationService;
+import ru.itis.tjmoney.services.interfaces.IRegistrationService;
 
 import java.io.IOException;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
-    private RegistrationService registrationService;
+    private IRegistrationService registrationService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        registrationService = (RegistrationService) getServletContext().getAttribute("registrationService");
+        registrationService = (IRegistrationService) getServletContext().getAttribute("registrationService");
     }
 
     @Override

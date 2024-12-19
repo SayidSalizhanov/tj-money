@@ -10,6 +10,7 @@ import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.exceptions.ExcelParseException;
 import ru.itis.tjmoney.exceptions.TransactionException;
 import ru.itis.tjmoney.models.Transaction;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransactionService {
+public class TransactionService implements ITransactionService {
     private final TransactionDAO transactionDAO;
     private final UserDAO userDAO;
 
@@ -28,18 +29,22 @@ public class TransactionService {
         this.userDAO = userDAO;
     }
 
+    @Override
     public List<Transaction> getUserTransactions(int userId, String period) {
         return transactionDAO.findUserTransactions(userId, period);
     }
 
+    @Override
     public List<Transaction> getGroupTransactions(int groupId, String period) {
         return transactionDAO.findGroupTransactions(groupId, period);
     }
 
+    @Override
     public List<Transaction> getUserAndGroupTransactions(int userId, int groupId) {
         return groupId == 0 ? transactionDAO.findUserTransactions(userId, "all") : transactionDAO.findGroupTransactions(groupId, "all");
     }
 
+    @Override
     public List<TransactionDTO> getUserAndGroupTransactionDTOs(int userId, int groupId) {
         return getUserAndGroupTransactions(userId, groupId).stream()
                 .map(t -> new TransactionDTO(
@@ -54,11 +59,13 @@ public class TransactionService {
                 .toList();
     }
 
+    @Override
     public List<Map<String, Integer>> getUserTransactionsGenerals(int userId, String period) {
         List<Transaction> transactions = getUserTransactions(userId, period);
         return getTransactionsGeneralsMaps(transactions);
     }
 
+    @Override
     public List<Map<String, Integer>> getGroupTransactionsGenerals(int groupId, String period) {
         List<Transaction> transactions = getGroupTransactions(groupId, period);
         return getTransactionsGeneralsMaps(transactions);
@@ -102,6 +109,7 @@ public class TransactionService {
         return maps;
     }
 
+    @Override
     public TransactionDTO getTransactionDTO(int transactionId) {
         Transaction transaction = transactionDAO.findTransactionById(transactionId);
         return new TransactionDTO(
@@ -115,6 +123,7 @@ public class TransactionService {
         );
     }
 
+    @Override
     public void save(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description) {
         if (date.isAfter(LocalDateTime.now())) throw new TransactionException("Транзакция не может быть совершена в будущем");
 
@@ -130,14 +139,17 @@ public class TransactionService {
         ));
     }
 
+    @Override
     public void delete(int id) {
         transactionDAO.deleteById(id);
     }
 
+    @Override
     public void update(int amount, String category, String type, String description, int id) {
         transactionDAO.update(new Transaction(id, 0, 0, amount, category, type, null, description));
     }
 
+    @Override
     public void parseExcelToTransactions(Part filePart, int userId, int groupId) {
         String fileName = filePart.getSubmittedFileName();
 

@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.TransactionService;
-import ru.itis.tjmoney.services.UserService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,14 +15,14 @@ import java.util.Map;
 
 @WebServlet("/user")
 public class UserProfileServlet extends HttpServlet {
-    private UserService userService;
-    private TransactionService transactionService;
+    private IUserService userService;
+    private ITransactionService transactionService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
     }
 
     @Override

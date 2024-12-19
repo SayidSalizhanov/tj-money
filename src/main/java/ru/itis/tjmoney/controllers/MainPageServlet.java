@@ -6,18 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.ArticleService;
+import ru.itis.tjmoney.services.interfaces.IArticleService;
 
 import java.io.IOException;
 
 @WebServlet("/mainPage")
 public class MainPageServlet extends HttpServlet {
-    private ArticleService articleService;
+    private IArticleService articleService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        articleService = (ArticleService) getServletContext().getAttribute("articleService");
+        articleService = (IArticleService) getServletContext().getAttribute("articleService");
     }
 
     @Override

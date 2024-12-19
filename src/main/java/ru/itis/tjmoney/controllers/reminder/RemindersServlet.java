@@ -6,18 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.ReminderService;
+import ru.itis.tjmoney.services.interfaces.IReminderService;
 
 import java.io.IOException;
 
 @WebServlet("/reminders")
 public class RemindersServlet extends HttpServlet {
-    private ReminderService reminderService;
+    private IReminderService reminderService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        reminderService = (ReminderService) getServletContext().getAttribute("reminderService");
+        reminderService = (IReminderService) getServletContext().getAttribute("reminderService");
     }
 
     @Override

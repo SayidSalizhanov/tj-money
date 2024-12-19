@@ -3,33 +3,29 @@ package ru.itis.tjmoney.services;
 import ru.itis.tjmoney.dao.ReminderDAO;
 import ru.itis.tjmoney.exceptions.ReminderException;
 import ru.itis.tjmoney.models.Reminder;
+import ru.itis.tjmoney.services.interfaces.IReminderService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ReminderService {
+public class ReminderService implements IReminderService {
     private final ReminderDAO reminderDAO;
 
     public ReminderService(ReminderDAO reminderDAO) {
         this.reminderDAO = reminderDAO;
     }
 
-    public List<Reminder> getUserReminders(int userId) {
-        return reminderDAO.findUserReminders(userId);
-    }
-
-    public List<Reminder> getGroupReminders(int groupId) {
-        return reminderDAO.findGroupReminders(groupId);
-    }
-
+    @Override
     public List<Reminder> getUserAndGroupReminders(int userId, int groupId) {
         return groupId == 0 ? reminderDAO.findUserReminders(userId) : reminderDAO.findGroupReminders(groupId);
     }
 
+    @Override
     public Reminder getReminder(int reminderId) {
         return reminderDAO.findReminderById(reminderId);
     }
 
+    @Override
     public void save(int userId, int groupId, String title, String message, LocalDateTime sendAt) {
         if (sendAt.isBefore(LocalDateTime.now())) throw new ReminderException("Дата и время напоминания не могу быть в прошлом");
         reminderDAO.save(
@@ -45,10 +41,12 @@ public class ReminderService {
         );
     }
 
+    @Override
     public void delete(int id) {
         reminderDAO.deleteById(id);
     }
 
+    @Override
     public void update(String title, String message, LocalDateTime sendAt, int id) {
         reminderDAO.update(
                 new Reminder(

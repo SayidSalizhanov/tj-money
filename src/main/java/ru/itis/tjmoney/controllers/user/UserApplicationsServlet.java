@@ -6,18 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.ApplicationService;
+import ru.itis.tjmoney.services.interfaces.IApplicationService;
 
 import java.io.IOException;
 
 @WebServlet("/user/applications")
 public class UserApplicationsServlet extends HttpServlet {
-    private ApplicationService applicationService;
+    private IApplicationService applicationService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
+        applicationService = (IApplicationService) getServletContext().getAttribute("applicationService");
     }
 
     @Override

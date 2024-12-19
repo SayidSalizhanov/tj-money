@@ -9,18 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru.itis.tjmoney.exceptions.LoginException;
 import ru.itis.tjmoney.models.User;
-import ru.itis.tjmoney.services.LoginService;
+import ru.itis.tjmoney.services.interfaces.ILoginService;
 
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private LoginService loginService;
+    private ILoginService loginService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        loginService = (LoginService) getServletContext().getAttribute("loginService");
+        loginService = (ILoginService) getServletContext().getAttribute("loginService");
     }
 
     @Override

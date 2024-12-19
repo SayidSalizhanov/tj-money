@@ -6,13 +6,14 @@ import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.dto.ApplicationGroupDTO;
 import ru.itis.tjmoney.dto.ApplicationUserDTO;
 import ru.itis.tjmoney.models.Application;
+import ru.itis.tjmoney.services.interfaces.IApplicationService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationService {
+public class ApplicationService implements IApplicationService {
     private final ApplicationDAO applicationDAO;
     private final GroupDAO groupDAO;
     private final UserDAO userDAO;
@@ -23,6 +24,7 @@ public class ApplicationService {
         this.userDAO = userDAO;
     }
 
+    @Override
     public List<ApplicationGroupDTO> getUserApplicationGroupDTOs(int userId) {
         List<Application> applications = applicationDAO.findUserApplications(userId);
 
@@ -41,6 +43,7 @@ public class ApplicationService {
         return applicationsDTOs;
     }
 
+    @Override
     public List<ApplicationUserDTO> getGroupApplicationUserDTOs(int groupId) {
         List<Application> applications = applicationDAO.findGroupApplications(groupId).stream()
                                                                                       .filter(a -> a.getStatus().equalsIgnoreCase("В ожидании"))
@@ -60,10 +63,12 @@ public class ApplicationService {
         return applicationsDTOs;
     }
 
+    @Override
     public void deleteUserApplication(int id) {
         applicationDAO.deleteApplicationById(id);
     }
 
+    @Override
     public void createApplication(int userId, int groupId) {
         applicationDAO.save(
                 new Application(
@@ -76,6 +81,7 @@ public class ApplicationService {
         );
     }
 
+    @Override
     public void updateStatus(int applicationId, String applicationStatus) {
         applicationDAO.update(
                 new Application(

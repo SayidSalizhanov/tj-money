@@ -6,18 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.TransactionService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.IOException;
 
 @WebServlet("/transactions")
 public class TransactionsServlet extends HttpServlet {
-    private TransactionService transactionService;
+    private ITransactionService transactionService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
     }
 
     @Override

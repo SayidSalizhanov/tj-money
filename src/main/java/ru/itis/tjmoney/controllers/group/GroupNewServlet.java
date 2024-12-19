@@ -6,18 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupService;
 
 import java.io.IOException;
 
 @WebServlet("/groups/new")
 public class GroupNewServlet extends HttpServlet {
-    private GroupService groupService;
+    private IGroupService groupService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
+        groupService = (IGroupService) getServletContext().getAttribute("groupService");
     }
 
     @Override

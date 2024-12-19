@@ -9,19 +9,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import ru.itis.tjmoney.exceptions.ExcelParseException;
-import ru.itis.tjmoney.services.TransactionService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.IOException;
 
 @WebServlet("/transactions/new/uploadTransactions")
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class UploadTransactionsFromExcelServlet extends HttpServlet {
-    private TransactionService transactionService;
+    private ITransactionService transactionService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
     }
 
     @Override

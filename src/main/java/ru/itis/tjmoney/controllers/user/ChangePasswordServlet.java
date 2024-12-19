@@ -7,18 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.exceptions.UpdateException;
-import ru.itis.tjmoney.services.UserService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 
 @WebServlet("/user/changePassword")
 public class ChangePasswordServlet extends HttpServlet {
-    private UserService userService;
+    private IUserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
     }
 
     @Override

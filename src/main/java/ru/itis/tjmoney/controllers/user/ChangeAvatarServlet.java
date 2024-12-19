@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import ru.itis.tjmoney.services.UserService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 import ru.itis.tjmoney.util.CloudinaryUtil;
 
 import java.io.File;
@@ -22,13 +22,13 @@ import java.util.Map;
 @WebServlet("/user/changeAvatar")
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024) // 5 MB
 public class ChangeAvatarServlet extends HttpServlet {
-    private UserService userService;
+    private IUserService userService;
     private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
     }
 
     @Override

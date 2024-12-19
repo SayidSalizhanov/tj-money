@@ -6,7 +6,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IGroupService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,16 +16,16 @@ import java.util.Map;
 
 @WebServlet("/group")
 public class GroupServlet extends HttpServlet {
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private GroupMemberService groupMemberService;
+    private ITransactionService transactionService;
+    private IGroupService groupService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
+        groupService = (IGroupService) getServletContext().getAttribute("groupService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override

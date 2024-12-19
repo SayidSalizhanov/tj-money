@@ -7,22 +7,24 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.models.GroupMember;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IApplicationService;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 
 @WebServlet("/group/applications")
 public class GroupApplicationsServlet extends HttpServlet {
-    private UserService userService;
-    private ApplicationService applicationService;
-    private GroupMemberService groupMemberService;
+    private IUserService userService;
+    private IApplicationService applicationService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
+        applicationService = (IApplicationService) getServletContext().getAttribute("applicationService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override

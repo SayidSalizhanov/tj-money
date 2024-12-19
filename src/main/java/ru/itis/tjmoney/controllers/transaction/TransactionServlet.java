@@ -9,21 +9,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.models.GroupMember;
-import ru.itis.tjmoney.services.GroupMemberService;
-import ru.itis.tjmoney.services.TransactionService;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.IOException;
 
 @WebServlet("/transaction")
 public class TransactionServlet extends HttpServlet {
-    private TransactionService transactionService;
-    private GroupMemberService groupMemberService;
+    private ITransactionService transactionService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override
