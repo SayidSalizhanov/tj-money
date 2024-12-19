@@ -6,7 +6,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.*;
+import ru.itis.tjmoney.services.interfaces.IGroupMemberService;
+import ru.itis.tjmoney.services.interfaces.IGroupService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,20 +16,16 @@ import java.util.Map;
 
 @WebServlet("/group")
 public class GroupServlet extends HttpServlet {
-    private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
-    private GroupMemberService groupMemberService;
+    private ITransactionService transactionService;
+    private IGroupService groupService;
+    private IGroupMemberService groupMemberService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
-        groupMemberService = (GroupMemberService) getServletContext().getAttribute("groupMemberService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
+        groupService = (IGroupService) getServletContext().getAttribute("groupService");
+        groupMemberService = (IGroupMemberService) getServletContext().getAttribute("groupMemberService");
     }
 
     @Override
@@ -36,8 +34,17 @@ public class GroupServlet extends HttpServlet {
         int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         req.setAttribute("group", groupService.getGroupDTOById(groupId));
+        req.setAttribute("role", groupMemberService.getGroupMember(userId, groupId).getRole());
 
-        List<Map<String, Integer>> transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId);
+        List<Map<String, Integer>> transactionsGenerals;
+
+        String period = req.getParameter("period");
+        if (period == null || period.isEmpty()) {
+            transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId, "all");
+        }
+        else {
+            transactionsGenerals = transactionService.getGroupTransactionsGenerals(groupId, period);
+        }
 
         req.setAttribute("income", transactionsGenerals.get(0).values().stream().mapToInt(Integer::intValue).sum());
         req.setAttribute("expense", transactionsGenerals.get(1).values().stream().mapToInt(Integer::intValue).sum());
@@ -54,5 +61,14 @@ public class GroupServlet extends HttpServlet {
         req.setAttribute("groupId", groupId);
         req.setAttribute("userId", userId);
         req.getRequestDispatcher("/templates/groups/group.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int userId = (Integer) req.getSession().getAttribute("userId");
+        int groupId = Integer.parseInt(req.getParameter("groupId"));
+
+        groupMemberService.deleteByUserIdAndGroupId(userId, groupId);
+        resp.sendRedirect("/mainPage");
     }
 }

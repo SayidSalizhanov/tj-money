@@ -1,36 +1,32 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.RecordDAO;
+import ru.itis.tjmoney.dao.interfaces.IRecordDAO;
 import ru.itis.tjmoney.dto.RecordDTO;
 import ru.itis.tjmoney.models.Record;
+import ru.itis.tjmoney.services.interfaces.IRecordService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class RecordService {
-    private final RecordDAO recordDAO;
+public class RecordService implements IRecordService {
+    private final IRecordDAO recordDAO;
 
-    public RecordService(RecordDAO recordDAO) {
+    public RecordService(IRecordDAO recordDAO) {
         this.recordDAO = recordDAO;
     }
 
-    public List<Record> getUserRecords(int userId) {
-        return recordDAO.findUserRecords(userId);
-    }
-
-    public List<Record> getGroupRecords(int groupId) {
-        return recordDAO.findGroupRecords(groupId);
-    }
-
+    @Override
     public List<Record> getUserAndGroupRecords(int userId, int groupId) {
         return groupId == 0 ? recordDAO.findUserRecords(userId) : recordDAO.findGroupRecords(groupId);
     }
 
+    @Override
     public Record getRecord(int recordId) {
         return recordDAO.findRecordById(recordId);
     }
 
+    @Override
     public RecordDTO getRecordDTO(int recordId) {
         Record record = getRecord(recordId);
 
@@ -42,6 +38,7 @@ public class RecordService {
         );
     }
 
+    @Override
     public void save(int userId, int groupId, String title, String content) {
         recordDAO.save(new Record(
                 0,
@@ -54,10 +51,12 @@ public class RecordService {
         ));
     }
 
+    @Override
     public void delete(int id) {
         recordDAO.deleteById(id);
     }
 
+    @Override
     public void update(String title, String content, int id) {
         recordDAO.update(new Record(
                 id,
@@ -68,7 +67,5 @@ public class RecordService {
                 null,
                 LocalDateTime.now()
         ));
-
-        // здесь должна быть какая-то проверка
     }
 }

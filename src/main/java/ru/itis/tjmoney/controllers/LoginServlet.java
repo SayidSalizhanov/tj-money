@@ -9,23 +9,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru.itis.tjmoney.exceptions.LoginException;
 import ru.itis.tjmoney.models.User;
-import ru.itis.tjmoney.services.LoginService;
+import ru.itis.tjmoney.services.interfaces.ILoginService;
 
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private LoginService loginService;
+    private ILoginService loginService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        loginService = (LoginService) getServletContext().getAttribute("loginService");
+        loginService = (ILoginService) getServletContext().getAttribute("loginService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/templates/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/mainPage");
         } catch (LoginException e) {
             req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/templates/login.jsp").forward(req, resp);
         }
     }
 }

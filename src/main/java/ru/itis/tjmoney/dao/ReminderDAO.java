@@ -1,5 +1,6 @@
 package ru.itis.tjmoney.dao;
 
+import ru.itis.tjmoney.dao.interfaces.IReminderDAO;
 import ru.itis.tjmoney.exceptions.DaoException;
 import ru.itis.tjmoney.models.Goal;
 import ru.itis.tjmoney.models.Reminder;
@@ -9,19 +10,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReminderDAO {
+public class ReminderDAO implements IReminderDAO {
     private static final String FIND_USER_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE group_id = ?";
-    private static final String FIND_USER_AND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id = ?";
     private static final String FIND_REMINDER_BY_ID_SQL = "SELECT * FROM Reminders WHERE id = ?";
     private static final String SAVE_SQL = "INSERT INTO Reminders (user_id, group_id, title, message, send_at, status) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM Reminders WHERE id = ?";
     private static final String UPDATE_SQL = "UPDATE Reminders SET title = ?, message = ?, send_at = ? WHERE id = ?";
 
+    @Override
     public List<Reminder> findUserReminders(int userId) {
         return getReminders(userId, FIND_USER_REMINDERS_SQL);
     }
 
+    @Override
     public List<Reminder> findGroupReminders(int groupId) {
         return getReminders(groupId, FIND_GROUP_REMINDERS_SQL);
     }
@@ -53,35 +55,7 @@ public class ReminderDAO {
         return reminders;
     }
 
-    public List<Reminder> findUserAndGroupReminders(int userId, int groupId) {
-        List<Reminder> reminders = new ArrayList<>();
-
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_USER_AND_GROUP_REMINDERS_SQL)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, groupId);
-
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                reminders.add(
-                        new Reminder(
-                                resultSet.getInt("id"),
-                                resultSet.getInt("user_id"),
-                                resultSet.getInt("group_id"),
-                                resultSet.getString("title"),
-                                resultSet.getString("message"),
-                                resultSet.getTimestamp("send_at").toLocalDateTime(),
-                                resultSet.getString("status")
-                        )
-                );
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
-
-        return reminders;
-    }
-
+    @Override
     public Reminder findReminderById(int reminderId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_REMINDER_BY_ID_SQL)) {
@@ -106,6 +80,7 @@ public class ReminderDAO {
         }
     }
 
+    @Override
     public Reminder save(Reminder reminder) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -140,6 +115,7 @@ public class ReminderDAO {
         }
     }
 
+    @Override
     public void update(Reminder updatedReminder) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
@@ -154,6 +130,7 @@ public class ReminderDAO {
         }
     }
 
+    @Override
     public void deleteById(int id) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {

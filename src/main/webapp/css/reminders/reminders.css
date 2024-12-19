@@ -2,13 +2,13 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     background-color: #f4f4f4;
-    font-size: 16px; /* Увеличение текста */
+    font-size: 16px;
 }
 
 .content {
@@ -23,7 +23,7 @@ html, body {
 }
 
 .create-button {
-    background-color: green;
+    background-color: #00819c;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -32,21 +32,21 @@ html, body {
 }
 
 .create-button:hover {
-    background-color: #45a049;
+    background-color: #005e9e;
 }
 
 .reminders-list {
-    background-color: #f4f4f4; /* Основной цвет фона */
+    background-color: #f4f4f4;
     /*padding: 20px;*/
     border-radius: 5px;
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 }
 
 .reminder {
-    background-color: #fff; /* Установка белого фона для каждого напоминания */
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 15px; /* Отступ между плашками */
+    margin-bottom: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -70,7 +70,7 @@ html, body {
 .reminder-details {
     display: flex;
     justify-content: space-between;
-    padding: 10px; /* Увеличение размера плашек */
+    padding: 10px;
     border-radius: 5px;
 }
 
@@ -79,6 +79,6 @@ html, body {
 }
 
 .reminder-details p {
-    margin: 10px 0; /* Увеличение расстояния между строками */
-    font-size: 18px; /* Увеличение текста */
+    margin: 10px 0;
+    font-size: 18px;
 }

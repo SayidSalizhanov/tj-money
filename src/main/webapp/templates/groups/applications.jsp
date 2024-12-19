@@ -16,21 +16,21 @@
         <div class="applications-list">
             <c:forEach var="application" items="${applications}">
                 <div class="application">
-                    <p><strong>Пользователь:</strong> ${application.getUsername()}</p>
-                    <p><strong>Дата:</strong> ${application.getSendAt()}</p>
-                    <form action="/group/applications" method="post" class="action-form" id="approve-form-${application.getApplicationId()}">
-                        <input type="hidden" name="username" value="${application.getUsername()}">
-                        <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
+                    <p><strong>Пользователь:</strong> ${application.username}</p>
+                    <p><strong>Дата:</strong> ${application.sendAt}</p>
+                    <form action="/group/applications" method="post" class="action-form" id="approve-form-${application.applicationId}">
+                        <input type="hidden" name="username" value="${application.username}">
+                        <input type="hidden" name="applicationId" value="${application.applicationId}">
                         <input type="hidden" name="applicationStatus" value="Одобрено">
                         <input type="hidden" name="groupId" value="${groupId}">
-                        <button type="submit" class="approve-button" id="approve-button-${application.getApplicationId()}">Принять</button>
+                        <button type="submit" class="approve-button" id="approve-button-${application.applicationId}">Принять</button>
                     </form>
-                    <form action="/group/applications" method="post" class="action-form" id="reject-form-${application.getApplicationId()}">
-                        <input type="hidden" name="username" value="${application.getUsername()}">
-                        <input type="hidden" name="applicationId" value="${application.getApplicationId()}">
+                    <form action="/group/applications" method="post" class="action-form" id="reject-form-${application.applicationId}">
+                        <input type="hidden" name="username" value="${application.username}">
+                        <input type="hidden" name="applicationId" value="${application.applicationId}">
                         <input type="hidden" name="applicationStatus" value="Отклонено">
                         <input type="hidden" name="groupId" value="${groupId}">
-                        <button type="submit" class="reject-button" id="reject-button-${application.getApplicationId()}">Отклонить</button>
+                        <button type="submit" class="reject-button" id="reject-button-${application.applicationId}">Отклонить</button>
                     </form>
                 </div>
             </c:forEach>

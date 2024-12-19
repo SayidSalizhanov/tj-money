@@ -19,11 +19,11 @@
         <c:forEach var="record" items="${records}">
             <form action="/record" method="get" class="record-form">
                 <div class="record">
-                    <input type="hidden" name="recordId" value="${record.getId()}">
+                    <input type="hidden" name="recordId" value="${record.id}">
                     <input type="hidden" name="groupId" value="${groupId}">
                     <button type="submit" class="record-button">
                         <div class="record-details">
-                            <p>Название: ${record.getTitle()}</p>
+                            <p>Название: ${record.title}</p>
                         </div>
                     </button>
                 </div>

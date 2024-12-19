@@ -1,8 +1,8 @@
 html, body {
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
 }
 
@@ -59,15 +59,15 @@ button.save-button:hover {
     background-color: #45a049;
 }
 
-button.back-button {
-    background-color: #ccc;
-    color: black;
+button.upload-button {
+    background-color: #0099b6;
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-button.back-button:hover {
-    background-color: #bbb;
+button.upload-button:hover {
+    background-color: #3535cc;
 }

@@ -1,28 +1,30 @@
 package ru.itis.tjmoney.services;
 
-import ru.itis.tjmoney.dao.ApplicationDAO;
-import ru.itis.tjmoney.dao.GroupDAO;
-import ru.itis.tjmoney.dao.UserDAO;
+import ru.itis.tjmoney.dao.interfaces.IApplicationDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupDAO;
+import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.dto.ApplicationGroupDTO;
 import ru.itis.tjmoney.dto.ApplicationUserDTO;
 import ru.itis.tjmoney.models.Application;
+import ru.itis.tjmoney.services.interfaces.IApplicationService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationService {
-    private final ApplicationDAO applicationDAO;
-    private final GroupDAO groupDAO;
-    private final UserDAO userDAO;
+public class ApplicationService implements IApplicationService {
+    private final IApplicationDAO applicationDAO;
+    private final IGroupDAO groupDAO;
+    private final IUserDAO userDAO;
 
-    public ApplicationService(ApplicationDAO applicationDAO, GroupDAO groupDAO, UserDAO userDAO) {
+    public ApplicationService(IApplicationDAO applicationDAO, IGroupDAO groupDAO, IUserDAO userDAO) {
         this.applicationDAO = applicationDAO;
         this.groupDAO = groupDAO;
         this.userDAO = userDAO;
     }
 
+    @Override
     public List<ApplicationGroupDTO> getUserApplicationGroupDTOs(int userId) {
         List<Application> applications = applicationDAO.findUserApplications(userId);
 
@@ -41,6 +43,7 @@ public class ApplicationService {
         return applicationsDTOs;
     }
 
+    @Override
     public List<ApplicationUserDTO> getGroupApplicationUserDTOs(int groupId) {
         List<Application> applications = applicationDAO.findGroupApplications(groupId).stream()
                                                                                       .filter(a -> a.getStatus().equalsIgnoreCase("В ожидании"))
@@ -60,10 +63,12 @@ public class ApplicationService {
         return applicationsDTOs;
     }
 
+    @Override
     public void deleteUserApplication(int id) {
-        applicationDAO.deleteApplicationByUserId(id);
+        applicationDAO.deleteApplicationById(id);
     }
 
+    @Override
     public void createApplication(int userId, int groupId) {
         applicationDAO.save(
                 new Application(
@@ -76,6 +81,7 @@ public class ApplicationService {
         );
     }
 
+    @Override
     public void updateStatus(int applicationId, String applicationStatus) {
         applicationDAO.update(
                 new Application(

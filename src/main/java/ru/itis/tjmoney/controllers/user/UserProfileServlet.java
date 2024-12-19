@@ -6,10 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.itis.tjmoney.services.ApplicationService;
-import ru.itis.tjmoney.services.GroupService;
-import ru.itis.tjmoney.services.TransactionService;
-import ru.itis.tjmoney.services.UserService;
+import ru.itis.tjmoney.services.interfaces.ITransactionService;
+import ru.itis.tjmoney.services.interfaces.IUserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,27 +15,32 @@ import java.util.Map;
 
 @WebServlet("/user")
 public class UserProfileServlet extends HttpServlet {
-    private UserService userService;
-    private TransactionService transactionService;
-    private GroupService groupService;
-    private ApplicationService applicationService;
+    private IUserService userService;
+    private ITransactionService transactionService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userService = (UserService) getServletContext().getAttribute("userService");
-        transactionService = (TransactionService) getServletContext().getAttribute("transactionService");
-        groupService = (GroupService) getServletContext().getAttribute("groupService");
-        applicationService = (ApplicationService) getServletContext().getAttribute("applicationService");
+        userService = (IUserService) getServletContext().getAttribute("userService");
+        transactionService = (ITransactionService) getServletContext().getAttribute("transactionService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = (Integer) req.getSession().getAttribute("userId");
 
-        List<Map<String, Integer>> transactionsGenerals = transactionService.getUserTransactionsGenerals(userId);
+        List<Map<String, Integer>> transactionsGenerals;
+
+        String period = req.getParameter("period");
+        if (period == null || period.isEmpty()) {
+            transactionsGenerals = transactionService.getUserTransactionsGenerals(userId, "all");
+        }
+        else {
+            transactionsGenerals = transactionService.getUserTransactionsGenerals(userId, period);
+        }
 
         req.setAttribute("user", userService.getUserById(userId));
+        req.setAttribute("urlPhoto", userService.getPhotoUrl(userId));
 
         req.setAttribute("income", transactionsGenerals.get(0).values().stream().mapToInt(Integer::intValue).sum());
         req.setAttribute("expense", transactionsGenerals.get(1).values().stream().mapToInt(Integer::intValue).sum());

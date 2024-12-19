@@ -17,16 +17,16 @@
 
         <div class="form">
             <label for="title">Название:</label><br>
-            <input type="text" id="title" name="title" value="${record.getTitle()}" required><br><br>
+            <input type="text" id="title" name="title" value="${record.title}" required><br><br>
 
             <label for="createdAt">Создана:</label><br>
-            <p id="createdAt">${record.getCreatedAt()}</p><br>
+            <p id="createdAt">${record.createdAt}</p><br>
 
             <label for="updatedAt">Изменена:</label><br>
-            <p id="updatedAt">${record.getUpdatedAt()}</p><br>
+            <p id="updatedAt">${record.updatedAt}</p><br>
 
             <label for="content">Содержание:</label><br>
-            <textarea id="content" name="content" required>${record.getContent()}</textarea><br><br>
+            <textarea id="content" name="content" required>${record.content}</textarea><br><br>
 
             <button type="submit" class="save-button">Сохранить изменения</button>
         </div>

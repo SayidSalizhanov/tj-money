@@ -11,7 +11,8 @@ import ru.itis.tjmoney.services.GoalService;
 
 import java.io.IOException;
 
-@WebServlet("/lajkbnpna")
+/*
+@WebServlet("/prototypes/1")
 public class GoalServletPrototype extends HttpServlet {
     private GoalService goalService;
 
@@ -202,3 +203,4 @@ public class GoalServletPrototype extends HttpServlet {
         }
     }
 }
+*/

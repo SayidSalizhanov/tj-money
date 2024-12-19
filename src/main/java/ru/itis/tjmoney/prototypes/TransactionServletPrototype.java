@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/dlknbkdn")
+/*
+@WebServlet("/prototypes/5")
 public class TransactionServletPrototype extends HttpServlet {
     private TransactionService transactionService;
 
@@ -212,3 +213,4 @@ public class TransactionServletPrototype extends HttpServlet {
         }
     }
 }
+*/

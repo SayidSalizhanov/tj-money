@@ -2,10 +2,10 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('/static/background.png'); /* Указываем путь к изображению */
-    background-size: cover; /* Изображение будет покрывать всю страницу */
-    background-repeat: no-repeat; /* Изображение не будет повторяться */
-    background-attachment: fixed; /* Фон фиксируется при прокрутке */
+    background-image: url('/static/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position: center;
     background-color: #f4f4f4;
     font-size: 16px;
@@ -26,7 +26,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px; /* Отступ между элементами */
+    margin-bottom: 15px;
 }
 
 .group {
@@ -34,11 +34,10 @@ html, body {
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    flex-grow: 1; /* Расширение на всю доступную ширину */
+    flex-grow: 1;
     margin-right: 10px;
     display: flex;
     align-items: center;
-    /*padding: 10px;*/
 }
 
 .group-form {
@@ -54,7 +53,6 @@ html, body {
     text-align: left;
     cursor: pointer;
     text-decoration: none;
-    /*padding: 10px;*/
 }
 
 .group-button:hover .group-details {

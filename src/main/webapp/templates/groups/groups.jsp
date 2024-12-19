@@ -16,19 +16,19 @@
             <div class="group-wrapper">
                 <form action="/group/viewing" method="get" class="group-form">
                     <div class="group">
-                        <input type="hidden" name="groupId" value="${group.getId()}">
+                        <input type="hidden" name="groupId" value="${group.id}">
                         <button type="submit" class="group-button">
                             <div class="group-details">
                                 <div class="left-column">
-                                    <p>Название: ${group.getName()}</p>
+                                    <p>Название: ${group.name}</p>
                                 </div>
                             </div>
                         </button>
                     </div>
                 </form>
-                <form action="/groups" method="post" class="apply-form" id="apply-form-${group.getId()}">
-                    <input type="hidden" name="groupId" value="${group.getId()}">
-                    <button type="submit" class="apply-button" id="apply-button-${group.getId()}">Подать заявку</button>
+                <form action="/groups" method="post" class="apply-form" id="apply-form-${group.id}">
+                    <input type="hidden" name="groupId" value="${group.id}">
+                    <button type="submit" class="apply-button" id="apply-button-${group.id}">Подать заявку</button>
                 </form>
             </div>
         </c:forEach>

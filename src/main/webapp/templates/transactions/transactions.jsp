@@ -19,22 +19,22 @@
         <c:forEach var="transaction" items="${transactions}">
             <form action="/transaction" method="get" class="transaction-form">
                 <div class="transaction">
-                    <input type="hidden" name="transactionId" value="${transaction.getTransactionId()}">
+                    <input type="hidden" name="transactionId" value="${transaction.transactionId}">
                     <input type="hidden" name="groupId" value="${groupId}">
                     <button type="submit" class="transaction-button">
                         <div class="transaction-details">
                             <div class="left-column">
                                 <c:if test="${groupId != 0}">
-                                    <p>Участник: ${transaction.getUsername()}</p>
+                                    <p>Участник: ${transaction.username}</p>
                                 </c:if>
                                 <c:if test="${groupId == 0}">
-                                    <p>Финансы: ${transaction.getAmount()}</p>
+                                    <p>Финансы: ${transaction.amount}</p>
                                 </c:if>
-                                <p>Дата: ${transaction.getDateTime().toString()}</p>
+                                <p>Дата: ${transaction.dateTime}</p>
                             </div>
                             <div class="right-column">
-                                <p>Категория: ${transaction.getCategory()}</p>
-                                <p>Тип: ${transaction.getType()}</p>
+                                <p>Категория: ${transaction.category}</p>
+                                <p>Тип: ${transaction.type}</p>
                             </div>
                         </div>
                     </button>
