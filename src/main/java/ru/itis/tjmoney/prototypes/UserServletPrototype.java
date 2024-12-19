@@ -13,7 +13,8 @@ import ru.itis.tjmoney.services.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/ladfkbka")
+/*
+@WebServlet("/prototypes/6")
 public class UserServletPrototype extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
@@ -264,3 +265,4 @@ public class UserServletPrototype extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/users/" + userId + "/groups/applications");
     }
 }
+*/

@@ -13,7 +13,8 @@ import ru.itis.tjmoney.services.*;
 
 import java.io.IOException;
 
-@WebServlet("/ojkfnmm")
+/*
+@WebServlet("/prototypes/2")
 public class GroupServletPrototype extends HttpServlet {
     private UserService userService;
     private TransactionService transactionService;
@@ -368,3 +369,4 @@ public class GroupServletPrototype extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/groups/" + groupId + "/members");
     }
 }
+*/
