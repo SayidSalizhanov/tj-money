@@ -1,6 +1,7 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.ReminderDAO;
+import ru.itis.tjmoney.exceptions.ReminderException;
 import ru.itis.tjmoney.models.Reminder;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class ReminderService {
     }
 
     public void save(int userId, int groupId, String title, String message, LocalDateTime sendAt) {
+        if (sendAt.isBefore(LocalDateTime.now())) throw new ReminderException("Дата и время напоминания не могу быть в прошлом");
         reminderDAO.save(
                 new Reminder(
                         0,
@@ -59,7 +61,5 @@ public class ReminderService {
                         null
                 )
         );
-
-        // здесь должна быть какая-то проверка
     }
 }

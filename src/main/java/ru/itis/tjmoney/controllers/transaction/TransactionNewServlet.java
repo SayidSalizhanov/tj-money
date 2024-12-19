@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.itis.tjmoney.exceptions.TransactionException;
 import ru.itis.tjmoney.services.TransactionService;
 
 import java.io.IOException;
@@ -58,9 +59,16 @@ public class TransactionNewServlet extends HttpServlet {
         req.getRequestDispatcher("/templates/transactions/newTransaction.jsp").forward(req, resp);
     }
 
-    private void postTransactionNew(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        transactionService.save(userId, groupId, amount, category, type, date, description);
-        if (groupId == 0) resp.sendRedirect("/transactions");
-        else resp.sendRedirect("/transactions?groupId=%d".formatted(groupId));
+    private void postTransactionNew(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        try {
+            transactionService.save(userId, groupId, amount, category, type, date, description);
+            if (groupId == 0) resp.sendRedirect("/transactions");
+            else resp.sendRedirect("/transactions?groupId=%d".formatted(groupId));
+        } catch (TransactionException e) {
+            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute("userId", userId);
+            req.setAttribute("groupId", groupId);
+            req.getRequestDispatcher("/templates/transactions/newTransaction.jsp").forward(req, resp);
+        }
     }
 }

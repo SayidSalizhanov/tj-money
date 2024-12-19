@@ -8,6 +8,7 @@ import ru.itis.tjmoney.dao.UserDAO;
 import ru.itis.tjmoney.dto.ExcelParseTransactionDTO;
 import ru.itis.tjmoney.dto.TransactionDTO;
 import ru.itis.tjmoney.exceptions.ExcelParseException;
+import ru.itis.tjmoney.exceptions.TransactionException;
 import ru.itis.tjmoney.models.Transaction;
 
 import java.io.InputStream;
@@ -115,6 +116,8 @@ public class TransactionService {
     }
 
     public void save(int userId, int groupId, int amount, String category, String type, LocalDateTime date, String description) {
+        if (date.isAfter(LocalDateTime.now())) throw new TransactionException("Транзакция не может быть совершена в будущем");
+
         transactionDAO.save(new Transaction(
                 0,
                 userId,
