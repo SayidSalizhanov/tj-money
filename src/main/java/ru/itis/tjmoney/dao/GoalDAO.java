@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoalDAO implements IGoalDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String FIND_USER_GOALS_SQL = "SELECT * FROM Goals WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_GROUP_GOALS_SQL = "SELECT * FROM Goals WHERE group_id = ?";
     private static final String FIND_GOAL_BY_ID_SQL = "SELECT * FROM Goals WHERE id = ?";
@@ -30,8 +32,7 @@ public class GoalDAO implements IGoalDAO {
     private List<Goal> getGoals(int parameter, String sql) {
         List<Goal> goals = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, parameter);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -55,8 +56,7 @@ public class GoalDAO implements IGoalDAO {
 
     @Override
     public Goal findGoalById(int goalId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_GOAL_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_GOAL_BY_ID_SQL)) {
             statement.setInt(1, goalId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -79,8 +79,7 @@ public class GoalDAO implements IGoalDAO {
 
     @Override
     public Goal save(Goal goal) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, goal.getUserId());
             if (goal.getGroupId() == 0) {
                 statement.setNull(2, java.sql.Types.INTEGER);
@@ -112,8 +111,7 @@ public class GoalDAO implements IGoalDAO {
 
     @Override
     public void update(Goal updatedGoal) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedGoal.getTitle());
             statement.setString(2, updatedGoal.getDescription());
             statement.setInt(3, updatedGoal.getProgress());
@@ -127,8 +125,7 @@ public class GoalDAO implements IGoalDAO {
 
     @Override
     public void deleteById(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();

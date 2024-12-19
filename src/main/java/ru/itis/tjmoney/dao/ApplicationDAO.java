@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationDAO implements IApplicationDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static String FIND_APPLICATIONS_BY_USERID_SQL = "SELECT * FROM Applications WHERE user_id = ?";
     private static String FIND_APPLICATIONS_BY_GROUPID_SQL = "SELECT * FROM Applications WHERE group_id = ?";
     private static String DELETE_APPLICATION_BY_ID_SQL = "DELETE FROM Applications WHERE id = ?";
@@ -19,8 +21,7 @@ public class ApplicationDAO implements IApplicationDAO {
 
     @Override
     public void update(Application application) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_SQL)) {
             statement.setString(1, application.getStatus());
             statement.setInt(2, application.getId());
 
@@ -34,8 +35,7 @@ public class ApplicationDAO implements IApplicationDAO {
     public List<Application> findUserApplications(int userId) {
         List<Application> applications = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_USERID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_USERID_SQL)) {
             statement.setInt(1, userId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -61,8 +61,7 @@ public class ApplicationDAO implements IApplicationDAO {
     public List<Application> findGroupApplications(int groupId) {
         List<Application> applications = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_GROUPID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_APPLICATIONS_BY_GROUPID_SQL)) {
             statement.setInt(1, groupId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -86,8 +85,7 @@ public class ApplicationDAO implements IApplicationDAO {
 
     @Override
     public void deleteByUserIdAndGroupId(int userId, int groupId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_USER_ID_AND_GROUP_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_USER_ID_AND_GROUP_ID_SQL)) {
             statement.setInt(1, userId);
             statement.setInt(2, groupId);
 
@@ -99,8 +97,7 @@ public class ApplicationDAO implements IApplicationDAO {
 
     @Override
     public void deleteApplicationById(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_APPLICATION_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_APPLICATION_BY_ID_SQL)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -110,8 +107,7 @@ public class ApplicationDAO implements IApplicationDAO {
 
     @Override
     public void save(Application application) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_APPLICATION_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_APPLICATION_SQL)) {
             statement.setInt(1, application.getUserId());
             statement.setInt(2, application.getGroupId());
             statement.setTimestamp(3, Timestamp.valueOf(application.getSendAt()));

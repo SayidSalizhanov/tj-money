@@ -9,12 +9,20 @@ public final class ConnectionManager {
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "postgres";
 
+    private static Connection connection;
+
+    private ConnectionManager() {
+    }
+
     public static Connection getConnection() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        if (connection == null) {
+            try {
+                Class.forName("org.postgresql.Driver");
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return connection;
     }
 }

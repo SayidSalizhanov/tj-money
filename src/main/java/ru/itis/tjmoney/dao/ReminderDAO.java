@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderDAO implements IReminderDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String FIND_USER_REMINDERS_SQL = "SELECT * FROM Reminders WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_GROUP_REMINDERS_SQL = "SELECT * FROM Reminders WHERE group_id = ?";
     private static final String FIND_REMINDER_BY_ID_SQL = "SELECT * FROM Reminders WHERE id = ?";
@@ -31,8 +33,7 @@ public class ReminderDAO implements IReminderDAO {
     private List<Reminder> getReminders(int parameter, String sql) {
         List<Reminder> reminders = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, parameter);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -57,8 +58,7 @@ public class ReminderDAO implements IReminderDAO {
 
     @Override
     public Reminder findReminderById(int reminderId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_REMINDER_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_REMINDER_BY_ID_SQL)) {
             statement.setInt(1, reminderId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -82,8 +82,7 @@ public class ReminderDAO implements IReminderDAO {
 
     @Override
     public Reminder save(Reminder reminder) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, reminder.getUserId());
             if (reminder.getGroupId() == 0) {
                 statement.setNull(2, java.sql.Types.INTEGER);
@@ -117,8 +116,7 @@ public class ReminderDAO implements IReminderDAO {
 
     @Override
     public void update(Reminder updatedReminder) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedReminder.getTitle());
             statement.setString(2, updatedReminder.getMessage());
             statement.setTimestamp(3, Timestamp.valueOf(updatedReminder.getSendAt()));
@@ -132,8 +130,7 @@ public class ReminderDAO implements IReminderDAO {
 
     @Override
     public void deleteById(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();

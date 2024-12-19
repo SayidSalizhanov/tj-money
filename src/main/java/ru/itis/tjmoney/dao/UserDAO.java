@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements IUserDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM Users WHERE email = ?";
     private static final String FIND_BY_USERNAME_SQL = "SELECT * FROM Users WHERE username = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM Users WHERE id = ?";
@@ -20,8 +22,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User findById(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL);) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_SQL);) {
             statement.setInt(1, id);
             return getUser(statement);
         } catch (SQLException e) {
@@ -31,8 +32,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User findByEmail(String email) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
             statement.setString(1, email);
             return getUser(statement);
         } catch (SQLException e) {
@@ -42,8 +42,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User findByUsername(String username) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME_SQL);) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME_SQL);) {
             statement.setString(1, username);
             return getUser(statement);
         } catch (SQLException e) {
@@ -70,8 +69,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User save(User user) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
@@ -93,8 +91,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void update(User updatedUser) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedUser.getUsername());
             statement.setString(2, updatedUser.getTelegramId());
             statement.setBoolean(3, updatedUser.isSendingToTelegram());
@@ -109,8 +106,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void updatePassword(String newPassword, int userId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD_SQL)) {
             statement.setString(1, newPassword);
             statement.setInt(2, userId);
 
@@ -122,8 +118,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();

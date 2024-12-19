@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDAO implements IArticleDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String FIND_ALL_SQL = "SELECT * FROM Articles";
 
     @Override
     public List<Article> findAll() {
         List<Article> articles = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
             while (resultSet.next()) {
                 articles.add(

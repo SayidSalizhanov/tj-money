@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDAO implements ITransactionDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String FIND_USER_TRANSACTIONS_SQL = "SELECT * FROM Transactions WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_USER_TRANSACTIONS_DAY_SQL = "SELECT * FROM Transactions WHERE user_id = ? AND group_id IS NULL AND DATE(date_time) = CURRENT_DATE";
     private static final String FIND_USER_TRANSACTIONS_MONTH_SQL = "SELECT * FROM Transactions WHERE user_id = ? AND group_id IS NULL AND date_time >= CURRENT_DATE - INTERVAL '30 days'";
@@ -41,8 +43,7 @@ public class TransactionDAO implements ITransactionDAO {
                 sql = FIND_USER_TRANSACTIONS_SQL;
         }
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -84,8 +85,7 @@ public class TransactionDAO implements ITransactionDAO {
                 sql = FIND_GROUP_TRANSACTIONS_SQL;
         }
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, groupId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -111,8 +111,7 @@ public class TransactionDAO implements ITransactionDAO {
 
     @Override
     public Transaction findTransactionById(int transactionId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_TRANSACTION_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_TRANSACTION_BY_ID_SQL)) {
             statement.setInt(1, transactionId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -137,8 +136,7 @@ public class TransactionDAO implements ITransactionDAO {
 
     @Override
     public Transaction save(Transaction transaction) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, transaction.getUserId());
             if (transaction.getGroupId() == 0) {
                 statement.setNull(2, java.sql.Types.INTEGER);
@@ -174,8 +172,7 @@ public class TransactionDAO implements ITransactionDAO {
 
     @Override
     public void update(Transaction updatedTransaction) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setInt(1, updatedTransaction.getAmount());
             statement.setString(2, updatedTransaction.getCategory());
             statement.setString(3, updatedTransaction.getType());
@@ -190,8 +187,7 @@ public class TransactionDAO implements ITransactionDAO {
 
     @Override
     public void deleteById(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupMemberDAO implements IGroupMemberDAO {
+    private final Connection connection = ConnectionManager.getConnection();
+
     private static final String SAVE_SQL = "INSERT INTO Group_Members (user_id, group_id, joined_at, role) VALUES (?, ?, ?, ?)";
     private static final String FIND_GROUP_MEMBERS_BY_USER_ID_SQL = "SELECT * FROM Group_Members WHERE user_id = ?";
     private static final String FIND_GROUP_MEMBERS_BY_GROUP_ID_SQL = "SELECT * FROM Group_Members WHERE group_id = ?";
@@ -21,8 +23,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();
@@ -33,8 +34,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
     @Override
     public void deleteByUserIdAndGroupId(int userId, int groupId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_USERID_BY_GROUPID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_USERID_BY_GROUPID_SQL)) {
             statement.setInt(1, userId);
             statement.setInt(2, groupId);
 
@@ -46,8 +46,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
     @Override
     public GroupMember findByUserIdAndGroupId(int userId, int groupId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBER_BY_USER_ID_AND_BY_GROUP_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBER_BY_USER_ID_AND_BY_GROUP_ID)) {
             statement.setInt(1, userId);
             statement.setInt(2, groupId);
 
@@ -69,8 +68,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
     @Override
     public GroupMember save(GroupMember groupMember) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, groupMember.getUserId());
             statement.setInt(2, groupMember.getGroupId());
             statement.setTimestamp(3, Timestamp.valueOf(groupMember.getJoinedAt()));
@@ -92,8 +90,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
     public List<GroupMember> findByUserId(int userId) {
         List<GroupMember> groupMembers = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_USER_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_USER_ID_SQL)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
@@ -119,8 +116,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
     public List<GroupMember> findByGroupId(int groupId) {
         List<GroupMember> groupMembers = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_GROUP_ID_SQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_GROUP_ID_SQL)) {
             statement.setInt(1, groupId);
             ResultSet resultSet = statement.executeQuery();
 
