@@ -45,7 +45,7 @@
         </c:forEach>
     </div>
     <div class="empty-list">
-        <c:if test="${empty applicationsDTOs}">
+        <c:if test="${empty userGroupsDTOs}">
             <p>Тут ничего нет...</p>
         </c:if>
     </div>
