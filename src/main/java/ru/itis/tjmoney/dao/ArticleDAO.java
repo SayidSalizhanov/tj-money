@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDAO implements IArticleDAO {
-    private final Connection connection = ConnectionManager.getConnection();
+//    private final Connection connection = ConnectionManager.getConnection();
 
     private static final String FIND_ALL_SQL = "SELECT * FROM Articles";
 
@@ -21,7 +21,8 @@ public class ArticleDAO implements IArticleDAO {
     public List<Article> findAll() {
         List<Article> articles = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement();
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
             while (resultSet.next()) {
                 articles.add(

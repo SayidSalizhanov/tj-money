@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordDAO implements IRecordDAO {
-    private final Connection connection = ConnectionManager.getConnection();
+//    private final Connection connection = ConnectionManager.getConnection();
 
     private static final String FIND_USER_RECORDS_SQL = "SELECT * FROM Records WHERE user_id = ? AND group_id IS NULL";
     private static final String FIND_GROUP_RECORDS_SQL = "SELECT * FROM Records WHERE group_id = ?";
@@ -33,7 +33,8 @@ public class RecordDAO implements IRecordDAO {
     private List<Record> getRecords(int parameter, String sql) {
         List<Record> records = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, parameter);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -58,7 +59,8 @@ public class RecordDAO implements IRecordDAO {
 
     @Override
     public Record findRecordById(int recordId) {
-        try (PreparedStatement statement = connection.prepareStatement(FIND_RECORD_BY_ID_SQL)) {
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(FIND_RECORD_BY_ID_SQL)) {
             statement.setInt(1, recordId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -82,7 +84,8 @@ public class RecordDAO implements IRecordDAO {
 
     @Override
     public Record save(Record record) {
-        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, record.getUserId());
             if (record.getGroupId() == 0) {
                 statement.setNull(2, java.sql.Types.INTEGER);
@@ -116,7 +119,8 @@ public class RecordDAO implements IRecordDAO {
 
     @Override
     public void update(Record updatedRecord) {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, updatedRecord.getTitle());
             statement.setString(2, updatedRecord.getContent());
             statement.setTimestamp(3, Timestamp.valueOf(updatedRecord.getUpdatedAt()));
@@ -130,7 +134,8 @@ public class RecordDAO implements IRecordDAO {
 
     @Override
     public void deleteById(int id) {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();

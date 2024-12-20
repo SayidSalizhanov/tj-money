@@ -38,4 +38,25 @@ public final class ConnectionManager {
         }
         return connection;
     }
+
+    public static Connection getConnectionNonSingleton() {
+        try {
+            Properties properties = new Properties();
+            try (InputStream input = ConnectionManager.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+                if (input == null) {
+                    throw new RuntimeException("Sorry, unable to find " + PROPERTIES_FILE);
+                }
+                properties.load(input);
+            }
+            String url = properties.getProperty("db.url");
+            String username = properties.getProperty("db.username");
+            String password = properties.getProperty("db.password");
+            String driverPath = properties.getProperty("db.driver");
+
+            Class.forName(driverPath);
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
