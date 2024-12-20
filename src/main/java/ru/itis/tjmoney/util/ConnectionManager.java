@@ -39,23 +39,41 @@ public final class ConnectionManager {
         return connection;
     }
 
-    public static Connection getConnectionNonSingleton() {
-        try {
-            Properties properties = new Properties();
-            try (InputStream input = ConnectionManager.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
-                if (input == null) {
-                    throw new RuntimeException("Sorry, unable to find " + PROPERTIES_FILE);
-                }
-                properties.load(input);
-            }
-            String url = properties.getProperty("db.url");
-            String username = properties.getProperty("db.username");
-            String password = properties.getProperty("db.password");
-            String driverPath = properties.getProperty("db.driver");
+//    public static Connection getConnectionNonSingleton() {
+//        try {
+//            Properties properties = new Properties();
+//            try (InputStream input = ConnectionManager.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+//                if (input == null) {
+//                    throw new RuntimeException("Sorry, unable to find " + PROPERTIES_FILE);
+//                }
+//                properties.load(input);
+//            }
+//            String url = properties.getProperty("db.url");
+//            String username = properties.getProperty("db.username");
+//            String password = properties.getProperty("db.password");
+//            String driverPath = properties.getProperty("db.driver");
+//
+//            Class.forName(driverPath);
+//            return DriverManager.getConnection(url, username, password);
+//        } catch (SQLException | ClassNotFoundException | IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-            Class.forName(driverPath);
-            return DriverManager.getConnection(url, username, password);
-        } catch (SQLException | ClassNotFoundException | IOException e) {
+    public static Connection getConnectionNonSingleton() {
+        String PROD_DB_HOST = System.getenv("PROD_DB_HOST");
+        String PROD_DB_PORT = System.getenv("PROD_DB_PORT");
+        String PROD_DB_PASSWORD = System.getenv("PROD_DB_PASSWORD");
+        String PROD_DB_NAME = System.getenv("PROD_DB_NAME");
+        String PROD_DB_USERNAME = System.getenv("PROD_DB_USERNAME");
+        try {
+            Class.forName("org.postgresql.Driver");
+            return DriverManager.getConnection(
+                    "jdbc:postgresql://%s:%s/%s".formatted(PROD_DB_HOST, PROD_DB_PORT, PROD_DB_NAME),
+                    PROD_DB_USERNAME,
+                    PROD_DB_PASSWORD
+            );
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
