@@ -92,7 +92,16 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.4.1</version>
+        </dependency>
     </dependencies>
 
     <build>
