@@ -25,7 +25,7 @@ public class GroupViewingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int groupId = (Integer) req.getSession().getAttribute("userId");
+        int groupId = Integer.parseInt(req.getParameter("groupId"));
 
         getGroupViewing(groupId, req, resp);
     }
