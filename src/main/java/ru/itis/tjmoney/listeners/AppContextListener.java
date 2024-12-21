@@ -18,9 +18,11 @@ public class AppContextListener implements ServletContextListener {
 
         IUserDAO userDAO = new UserDAO();
         IAvatarDAO avatarDAO = new AvatarDAO();
+        IGroupDAO groupDAO = new GroupDAO();
+        IGroupMemberDAO groupMemberDAO = new GroupMemberDAO();
         IRegistrationService registrationService = new RegistrationService(userDAO);
         ILoginService loginService = new LoginService(userDAO);
-        IUserService userService = new UserService(userDAO, avatarDAO);
+        IUserService userService = new UserService(userDAO, avatarDAO, groupMemberDAO, groupDAO);
         sce.getServletContext().setAttribute("registrationService", registrationService);
         sce.getServletContext().setAttribute("loginService", loginService);
         sce.getServletContext().setAttribute("userService", userService);
@@ -29,8 +31,6 @@ public class AppContextListener implements ServletContextListener {
         ITransactionService transactionService = new TransactionService(transactionDAO, userDAO);
         sce.getServletContext().setAttribute("transactionService", transactionService);
 
-        IGroupDAO groupDAO = new GroupDAO();
-        IGroupMemberDAO groupMemberDAO = new GroupMemberDAO();
         IApplicationDAO applicationDAO = new ApplicationDAO();
         IGroupService groupService = new GroupService(userDAO, groupDAO, groupMemberDAO, applicationDAO);
         IGroupMemberService groupMemberService = new GroupMemberService(groupMemberDAO, applicationDAO, userDAO);

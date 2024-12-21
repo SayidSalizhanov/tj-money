@@ -16,6 +16,7 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
     private static final String SAVE_SQL = "INSERT INTO Group_Members (user_id, group_id, joined_at, role) VALUES (?, ?, ?, ?)";
     private static final String FIND_GROUP_MEMBERS_BY_USER_ID_SQL = "SELECT * FROM Group_Members WHERE user_id = ?";
+    private static final String FIND_GROUP_MEMBERS_BY_USER_ID_WHERE_ROLE_ADMIN_SQL = "SELECT * FROM Group_Members WHERE user_id = ? AND role = ?";
     private static final String FIND_GROUP_MEMBERS_BY_GROUP_ID_SQL = "SELECT * FROM Group_Members WHERE group_id = ?";
     private static final String FIND_GROUP_MEMBER_BY_USER_ID_AND_BY_GROUP_ID = "SELECT * FROM Group_Members WHERE user_id = ? AND group_id = ?";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM Group_Members WHERE id = ?";
@@ -96,6 +97,33 @@ public class GroupMemberDAO implements IGroupMemberDAO {
 
         try (Connection connection = ConnectionManager.getConnectionNonSingleton();
              PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_USER_ID_SQL)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                groupMembers.add(
+                        new GroupMember(
+                                resultSet.getInt("id"),
+                                userId,
+                                resultSet.getInt("group_id"),
+                                resultSet.getTimestamp("joined_at").toLocalDateTime(),
+                                resultSet.getString("role")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+
+        return groupMembers;
+    }
+
+    @Override
+    public List<GroupMember> findByUserIdWhereAdmin(int userId) {
+        List<GroupMember> groupMembers = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnectionNonSingleton();
+             PreparedStatement statement = connection.prepareStatement(FIND_GROUP_MEMBERS_BY_USER_ID_WHERE_ROLE_ADMIN_SQL)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 

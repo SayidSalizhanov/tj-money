@@ -1,20 +1,31 @@
 package ru.itis.tjmoney.services;
 
 import ru.itis.tjmoney.dao.interfaces.IAvatarDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupDAO;
+import ru.itis.tjmoney.dao.interfaces.IGroupMemberDAO;
 import ru.itis.tjmoney.dao.interfaces.IUserDAO;
 import ru.itis.tjmoney.exceptions.UpdateException;
 import ru.itis.tjmoney.exceptions.UserNotFoundException;
+import ru.itis.tjmoney.models.Group;
+import ru.itis.tjmoney.models.GroupMember;
 import ru.itis.tjmoney.models.User;
 import ru.itis.tjmoney.services.interfaces.IUserService;
 import ru.itis.tjmoney.util.PasswordUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserService implements IUserService {
     private final IUserDAO userDAO;
     private final IAvatarDAO avatarDAO;
+    private final IGroupMemberDAO groupMemberDAO;
+    private final IGroupDAO groupDAO;
 
-    public UserService(IUserDAO userDAO, IAvatarDAO avatarDAO) {
+    public UserService(IUserDAO userDAO, IAvatarDAO avatarDAO, IGroupMemberDAO groupMemberDAO, IGroupDAO groupDAO) {
         this.userDAO = userDAO;
         this.avatarDAO = avatarDAO;
+        this.groupMemberDAO = groupMemberDAO;
+        this.groupDAO = groupDAO;
     }
 
     @Override
@@ -52,6 +63,10 @@ public class UserService implements IUserService {
 
     @Override
     public void delete(int userId) {
+        List<GroupMember> groupMembers = groupMemberDAO.findByUserIdWhereAdmin(userId);
+        for (GroupMember groupMember : groupMembers) {
+            groupDAO.delete(groupMember.getGroupId());
+        }
         userDAO.delete(userId);
     }
 

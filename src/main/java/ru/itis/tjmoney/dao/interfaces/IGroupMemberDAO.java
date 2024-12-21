@@ -11,4 +11,5 @@ public interface IGroupMemberDAO {
     GroupMember save(GroupMember groupMember);
     List<GroupMember> findByUserId(int userId);
     List<GroupMember> findByGroupId(int groupId);
+    List<GroupMember> findByUserIdWhereAdmin(int userId);
 }
