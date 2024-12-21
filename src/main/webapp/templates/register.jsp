@@ -20,7 +20,7 @@
         <input type="email" id="email" name="email" required>
 
         <label for="password">Введите пароль:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" minlength="8" required>
 
         <label for="confirmPassword">Повторите пароль:</label>
         <input type="password" id="confirmPassword" name="confirmPassword" required>
