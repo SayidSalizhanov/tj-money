@@ -12,10 +12,10 @@
 <h1>Статьи</h1>
 <c:forEach var="article" items="${articles}">
     <div class="article">
-        <h2>${article.title}</h2>
-        <p class="content">${article.content}</p>
-        <p><strong>Автор:</strong> ${article.author}</p>
-        <p><strong>Опубликована:</strong> ${article.publishedAt}</p>
+        <h2><c:out value="${article.title}" /></h2>
+        <p class="content"><c:out value="${article.content}" /></p>
+        <p><strong>Автор:</strong><c:out value="${article.author}" /></p>
+        <p><strong>Опубликована:</strong><c:out value="${article.publishedAt}" /></p>
     </div>
 </c:forEach>
 </body>

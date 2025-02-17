@@ -23,7 +23,7 @@
     </form>
 
     <c:if test="${not empty errorMessage}">
-        <span style="color:red;">${errorMessage}</span><br>
+        <span style="color:red;"><c:out value="${errorMessage}" /></span><br>
     </c:if>
 
     <p>Ещё не зарегистрированы? <a href="/register">Регистрация</a></p>

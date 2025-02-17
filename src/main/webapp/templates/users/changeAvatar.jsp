@@ -13,7 +13,7 @@
     <div class="content">
         <h2>Смена аватара</h2>
         <div class="avatar-preview mb-3">
-            <img src="${urlPhoto}" alt="Avatar" class="rounded-circle" width="250" height="250">
+            <img src="<c:out value="${urlPhoto}" />" alt="Avatar" class="rounded-circle" width="250" height="250">
         </div>
 
         <form action="/user/changeAvatar" method="post" enctype="multipart/form-data" class="avatar-form mb-4">

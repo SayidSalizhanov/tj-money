@@ -14,18 +14,18 @@
         <div class="info-avatar">
             <div class="info">
                 <h2>Информация о пользователе</h2>
-                <p><strong>ID:</strong> ${user.id}</p>
-                <p><strong>Имя пользователя:</strong> ${user.username}</p>
-                <p><strong>Почта:</strong> ${user.email}</p>
+                <p><strong>ID:</strong> <c:out value="${user.id}"/></p>
+                <p><strong>Имя пользователя:</strong> <c:out value="${user.username}"/></p>
+                <p><strong>Почта:</strong> <c:out value="${user.email}"/></p>
                 <c:if test="${user.telegramId == null}">
                     <p><strong>Telegram:</strong> отсутствует</p>
                 </c:if>
                 <c:if test="${user.telegramId != null}">
-                    <p><strong>Telegram:</strong> ${user.telegramId}</p>
+                    <p><strong>Telegram:</strong> <c:out value="${user.telegramId}"/></p>
                 </c:if>
             </div>
             <div class="avatar">
-                <img src="${urlPhoto}" alt="Avatar" class="rounded-circle" width="200" height="200">
+                <img src="<c:out value="${urlPhoto}"/>" alt="Avatar" class="rounded-circle" width="200" height="200">
             </div>
         </div>
 
@@ -59,28 +59,28 @@
         <div class="financial-section">
             <div class="financial-info">
                 <h2>Доходы</h2>
-                <p><strong>Общий доход:</strong> ${income}</p>
-                <p><strong>Заработная плата:</strong> ${Заработная_плата}</p>
-                <p><strong>Прибыль от бизнеса:</strong> ${Прибыль_от_бизнеса}</p>
-                <p><strong>Дивиденты:</strong> ${Дивиденты}</p>
-                <p><strong>Аренда:</strong> ${Аренда}</p>
-                <p><strong>Премии и бонусы:</strong> ${Премии_и_бонусы}</p>
-                <p><strong>Интересы:</strong> ${Интересы}</p>
-                <p><strong>Пенсии и пособия:</strong> ${Пенсии_и_пособия}</p>
-                <p><strong>Другое:</strong> ${Другие_доходы}</p>
+                <p><strong>Общий доход:</strong> <c:out value="${income}"/></p>
+                <p><strong>Заработная плата:</strong> <c:out value="${Заработная_плата}"/></p>
+                <p><strong>Прибыль от бизнеса:</strong> <c:out value="${Прибыль_от_бизнеса}"/></p>
+                <p><strong>Дивиденты:</strong> <c:out value="${Дивиденты}"/></p>
+                <p><strong>Аренда:</strong> <c:out value="${Аренда}"/></p>
+                <p><strong>Премии и бонусы:</strong> <c:out value="${Премии_и_бонусы}"/></p>
+                <p><strong>Интересы:</strong> <c:out value="${Интересы}"/></p>
+                <p><strong>Пенсии и пособия:</strong> <c:out value="${Пенсии_и_пособия}"/></p>
+                <p><strong>Другое:</strong> <c:out value="${Другие_доходы}"/></p>
             </div>
 
             <div class="financial-info">
                 <h2>Расходы</h2>
-                <p><strong>Общие расходы:</strong> ${expense}</p>
-                <p><strong>Еда и напитки:</strong> ${Еда_и_напитки}</p>
-                <p><strong>Транспорт:</strong> ${Транспорт}</p>
-                <p><strong>Жилье:</strong> ${Жилье}</p>
-                <p><strong>Развлечения:</strong> ${Развлечения}</p>
-                <p><strong>Одежда:</strong> ${Одежда}</p>
-                <p><strong>Здоровье:</strong> ${Здоровье}</p>
-                <p><strong>Образование:</strong> ${Образование}</p>
-                <p><strong>Другое:</strong> ${Другие_расходы}</p>
+                <p><strong>Общие расходы:</strong> <c:out value="${expense}"/></p>
+                <p><strong>Еда и напитки:</strong> <c:out value="${Еда_и_напитки}"/></p>
+                <p><strong>Транспорт:</strong> <c:out value="${Транспорт}"/></p>
+                <p><strong>Жилье:</strong> <c:out value="${Жилье}"/></p>
+                <p><strong>Развлечения:</strong> <c:out value="${Развлечения}"/></p>
+                <p><strong>Одежда:</strong> <c:out value="${Одежда}"/></p>
+                <p><strong>Здоровье:</strong> <c:out value="${Здоровье}"/></p>
+                <p><strong>Образование:</strong> <c:out value="${Образование}"/></p>
+                <p><strong>Другое:</strong> <c:out value="${Другие_расходы}"/></p>
             </div>
         </div>
 

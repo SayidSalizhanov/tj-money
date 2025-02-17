@@ -28,7 +28,9 @@
         <button type="submit">Зарегистрироваться</button>
     </form>
     <c:if test="${not empty errorMessage}">
-        <span style="color:red;">${errorMessage}</span><br>
+        <span style="color:red;">
+            <c:out value="${errorMessage}" />
+        </span><br>
     </c:if>
     <p>Уже зарегистрированы? <a href="/login">Войти</a></p>
 </div>

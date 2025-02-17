@@ -28,15 +28,15 @@
         <c:forEach var="group" items="${userGroupsDTOs}">
             <form action="/group" method="get" class="group-form">
                 <div class="group">
-                    <input type="hidden" name="groupId" value="${group.groupId}">
+                    <input type="hidden" name="groupId" value="<c:out value="${group.groupId}"/>">
                     <button type="submit" class="group-button">
                         <div class="group-details">
                             <div class="left-column">
-                                <p>Название: ${group.groupName}</p>
-                                <p>Роль: ${group.role}</p>
+                                <p>Название: <c:out value="${group.groupName}"/></p>
+                                <p>Роль: <c:out value="${group.role}"/></p>
                             </div>
                             <div class="right-column">
-                                <p>Описание: ${group.description}</p>
+                                <p>Описание: <c:out value="${group.description}"/></p>
                             </div>
                         </div>
                     </button>

@@ -29,7 +29,7 @@
             </div>
 
             <c:if test="${not empty errorMessage}">
-                <div class="error-message">${errorMessage}</div>
+                <div class="error-message"><c:out value="${errorMessage}" /></div>
             </c:if>
 
             <button type="submit" class="submit-button">Сменить пароль</button>

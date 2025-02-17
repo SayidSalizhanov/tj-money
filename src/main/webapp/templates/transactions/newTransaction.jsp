@@ -30,10 +30,10 @@
             <label for="description">Описание:</label><br>
             <textarea id="description" name="description" required></textarea><br><br>
 
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
             <c:if test="${not empty errorMessage}">
-                <span style="color:red;">${errorMessage}</span><br>
+                <span style="color:red;"><c:out value="${errorMessage}"/></span><br>
             </c:if>
 
             <button type="submit" class="save-button">Сохранить</button>
@@ -42,7 +42,7 @@
 
     <div class="upload-xls">
         <form action="/transactions/new/uploadTransactions" method="get">
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
             <button type="submit" class="upload-button">Загрузить excel таблицу</button>
         </form>
     </div>

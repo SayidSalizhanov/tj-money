@@ -20,10 +20,10 @@
             <label for="message">Содержание:</label><br>
             <textarea id="message" name="message" required></textarea><br><br>
 
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
             <c:if test="${not empty errorMessage}">
-                <span style="color:red;">${errorMessage}</span><br>
+                <span style="color:red;"><c:out value="${errorMessage}"/></span><br>
             </c:if>
 
             <button type="submit" class="save-button">Сохранить</button>

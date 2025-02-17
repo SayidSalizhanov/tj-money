@@ -14,20 +14,20 @@
         <h2>Настройки группы</h2>
         <form action="/group/settings" method="post" class="settings-form">
             <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
             <div class="form-group">
                 <label for="name">Название группы:</label>
-                <input type="text" id="name" name="name" value="${group.name}">
+                <input type="text" id="name" name="name" value="<c:out value="${group.name}"/>">
             </div>
 
             <div class="form-group">
                 <label for="description">Описание:</label>
-                <textarea id="description" name="description">${group.description}</textarea>
+                <textarea id="description" name="description"><c:out value="${group.description}"/></textarea>
             </div>
 
             <c:if test="${not empty errorMessage}">
-                <span class="error-message">${errorMessage}</span>
+                <span class="error-message"><c:out value="${errorMessage}"/></span>
             </c:if>
 
             <button type="submit" class="save-button">Сохранить изменения</button>
@@ -35,7 +35,7 @@
 
         <form action="/group/settings" method="POST" class="delete-form">
             <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
             <button type="submit" class="delete-button">Удалить группу</button>
         </form>
     </div>

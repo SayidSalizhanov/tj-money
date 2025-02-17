@@ -11,7 +11,7 @@
 
 <div class="content">
     <form action="/goals/new" method="GET" class="create-goal-form">
-        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
         <button type="submit" class="create-button">Создать цель</button>
     </form>
 
@@ -19,15 +19,15 @@
         <c:forEach var="goal" items="${goals}">
             <form action="/goal" method="get" class="goal-form">
                 <div class="goal">
-                    <input type="hidden" name="goalId" value="${goal.id}">
-                    <input type="hidden" name="groupId" value="${groupId}">
+                    <input type="hidden" name="goalId" value="<c:out value="${goal.id}"/>">
+                    <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
                     <button type="submit" class="goal-button">
                         <div class="goal-details">
                             <div class="left-column">
-                                <p>Название: ${goal.title}</p>
+                                <p>Название: <c:out value="${goal.title}"/></p>
                             </div>
                             <div class="right-column">
-                                <p>Прогресс: ${goal.progress}</p>
+                                <p>Прогресс: <c:out value="${goal.progress}"/></p>
                             </div>
                         </div>
                     </button>

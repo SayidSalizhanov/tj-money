@@ -20,7 +20,7 @@
             <label for="description">Содержание:</label><br>
             <textarea id="description" name="description" required></textarea><br><br>
 
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
             <button type="submit" class="save-button">Сохранить цель</button>
         </div>

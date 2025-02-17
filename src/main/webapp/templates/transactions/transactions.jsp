@@ -11,7 +11,7 @@
 
 <div class="content">
     <form action="/transactions/new" method="GET" class="create-transaction-form">
-        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
         <button type="submit" class="create-button">Создать транзакцию</button>
     </form>
 
@@ -19,22 +19,22 @@
         <c:forEach var="transaction" items="${transactions}">
             <form action="/transaction" method="get" class="transaction-form">
                 <div class="transaction">
-                    <input type="hidden" name="transactionId" value="${transaction.transactionId}">
-                    <input type="hidden" name="groupId" value="${groupId}">
+                    <input type="hidden" name="transactionId" value="<c:out value="${transaction.transactionId}"/>">
+                    <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
                     <button type="submit" class="transaction-button">
                         <div class="transaction-details">
                             <div class="left-column">
                                 <c:if test="${groupId != 0}">
-                                    <p>Участник: ${transaction.username}</p>
+                                    <p>Участник: <c:out value="${transaction.username}"/></p>
                                 </c:if>
                                 <c:if test="${groupId == 0}">
-                                    <p>Финансы: ${transaction.amount}</p>
+                                    <p>Финансы: <c:out value="${transaction.amount}"/></p>
                                 </c:if>
-                                <p>Дата: ${transaction.dateTime}</p>
+                                <p>Дата: <c:out value="${transaction.dateTime}"/></p>
                             </div>
                             <div class="right-column">
-                                <p>Категория: ${transaction.category}</p>
-                                <p>Тип: ${transaction.type}</p>
+                                <p>Категория: <c:out value="${transaction.category}"/></p>
+                                <p>Тип: <c:out value="${transaction.type}"/></p>
                             </div>
                         </div>
                     </button>

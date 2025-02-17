@@ -17,7 +17,7 @@
             <label for="content">Содержание:</label><br>
             <textarea id="content" name="content" required></textarea><br><br>
 
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
             <button type="submit" class="save-button">Сохранить запись</button>
         </div>

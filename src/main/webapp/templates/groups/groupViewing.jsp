@@ -11,12 +11,12 @@
 <div class="content">
     <h1>Группа</h1>
     <div class="group-details">
-        <p><strong>id:</strong> ${group.id}</p>
-        <p><strong>Название:</strong> ${group.name}</p>
-        <p><strong>Создана:</strong> ${group.createdAt}</p>
-        <p><strong>Описание:</strong> ${group.description}</p>
-        <p><strong>Количество участников:</strong> ${membersCount}</p>
-        <p><strong>Админ:</strong> ${admin}</p>
+        <p><strong>id:</strong> <c:out value="${group.id}"/></p>
+        <p><strong>Название:</strong> <c:out value="${group.name}"/></p>
+        <p><strong>Создана:</strong> <c:out value="${group.createdAt}"/></p>
+        <p><strong>Описание:</strong> <c:out value="${group.description}"/></p>
+        <p><strong>Количество участников:</strong> <c:out value="${membersCount}"/></p>
+        <p><strong>Админ:</strong> <c:out value="${admin}"/></p>
     </div>
 </div>
 </body>

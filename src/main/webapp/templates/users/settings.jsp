@@ -15,12 +15,12 @@
 
             <div class="form-group">
                 <label for="username">Имя пользователя:</label>
-                <input type="text" id="username" name="username" value="${user.username}">
+                <input type="text" id="username" name="username" value="<c:out value="${user.username}"/>">
             </div>
 
             <div class="form-group">
                 <label for="telegramId">Telegram:</label>
-                <input type="text" id="telegramId" name="telegramId" value="${user.telegramId}">
+                <input type="text" id="telegramId" name="telegramId" value="<c:out value="${user.telegramId}"/>">
             </div>
 
             <div class="form-group">
@@ -34,7 +34,7 @@
             </div>
 
             <c:if test="${not empty errorMessage}">
-                <span style="color:red;">${errorMessage}</span><br>
+                <span style="color:red;"><c:out value="${errorMessage}"/></span><br>
             </c:if>
 
             <button type="submit" class="save-button">Сохранить изменения</button>

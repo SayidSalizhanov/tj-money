@@ -12,14 +12,14 @@
 <div class="content">
     <h2>Загрузите Excel файл</h2>
     <form action="/transactions/new/uploadTransactions" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="groupId" value="${groupId}">
+        <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
 
         <label for="file">Выберите файл:</label>
         <input type="file" name="file" id="file" accept=".xls,.xlsx" required/>
         <br/><br/>
         <button type="submit">Загрузить</button>
         <c:if test="${not empty errorMessage}">
-            <span style="color:red;">${errorMessage}</span><br>
+            <span style="color:red;"><c:out value="${errorMessage}"/></span><br>
         </c:if>
     </form>
 </div>

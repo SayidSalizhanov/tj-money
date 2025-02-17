@@ -15,9 +15,9 @@
         <div class="members-list">
             <c:forEach var="member" items="${members}">
                 <div class="member">
-                    <p><strong>Пользователь:</strong> ${member.username}</p>
-                    <p><strong>Дата присоединения:</strong> ${member.joinedAt}</p>
-                    <p><strong>Роль:</strong> ${member.role}</p>
+                    <p><strong>Пользователь:</strong> <c:out value="${member.username}"/></p>
+                    <p><strong>Дата присоединения:</strong> <c:out value="${member.joinedAt}"/></p>
+                    <p><strong>Роль:</strong> <c:out value="${member.role}"/></p>
                 </div>
             </c:forEach>
         </div>

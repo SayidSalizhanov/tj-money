@@ -13,7 +13,7 @@
 <div class="content-wrapper">
     <div class="content">
         <form action="/group/applications" method="GET" class="applications-form">
-            <input type="hidden" name="groupId" value="${groupId}">
+            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
             <button type="submit" class="nav-button">Заявки</button>
         </form>
 
@@ -21,16 +21,16 @@
         <div class="members-list">
             <c:forEach var="member" items="${members}">
                 <div class="member">
-                    <p><strong>Пользователь:</strong> ${member.username}</p>
-                    <p><strong>Дата присоединения:</strong> ${member.joinedAt}</p>
-                    <p><strong>Роль:</strong> ${member.role}</p>
+                    <p><strong>Пользователь:</strong> <c:out value="${member.username}"/></p>
+                    <p><strong>Дата присоединения:</strong> <c:out value="${member.joinedAt}"/></p>
+                    <p><strong>Роль:</strong> <c:out value="${member.role}"/></p>
                     <c:if test="${member.role == 'USER'}">
-                        <form action="/group/members" method="post" class="delete-form" id="delete-form-${member.username}">
+                        <form action="/group/members" method="post" class="delete-form" id="delete-form-<c:out value="${member.username}"/>">
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="username" value="${member.username}">
-                            <input type="hidden" name="userId" value="${userId}">
-                            <input type="hidden" name="groupId" value="${groupId}">
-                            <button type="submit" class="delete-button" id="delete-button-${member.username}">Удалить</button>
+                            <input type="hidden" name="username" value="<c:out value="${member.username}"/>">
+                            <input type="hidden" name="userId" value="<c:out value="${userId}"/>">
+                            <input type="hidden" name="groupId" value="<c:out value="${groupId}"/>">
+                            <button type="submit" class="delete-button" id="delete-button-<c:out value="${member.username}"/>">Удалить</button>
                         </form>
                     </c:if>
                 </div>
